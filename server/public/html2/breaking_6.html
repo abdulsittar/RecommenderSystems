@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Article Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        .navbar {
+            background-color: #2C3E50;
+            padding: 1rem;
+            color: white;
+            height: 20px;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        
+        .main-article img {
+            width: 100%;
+            height: auto;
+            margin: 1rem 0;
+        }
+        
+        .article-meta {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .sidebar {
+            background-color: #f5f5f5;
+            padding: 1rem;
+        }
+        
+        .ad-banner {
+            border: 1px solid #ddd;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+            margin-bottom: 2rem;
+        }
+        
+        .latest-news {
+            background-color: #2C3E50;
+            color: white;
+            padding: 1rem;
+        }
+        
+        .news-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #465668;
+        }
+        
+        .news-item:last-child {
+            border-bottom: none;
+        }
+        
+        .timestamp {
+            font-size: 0.8rem;
+            color: #99a4ae;
+        }
+        
+        .social-media {
+            margin-top: 2rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icons img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-links">
+            <img src="/images/logo.png" alt="Logo" style="height: 20px; border-radius: 50%;">
+            <a href="#">Vesti</a>
+            <a href="#">Politika</a>
+            <a href="#">Biznis</a>
+            <a href="#">Umetnost i kultura</a>
+            <a href="#">Sport</a>
+            <a href="#">Zabava</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <main class="main-article">
+            <article>
+                <h1>Srbija pokreće Nacionalno e-sport prvenstvo 2027 godine</h1>
+            
+                <div class="article-meta">
+                    <span class="timestamp">Kyiv, 24.4.2025, 9:30:00</span>
+                    <span class="author"> AP, Reuters, D.K.</span>
+                </div>
+                
+                <p class="subtitle">
+                    Srbija pokreće Nacionalno e-sport prvenstvo 2027 godine
+                </p>
+                <div class="article-image">
+                    <img src="/images/breaking_6_image.png" alt="breaking_1.jpg" class="main-image">
+                    <p class="caption">Srbija pokreće Nacionalno e-sport prvenstvo 2027 godine</p>
+                </div>
+                <div class="article-content">
+                    <p>Srbija se priprema za organizaciju svog prvog Nacionalnog e-sport prvenstva 2027. godine, što odražava brzi rast takmičarskog gejminga u zemlji. Događaj će uključivati turnire u popularnim igrama kao što su Counter-Strike, League of Legends i Dota 2, privlačeći kako domaće tako i međunarodne igrače.</p>
+                
+                    <p>E-sport je doživeo dramatičan porast popularnosti u Srbiji tokom protekle decenije, sa mnogim mladim gejmerima koji su postigli međunarodni uspeh. Prvenstvo ima za cilj da obezbedi platformu za nadolazeće talente, pomažući da se Srbija uspostavi kao ključni učesnik na globalnoj e-sport sceni.</p>
+                
+                    <p>Investicije vlade i privatnog sektora u e-sport infrastrukturu su povećane poslednjih godina, što je dovelo do stvaranja najsavremenijih gejming arena i trening centara. Organizatori prvenstva blisko sarađuju sa kompanijama za igre i sponzorima kako bi osigurali da događaj ispunjava međunarodne standarde.</p>
+                
+                    <p>Očekuje se da će prvenstvo doneti i ekonomske koristi, s obzirom na to da je gejming turizam u porastu. Fanovi iz susednih zemalja mogli bi putovati u Srbiju kako bi prisustvovali događaju, podstičući lokalne biznise i dodatno promovišući industriju igara u zemlji. S obzirom na to da je e-sport sada priznat kao legitimna profesija, ova inicijativa bi mogla otvoriti nove karijerne puteve za srpske igrače, trenere i kreatore sadržaja.</p>
+                </div>
+                
+            </article>
+        </main>
+        
+        <aside class="sidebar">
+            <div class="ad-banner">
+                Mesto za vašu relamu
+            </div>
+            
+            <div class="latest-news">
+                <h2>Najnovije vesti</h2>
+                <div class="news-item">
+                    <span class="timestamp">10:42</span>
+                    <p>Naslov </p>
+                </div>
+                <div class="news-item">
+                    <span class="timestamp">10:42</span>
+                    <p>Naslov </p>
+                </div>
+                <div class="news-item">
+                    <span class="timestamp">10:42</span>
+                    <p>Naslov </p>
+                </div>
+            </div>
+            
+            <div class="social-media">
+                <h3>Pratite nas na društvenim mrežama</h3>
+                <div class="social-icons">
+                    <!-- Add your social media icons here -->
+                    <img src="/images/facebook.png" alt="Facebook">
+                    <img src="/images/X.png" alt="X">
+                    <img src="/images/linkedin.png" alt="LinkedIn">
+                    <img src="/images/instagram.png" alt="Instagram">
+                </div>
+            </div>
+        </aside>
+    </div>
+</body>
+<script>
+   /* document.addEventListener('DOMContentLoaded', function() {
+        updateTimestamp();
+    });
+    
+    function updateTimestamp() {
+        const now = new Date();
+        // Subtract 3 hours from current time
+        now.setHours(now.getHours() - 3);
+        
+        // Format the date
+        const options = { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        const formattedDate = now.toLocaleString('sr-Latn-RS', options);
+        
+        // Update the timestamp element
+        const timestampElement = document.querySelector('.timestamp');
+        if (timestampElement) {
+            timestampElement.textContent = formattedDate;
+        }
+    }*/
+</script>
+</html>

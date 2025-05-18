@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Article Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        .navbar {
+            background-color: #2C3E50;
+            padding: 1rem;
+            color: white;
+            height: 20px;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        
+        .main-article img {
+            width: 100%;
+            height: auto;
+            margin: 1rem 0;
+        }
+        
+        .article-meta {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .sidebar {
+            background-color: #f5f5f5;
+            padding: 1rem;
+        }
+        
+        .ad-banner {
+            border: 1px solid #ddd;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+            margin-bottom: 2rem;
+        }
+        
+        .latest-news {
+            background-color: #2C3E50;
+            color: white;
+            padding: 1rem;
+        }
+        
+        .news-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #465668;
+        }
+        
+        .news-item:last-child {
+            border-bottom: none;
+        }
+        
+        .timestamp {
+            font-size: 0.8rem;
+            color: #99a4ae;
+        }
+        
+        .social-media {
+            margin-top: 2rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icons img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-links">
+            <img src="/images/logo.png" alt="Logo" style="height: 20px; border-radius: 50%;">
+            <a href="#">Vesti</a>
+            <a href="#">Politika</a>
+            <a href="#">Biznis</a>
+            <a href="#">Umetnost i kultura</a>
+            <a href="#">Sport</a>
+            <a href="#">Zabava</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <main class="main-article">
+            <article>
+                <h1>Putin i Tramp pripremaju tajni dogovor o Ukrajini bez učešća Kijeva</h1>
+                <div class="article-meta">
+                    <span class="timestamp">Moscow, 10.4.2025, 10:20:00</span>
+                    <span class="author"> TASS, DPA, I.F.</span>
+                </div>
+                  <div class="article-image">
+                    <!-- Add your main image here -->
+                    <img src="/images/breaking_4.jpg" alt="Article image">
+                        </div>
+                <div class="article-content">
+                    <p>Ruski predsednik Vladimir Putin izjavio je svoju spremnost da održi razgovore sa predsednikom SAD-a Donaldom Trampom u vezi sa Ukrajinom, što je pokrenulo spekulacije o mogućem tajnom dogovoru koji bi mogao zaobići Kijev i Evropu. Putin je opisao Trampa kao pragmatičnog i sugerisao da bi "ukrajinska kriza" mogla biti izbegnuta pod Trampovim vođstvom.</p>
+                
+                    <p>"Što se tiče pregovora, spremni smo za ozbiljne razgovore o ukrajinskom konfliktu," rekao je Putin, dodajući da veruje da je Tramp dovoljno inteligentan da pomogne u brzom rešavanju problema.</p>
+                
+                    <p>U odgovoru, ukrajinski predsednik Volodimir Zelenski optužio je Putina da pokušava da manipuliše Trampom kako bi obezbedio povoljan ishod za Rusiju. "On želi da iskoristi Trampovu želju za mirom kako bi podrio suverenitet Ukrajine," izjavio je Zelenski u televizijskom obraćanju.</p>
+                
+                    <p>Putin je, u međuvremenu, odbacio zabrinutosti u vezi sa potencijalnim uticajem Trampa na globalna tržišta nafte i nagovestio zajednički ekonomski interes između Rusije i SAD-a koji bi mogao uticati na pregovore.</p>
+                
+                    <p>Dok je Tramp obećao da će okončati rat u Ukrajini u roku od 24 sata ako bude izabran, ukrajinski zvaničnici su upozorili da bi takav ishod mogao uključivati ustupke koji bi štetili teritorijalnoj integritetu Ukrajine. Kijev insistira da su bilo kakvi pregovori koji isključuju Ukrajinu ili Evropu neprihvatljivi.</p>
+                </div>
+                
+            </article>
+        </main>
+        
+        <aside class="sidebar">
+            <div class="ad-banner">
+                Mesto za vašu relamu
+            </div>
+            
+            <div class="latest-news">
+                <h2>Najnovije vesti</h2>
+                <div class="news-item">
+                    <span class="timestamp">10:42</span>
+                    <p>Naslov </p>
+                </div>
+                <div class="news-item">
+                    <span class="timestamp">10:42</span>
+                    <p>Naslov </p>
+                </div>
+                <div class="news-item">
+                    <span class="timestamp">10:42</span>
+                    <p>Naslov </p>
+                </div>
+            </div>
+            
+            <div class="social-media">
+                <h3>Pratite nas na društvenim mrežama</h3>
+                <div class="social-icons">
+                    <!-- Add your social media icons here -->
+                    <img src="/images/facebook.png" alt="Facebook">
+                    <img src="/images/X.png" alt="X">
+                    <img src="/images/linkedin.png" alt="LinkedIn">
+                    <img src="/images/instagram.png" alt="Instagram">
+                </div>
+            </div>
+        </aside>
+    </div>
+</body>
+<script>
+    /*document.addEventListener('DOMContentLoaded', function() {
+        updateTimestamp();
+    });
+    
+    function updateTimestamp() {
+        const now = new Date();
+        // Subtract 3 hours from current time
+        now.setHours(now.getHours() - 3);
+        
+        // Format the date
+        const options = { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        const formattedDate = now.toLocaleString('sr-Latn-RS', options);
+        
+        // Update the timestamp element
+        const timestampElement = document.querySelector('.timestamp');
+        if (timestampElement) {
+            timestampElement.textContent = formattedDate;
+        }
+    }*/
+</script>
+</html>

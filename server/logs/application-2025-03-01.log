@@ -1,0 +1,25 @@
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-03-01T14:09:04.873Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-03-01T14:09:04.883Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-03-01T14:09:05.734Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-03-01T14:09:05.736Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-03-01T14:09:05.751Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-03-01T14:09:05.821Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-03-01T14:09:05.872Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-03-01T14:09:05.879Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-03-01T14:09:05.892Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-03-01T14:09:05.986Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-03-01T14:12:00.507Z"}
+{"level":"info","message":[{"__v":0,"_id":"67b37152624dcf2d0a63a82a","available":true,"createdAt":"2025-02-17T17:26:42.635Z","updatedAt":"2025-02-17T17:26:42.635Z","version":1,"yourID":"69481168-a7a3-44d2-a4e7-ea76856cfc65"}],"timestamp":"2025-03-01T14:12:00.509Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2MxOTZkZTk0ZTc4MDYwMjFlMjMxMTgiLCJpYXQiOjE3NDA3NDAzMTh9.6DvDYiZbgfIz5-yuMZ6E7xVUCQpehjgpZrXx4c46QRI"}},"level":"info","message":"Data received","timestamp":"2025-03-01T14:12:03.494Z"}
+{"data":{"feedback":"","prolific_Code":"1234568","q1":"62","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"62","q7":"option2","q8":"option2","q9":""},"level":"info","message":"Data received","timestamp":"2025-03-01T14:13:39.824Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2MxOTZkZTk0ZTc4MDYwMjFlMjMxMTgiLCJpYXQiOjE3NDA3NDAzMTh9.6DvDYiZbgfIz5-yuMZ6E7xVUCQpehjgpZrXx4c46QRI"}},"level":"info","message":"Data received","timestamp":"2025-03-01T14:13:40.538Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-03-01T14:14:42.925Z"}
+{"level":"info","message":[{"__v":0,"_id":"67b37152624dcf2d0a63adc5","available":true,"createdAt":"2025-02-17T17:26:42.662Z","updatedAt":"2025-02-17T17:26:42.662Z","version":5,"yourID":"941deed4-bdf3-461b-8e34-0f30e90cf4da"}],"timestamp":"2025-03-01T14:14:42.926Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2MxOTZkZTk0ZTc4MDYwMjFlMjMxMTgiLCJpYXQiOjE3NDA3NDAzMTh9.6DvDYiZbgfIz5-yuMZ6E7xVUCQpehjgpZrXx4c46QRI"}},"level":"info","message":"Data received","timestamp":"2025-03-01T14:14:46.867Z"}
+{"data":{"password":"","pool":"1","profilePicture":"Blaues Huhn.webp","username":"Blaues Huhn","username_second":"Graues Pferd"},"level":"info","message":"Data received","timestamp":"2025-03-01T14:14:50.949Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2MzMTY1YjgzNjkyZTQ4NmJmNGI3OWIiLCJpYXQiOjE3NDA4Mzg0OTF9.jt5zdZUBgb_PweqlnHb8Nb3aT6CSS7Q67ByqabeDvNU"},"userId":"67c3165b83692e486bf4b79b","version":"1"},"level":"info","message":"Data received","timestamp":"2025-03-01T14:14:51.596Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2MzMTY1YjgzNjkyZTQ4NmJmNGI3OWIiLCJpYXQiOjE3NDA4Mzg0OTF9.jt5zdZUBgb_PweqlnHb8Nb3aT6CSS7Q67ByqabeDvNU"}},"level":"info","message":"Data received","timestamp":"2025-03-01T14:15:06.573Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2MzMTY1YjgzNjkyZTQ4NmJmNGI3OWIiLCJpYXQiOjE3NDA4Mzg0OTF9.jt5zdZUBgb_PweqlnHb8Nb3aT6CSS7Q67ByqabeDvNU"}},"level":"info","message":"Data received","timestamp":"2025-03-01T14:15:07.258Z"}
+{"data":{"password":"1223456","username":"Blaues Huhn"},"level":"info","message":"Data received","timestamp":"2025-03-01T14:15:12.238Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-03-01T14:15:17.384Z"}
+{"level":"info","message":[{"__v":0,"_id":"67b37152624dcf2d0a63ab87","available":true,"createdAt":"2025-02-17T17:26:42.653Z","updatedAt":"2025-02-17T17:26:42.653Z","version":3,"yourID":"9fd3a8a8-7144-4a94-aa69-075f14d23a28"}],"timestamp":"2025-03-01T14:15:17.384Z"}

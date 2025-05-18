@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Article Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        .navbar {
+            background-color: #2C3E50;
+            padding: 1rem;
+            color: white;
+            height: 20px;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        
+        .main-article img {
+            width: 100%;
+            height: auto;
+            margin: 1rem 0;
+        }
+        
+        .article-meta {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .sidebar {
+            background-color: #f5f5f5;
+            padding: 1rem;
+        }
+        
+        .ad-banner {
+            border: 1px solid #ddd;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+            margin-bottom: 2rem;
+        }
+        
+        .latest-news {
+            background-color: #2C3E50;
+            color: white;
+            padding: 1rem;
+        }
+        
+        .news-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #465668;
+        }
+        
+        .news-item:last-child {
+            border-bottom: none;
+        }
+        
+        .timestamp {
+            font-size: 0.8rem;
+            color: #99a4ae;
+        }
+        
+        .social-media {
+            margin-top: 2rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icons img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-links">
+            <img src="/images/logo.png" alt="Logo" style="height: 20px; border-radius: 50%;">
+            <a href="#">Vesti</a>
+            <a href="#">Politika</a>
+            <a href="#">Biznis</a>
+            <a href="#">Umetnost i kultura</a>
+            <a href="#">Sport</a>
+            <a href="#">Zabava</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <main class="main-article">
+            <article>
+                <h1>SAD navodno zamrzavaju gotovo svu stranu pomoć</h1>
+                <div class="article-meta">
+                    <span class="timestamp">Washington, 17.4.2025, 12:00:00</span>
+                    <span class="author"> White House, AP</span>
+                </div>
+                <div class="article-image">
+                    <!-- Add your main image here -->
+                    <img src="/images/news_2.jpg" alt="Article image"> 
+                </div>
+                <div class="article-content">
+                    <p>Stejt department SAD-a, nakon izvršne naredbe predsednika Donalda Trampa, u petak je naložio 90-dnevnu obustavu većine programa strane pomoći, prema izveštajima američkih medija. Izuzeci uključuju pomoć Izraelu i Egiptu, ali ostaje nejasno šta ova odluka znači za ranije odobrenu vojnu pomoć Ukrajini, izveštava američki portal Politiko.</p>
+                
+                    <p>Direktiva novog šefa Stejt departmenta SAD-a, Marka Rubija, nalaže da se ne preduzimaju dalji koraci za dodelu sredstava za programe pomoći koje je već odobrila američka vlada, izveštava Politiko.</p>
+                
+                    <p>Neizvesno je koliko široko će se direktiva primenjivati ili da li će uticati na ranije odobrenu vojnu pomoć Ukrajini. Međutim, izgleda da privremeno obustavlja finansiranje saveznicima poput Ukrajine, navodi portal, pozivajući se na aktuelne i bivše zvaničnike Stejt departmenta.</p>
+                
+                    <p>Prvog dana na funkciji, predsednik Tramp izdao je izvršnu naredbu kojom se obustavlja američka razvojna pomoć inostranstvu na 90 dana kako bi se procenila njena "programska efikasnost i usklađenost sa spoljnom politikom SAD-a." Samo će sredstva koja se smatraju doslednim predsednikovoj spoljnoj politici i nacionalnim interesima biti raspodeljena, izveštava nemačka novinska agencija dpa.</p>
+                
+                    <p>Direktiva izgleda ide dalje od Trampove izvršne naredbe, navodi Politiko, dodajući da predsednikova naredba nije jasno precizirala da li će uticati na već dodeljena sredstva ili pomoć Ukrajini.</p>
+                
+                    <p>Ukrajinski predsednik Volodimir Zelenski reagovao je danas na izveštaje, navodeći da obustava strane pomoći Stejt departmenta ne utiče na vojnu pomoć SAD-a Kijevu. Pojasnio je da se zamrznuta pomoć odnosi na humanitarnu podršku. "Fokusiran sam na vojnu pomoć. Ona nije obustavljena," rekao je Zelenski, prema izveštaju dpa.</p>
+                
+                    <p>Prošle godine, Kongres SAD-a odobrio je paket pomoći za Ukrajinu u vrednosti od skoro 61 milijardu dolara. Većina tih sredstava trebalo je da bude raspodeljena do kraja mandata bivšeg predsednika Džoa Bajdena.</p>
+                
+                    <p>Njujork Tajms je u utorak izvestio da su Stejt department i agencija odgovorna za razvojnu pomoć počeli da obustavljaju isplate strane pomoći dan nakon što je Tramp izdao svoju naredbu.</p>
+                </div>
+                
+                
+            </article>
+        </main>
+        
+        <aside class="sidebar">
+            <div class="ad-banner">
+                Mesto za vašu relamu
+            </div>
+            
+            <div class="latest-news">
+                <h2>Najnovije vesti</h2>
+                <div class="news-item">
+                    <span class="timestamp">10:42</span>
+                    <p>Naslov </p>
+                </div>
+                <div class="news-item">
+                    <span class="timestamp">10:42</span>
+                    <p>Naslov </p>
+                </div>
+                <div class="news-item">
+                    <span class="timestamp">10:42</span>
+                    <p>Naslov </p>
+                </div>
+            </div>
+            
+            <div class="social-media">
+                <h3>Pratite nas na društvenim mrežama</h3>
+                <div class="social-icons">
+                    <!-- Add your social media icons here -->
+                    <img src="/images/facebook.png" alt="Facebook">
+                    <img src="/images/X.png" alt="X">
+                    <img src="/images/linkedin.png" alt="LinkedIn">
+                    <img src="/images/instagram.png" alt="Instagram">
+                </div>
+            </div>
+        </aside>
+    </div>
+</body>
+<script>
+    /*document.addEventListener('DOMContentLoaded', function() {
+        updateTimestamp();
+    });
+    
+    function updateTimestamp() {
+        const now = new Date();
+        // Subtract 3 hours from current time
+        now.setHours(now.getHours() - 3);
+        
+        // Format the date
+        const options = { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        const formattedDate = now.toLocaleString('sr-Latn-RS', options);
+        
+        // Update the timestamp element
+        const timestampElement = document.querySelector('.timestamp');
+        if (timestampElement) {
+            timestampElement.textContent = formattedDate;
+        }
+    }*/
+</script>
+</html>

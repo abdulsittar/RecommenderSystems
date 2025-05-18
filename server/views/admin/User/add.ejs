@@ -1,0 +1,217 @@
+<%- include('../elements/header'); %> 
+<div class="main-content">
+    <div class="main-content-inner">
+        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li> <i class="ace-icon fa fa-tachometer"></i> <a href="<%=nodeAdminUrl%>/Dashboard">Dashboard</a> </li>
+                <li class="active"><a href="<%=nodeAdminUrl%>/categories/list"> Categories </a> </li>
+                <li class="active"><%=action%></li>
+            </ul>  
+
+            <!--<div class="nav-search" id="nav-search">
+                <form class="form-search">
+                    <span class="input-icon">
+                        <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                        <i class="ace-icon fa fa-search nav-search-icon"></i>
+                    </span>
+                </form>
+            </div><!-- /.nav-search -->
+        </div>
+        
+        <div class="page-content"> 
+            <div class="page-header">
+                <h1>  Add New <%=controller%> <small>    </h1> 
+            </div><!-- /.page-header -->
+
+            <div class="row"> 
+                    <%- include('../elements/flash.ejs');%>  
+                <div class="col-xs-12 col-sm-12">
+                    <div class=" ">  
+                        <form method="post" action="<%=nodeAdminUrl%>/<%=controller%>/add" enctype="multipart/form-data">
+                        <div class="widget-body">  
+                                <div class="widget-main">  
+
+                                <div>
+                                    <label for="form-field-select-1">Username</label> 
+                                    <input type="text" name="username" value="<%=data.username%>" id="form-field-select-1" placeholder="Username" class="form-control">  
+                                    <span class="error"><%=errorData.username%></span> 
+                                </div>  <br> 
+
+                                <div>
+                                    <label for="form-field-select-1"> Email </label> 
+                                    <input type="text" name="email" value="<%=data.email%>" id="form-field-select-1" placeholder="Email" class="form-control">  
+                                    <span class="error"><%=errorData.email%></span>  
+                                </div>  <br>  
+
+                                <div>
+                                    <label for="form-field-select-1"> Password </label> 
+                                    <input type="password" name="password" value="<%=data.password%>" id="form-field-select-1" placeholder="Passowrd" class="form-control">  
+                                    <span class="error"><%=errorData.password%></span>   
+                                </div>  <br> 
+
+                                <div>
+                                    <label for="form-field-select-1"> Unique ID </label> 
+                                    <input type="text" name="uniqueId" value="<%=data.uniqueId%>" id="form-field-select-1" placeholder="uniqueId" class="form-control">  
+                                    <span class="error"><%=errorData.uniqueId%></span>   
+                                </div>  <br> 
+
+                                <div>
+                                    <label for="form-field-select-1">Pool A/B</label> 
+                                    <select class="filter-multi-select" name="pool" id="pool">
+                                        <option value="A">A</option>  
+                                        <option value="B">B</option>
+                                    </select>
+                                </div>  <br> 
+
+                                <div>
+                                    <label for="form-field-select-1">Biography</label> 
+                                    <input type="text" name="desc" value="<%=data.desc%>" id="form-field-select-1" placeholder="Biography" class="form-control">  
+                                    <span class="error"><%=errorData.desc%></span> 
+                                </div>  <br> 
+
+                                <div>
+                                    <label for="form-field-select-1">City</label> 
+                                    <input type="text" name="city" value="<%=data.city%>" id="form-field-select-1" placeholder="City" class="form-control">  
+                                    <span class="error"><%=errorData.city%></span> 
+                                </div>  <br> 
+
+                                <div>
+                                    <label for="form-field-select-1">Country</label> 
+                                    <input type="text" name="from" value="<%=data.from%>" id="form-field-select-1" placeholder="County" class="form-control">  
+                                    <span class="error"><%=errorData.from%></span> 
+                                </div>  <br> 
+
+                                <div>
+                                    <label for="form-field-select-1">Relationship</label> 
+                                    <input type="text" name="relationship" value="<%=data.relationship%>" id="form-field-select-1" placeholder="Relationship" class="form-control">  
+                                    <span class="error"><%=errorData.relationship%></span> 
+                                </div>  <br> 
+                                
+                                <!--  <div>
+                                    <label for="form-field-select-1"> Profile Picture </label> 
+                                    <input type="file" name="profilePicture" id="form-field-select-1" class="form-control">  
+                                    <span class="error"><%=errorData.profilePicture%></span>  
+                                    <% if(data.profilePicture){  %>
+                                        <img style="width: 150px;" src="<%=nodeSiteUrl%>/upload/<%=data.profilePicture%>">  
+                                    <% } %>
+                                </div>  <br> 
+
+                                <div>
+                                    <label for="form-field-select-1">Followers</label> 
+                                    <input type="text" name="followers" value="<%=data.followers%>" id="form-field-select-1" placeholder="followers" class="form-control">  
+                                    <span class="error"><%=errorData.followers%></span> 
+                                </div>  <br> -->
+
+                                
+                            <div>
+                                <label for="form-field-select-1">Followers</label> 
+                                <select class="filter-multi-select" multiple name="followers" id="followers">
+
+                                    <% if(allUsers){ %>
+                                        <%  for(var i=0; i<allUsers.length; i++) {  %>
+                                                <option value=<%=allUsers[i]._id%>><%=allUsers[i].username%></option> 
+                                        <% }}%>  
+                                </select>
+
+                            </div> <br> 
+
+                            <div>
+                                <label for="form-field-select-1">Followings</label> 
+                                <select class="filter-multi-select" multiple name="followings" id="followings">
+                                    <% if(allUsers){if(allUsers.length){ 
+                                        for(var i = 0;i < allUsers.length;i++) {  %>
+                                            <option value=<%=allUsers[i]._id%>><%=allUsers[i].username%></option>  
+                                        <% }%>
+                                            ... more options here ...
+                                            <%} else{ %>
+                                                
+                                        <% }} %>   
+                                </select>
+
+                                <!--<input type="text" name="followings" value="<%=data.followings%>" id="form-field-select-1" placeholder="followings" class="form-control">  
+                                <span class="error"><%=errorData.followings%></span> -->
+                            </div>  <br>
+
+                            <div >
+                                <label for="form-field-select-1">Viewed Posts</label> 
+                                <select  class="filter-multi-select" multiple name="viewedPosts" id="viewedPosts">
+                                    <% if(errorData){  if(errorData.length){  
+                                        for(var i = 0;i < errorData.length;i++) {  %>
+                                            <option value=<%=errorData[i]._id%>><%=errorData[i].desc%></option>  
+                                        <% }%>
+                                            ... more options here ...
+                                            <%} else { %>
+                                                
+                                        <% }} %>   
+                                </select>
+
+                                <!--<input type="text" name="viewedPosts" value="<%=data.viewedPosts%>" id="form-field-select-1" placeholder="Posts-Viewed" class="form-control">  
+                                <span class="error"><%=errorData.viewedPosts%></span> -->
+                            </div>  <br>
+
+                            <div>
+                                <label for="form-field-select-1">Read Posts</label> 
+                                <select class="filter-multi-select" multiple name="readPosts" id="readPosts">
+                                    <% if(errorData){  if(errorData.length){  
+                                        for(var i = 0;i < errorData.length;i++) {  %>
+                                            <option value=<%=errorData[i]._id%>><%=errorData[i].desc%></option>  
+                                        <% }%>
+                                            ... more options here ...
+                                            <%} else{ %>
+                                                
+                                        <% }} %>  
+                                </select>
+                                <script> 
+                                    $('#followers > option').text(function(i, text) {
+                                        if (text.length > 50) {
+                                        return text.substr(0, 50) + '...';  
+                                        }
+                                });
+                                $('#followings > option').text(function(i, text) {
+                                        if (text.length > 50) {
+                                        return text.substr(0, 50) + '...';  
+                                        }
+                                });
+                                $('#viewedPosts > option').text(function(i, text) {
+                                        if (text.length > 50) {
+                                        return text.substr(0, 50) + '...';  
+                                        }
+                                });
+                                $('#readPosts > option').text(function(i, text) {
+                                        if (text.length > 50) {
+                                        return text.substr(0, 50) + '...';  
+                                        }
+                                });
+                                </script>
+
+                                    <!--<input type="text" name="readPosts" value="<%=data.readPosts%>" id="form-field-select-1" placeholder="readPosts" class="form-control">  
+                                    <span class="error"><%=errorData.readPosts%></span> -->
+                                </div>  <br>
+
+                                <br><br>     
+                                <div> 
+                                    <div class="row">
+                                        <div class="col-md-offset-3 col-md-9">
+                                            <button class="btn btn-info" type="submit">
+                                                <i class="ace-icon fa fa-check bigger-110"></i>  Submit
+                                            </button> 
+
+                                            &nbsp; &nbsp; &nbsp;
+
+                                            <a href="<%=nodeAdminUrl%>/<%=controller%>/list%>"> <button class="btn" type="button">
+                                                    Cancel 
+                                            </button></a>   
+                                        </div>   
+                                    </div>  
+                                    <div class="space-2"></div>  
+                                </div>     
+                            </div>
+                        </div>
+                        </form> 
+                    </div>
+                </div><!-- /.span --> 
+            </div>  
+        </div><!-- /.page-content -->
+    </div>
+</div><!-- /.main-content -->
+<%- include('../elements/footer'); %>  

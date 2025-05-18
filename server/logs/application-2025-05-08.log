@@ -1,0 +1,951 @@
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T07:42:48.657Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e5370499","available":true,"createdAt":"2025-04-29T12:42:35.257Z","updatedAt":"2025-04-29T12:42:35.257Z","version":1,"yourID":"a3015a85-22c8-4c10-97e8-e3e98ca3361b"}],"timestamp":"2025-05-08T07:42:48.658Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODEyMjc2ZTQxMTdkYjliOWRmZmE5MWMiLCJpYXQiOjE3NDYwMjAyMDZ9.AlUo9HJacML_msqY9E_eVDkb7p7xJVM2LoLA4hegnu8"}},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:04.903Z"}
+{"data":{"feedback":"","q1":"33","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"33","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:17.157Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODEyMjc2ZTQxMTdkYjliOWRmZmE5MWMiLCJpYXQiOjE3NDYwMjAyMDZ9.AlUo9HJacML_msqY9E_eVDkb7p7xJVM2LoLA4hegnu8"}},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:17.638Z"}
+{"data":{"password":"","pool":"1","profilePicture":"Rosa Biene.webp","username":"Roze Pčela","username_second":"Schwarzer Löwe"},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:21.192Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjNjE4OWQwMDQzYTA0Y2RiNjQ4MGEiLCJpYXQiOjE3NDY2OTA0NDF9.Ch41_d7kGFiwZEhQf_1Y70RekQqpr52OXtQJSdUwKDQ"},"userId":"681c6189d0043a04cdb6480a","version":"1"},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:21.695Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:23.298Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:23.300Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:23.776Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:23.777Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:23.779Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:23.780Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:23.894Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:23.895Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:23.960Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:23.961Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:23.963Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:23.965Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:24.071Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:24.073Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjNjE4OWQwMDQzYTA0Y2RiNjQ4MGEiLCJpYXQiOjE3NDY2OTA0NDF9.Ch41_d7kGFiwZEhQf_1Y70RekQqpr52OXtQJSdUwKDQ"},"userId":"681c6189d0043a04cdb6480a"},"level":"info","message":"Data received","timestamp":"2025-05-08T07:47:58.111Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T07:48:01.324Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjNjE4OWQwMDQzYTA0Y2RiNjQ4MGEiLCJpYXQiOjE3NDY2OTA0NDF9.Ch41_d7kGFiwZEhQf_1Y70RekQqpr52OXtQJSdUwKDQ"},"userId":"681c6189d0043a04cdb6480a"},"level":"info","message":"Data received","timestamp":"2025-05-08T07:48:06.743Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:48:11.204Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:48:14.249Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:48:14.703Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:48:14.940Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:48:15.124Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:48:15.146Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:48:15.148Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:48:15.150Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:48:15.151Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:48:15.152Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:48:15.307Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:48:15.326Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:48:15.327Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:48:15.329Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T07:50:42.011Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjNjE4OWQwMDQzYTA0Y2RiNjQ4MGEiLCJpYXQiOjE3NDY2OTA0NDF9.Ch41_d7kGFiwZEhQf_1Y70RekQqpr52OXtQJSdUwKDQ"},"userId":"681c6189d0043a04cdb6480a"},"level":"info","message":"Data received","timestamp":"2025-05-08T07:50:50.208Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:50:52.657Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:50:55.716Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:50:56.167Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:50:56.288Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:50:56.289Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:50:56.291Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:50:56.293Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:50:56.294Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:50:56.350Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:50:56.471Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:50:56.472Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:50:56.473Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:50:56.474Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:50:56.476Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjNjE4OWQwMDQzYTA0Y2RiNjQ4MGEiLCJpYXQiOjE3NDY2OTA0NDF9.Ch41_d7kGFiwZEhQf_1Y70RekQqpr52OXtQJSdUwKDQ"},"userId":"681c6189d0043a04cdb6480a"},"level":"info","message":"Data received","timestamp":"2025-05-08T07:51:11.077Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T07:51:17.712Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjNjE4OWQwMDQzYTA0Y2RiNjQ4MGEiLCJpYXQiOjE3NDY2OTA0NDF9.Ch41_d7kGFiwZEhQf_1Y70RekQqpr52OXtQJSdUwKDQ"},"userId":"681c6189d0043a04cdb6480a"},"level":"info","message":"Data received","timestamp":"2025-05-08T07:51:20.652Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:51:22.969Z"}
+{"error":"Cannot set headers after they are sent to the client","level":"error","message":"Error saving data","timestamp":"2025-05-08T07:51:23.352Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:51:25.248Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T07:51:25.250Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjNjE4OWQwMDQzYTA0Y2RiNjQ4MGEiLCJpYXQiOjE3NDY2OTA0NDF9.Ch41_d7kGFiwZEhQf_1Y70RekQqpr52OXtQJSdUwKDQ"},"survey":{"feedback":"","q1":"option1","q10":"option1","q11":"option10","q12":"option1","q13":"option2","q14":"option1","q15":"option1","q16":"option1","q17":"option1","q18":"option2","q19":"option2","q2":"option1","q20":"option1","q21":"option1","q22":"option2","q23":"option3","q24":"option1","q24_1":"option1","q24_2":"option3","q24_3":"option1","q24_4":"option1","q24_5":"option1","q25":"option1","q25_1":"option2","q25_2":"option1","q26":"option1","q27":"option1","q28":"","q29_1":"option1_1","q29_2":"option2_2","q29_3":"option2_3","q29_4":"option2_4","q29_5":"option2_5","q29_6":"option3_6","q3":"option1","q30":"option1","q31":"option1","q32":"option1","q33":"option1","q4":"option1","q42":"","q5":"option1","q6":"option1","q7":"option1","q8":"option6","q9":"option2"},"uniqueId":"6810c93b8e22d4f5e5370499"},"level":"info","message":"Data received","timestamp":"2025-05-08T09:18:49.868Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T10:48:18.262Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e537060a","available":true,"createdAt":"2025-04-29T12:42:35.258Z","updatedAt":"2025-04-29T12:42:35.258Z","version":2,"yourID":"d73b0e5b-2b8f-4de4-92ca-6ccce0b6db44"}],"timestamp":"2025-05-08T10:48:18.262Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFiYjBlZGQwMDQzYTA0Y2RiNjQ3NjIiLCJpYXQiOjE3NDY2NDUyMjl9.ueXTG8sbYvlXWKqqoXLNJ68xXnPAEC9_L_eZInbtvfw"}},"level":"info","message":"Data received","timestamp":"2025-05-08T10:48:33.043Z"}
+{"data":{"feedback":"","q1":"22","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"22","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-08T10:52:16.239Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFiYjBlZGQwMDQzYTA0Y2RiNjQ3NjIiLCJpYXQiOjE3NDY2NDUyMjl9.ueXTG8sbYvlXWKqqoXLNJ68xXnPAEC9_L_eZInbtvfw"}},"level":"info","message":"Data received","timestamp":"2025-05-08T10:52:16.658Z"}
+{"data":{"password":"","pool":"2","profilePicture":"Grauer Orca.webp","username":"Siva Orka","username_second":"Rosabrauner Vogel"},"level":"info","message":"Data received","timestamp":"2025-05-08T10:52:20.670Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOGNlNGQwMDQzYTA0Y2RiNjQ4ZTYiLCJpYXQiOjE3NDY3MDE1NDB9.iN6pPmaTKyLxpqENaLashEq1o0XXIigrRBcyN-WZ4zE"},"userId":"681c8ce4d0043a04cdb648e6","version":"2"},"level":"info","message":"Data received","timestamp":"2025-05-08T10:52:21.221Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:52:22.759Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:52:22.762Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:52:23.153Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:52:23.154Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:52:23.156Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:52:23.159Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:52:23.160Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:52:23.162Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:52:23.280Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:52:23.282Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:52:23.283Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:52:23.285Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:52:23.286Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:52:23.287Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T10:54:11.949Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOGNlNGQwMDQzYTA0Y2RiNjQ4ZTYiLCJpYXQiOjE3NDY3MDE1NDB9.iN6pPmaTKyLxpqENaLashEq1o0XXIigrRBcyN-WZ4zE"},"userId":"681c8ce4d0043a04cdb648e6"},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:16.146Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOGNlNGQwMDQzYTA0Y2RiNjQ4ZTYiLCJpYXQiOjE3NDY3MDE1NDB9.iN6pPmaTKyLxpqENaLashEq1o0XXIigrRBcyN-WZ4zE"},"userId":"681c8ce4d0043a04cdb648e6"},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:24.711Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:43.291Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:43.293Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOGNlNGQwMDQzYTA0Y2RiNjQ4ZTYiLCJpYXQiOjE3NDY3MDE1NDB9.iN6pPmaTKyLxpqENaLashEq1o0XXIigrRBcyN-WZ4zE"},"postId":"681c8ce6d0043a04cdb648fe","txt":"sdfgdfgds","userId":"681c8ce4d0043a04cdb648e6","username":"Siva Orka"},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:47.696Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:48.344Z"}
+{"error":"Cannot populate path `comments.reposts` because it is not in your schema. Set the `strictPopulate` option to false to override.","level":"error","message":"Error saving data 35","timestamp":"2025-05-08T10:54:48.595Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:53.514Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:53.565Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:54.505Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:54.507Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:54.508Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:54.518Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:54.531Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:54.537Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:54.711Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:54.738Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:54.776Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:54.808Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:54.815Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:54:54.863Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:55:00.711Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:55:04.091Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:55:04.498Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:55:04.505Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:55:04.506Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:55:04.507Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:55:04.509Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:55:04.511Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:55:04.628Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:55:04.630Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:55:04.632Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:55:04.636Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:55:04.638Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:55:04.640Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOGNlNGQwMDQzYTA0Y2RiNjQ4ZTYiLCJpYXQiOjE3NDY3MDE1NDB9.iN6pPmaTKyLxpqENaLashEq1o0XXIigrRBcyN-WZ4zE"},"userId":"681c8ce4d0043a04cdb648e6"},"level":"info","message":"Data received","timestamp":"2025-05-08T10:57:21.634Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T10:57:23.953Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:57:40.024Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:57:44.039Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:57:44.559Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:57:44.572Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:57:44.610Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:57:44.653Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:57:44.661Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:57:44.717Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:57:44.758Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:57:44.787Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:57:44.821Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:57:44.850Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:57:44.863Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T10:57:44.953Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T10:59:33.279Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e537041f","available":true,"createdAt":"2025-04-29T12:42:35.256Z","updatedAt":"2025-04-30T09:58:55.236Z","version":1,"yourID":"6fdce348-2e69-4a60-a790-8ca6cd53daed"}],"timestamp":"2025-05-08T10:59:33.279Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOGNlNGQwMDQzYTA0Y2RiNjQ4ZTYiLCJpYXQiOjE3NDY3MDE1NDB9.iN6pPmaTKyLxpqENaLashEq1o0XXIigrRBcyN-WZ4zE"}},"level":"info","message":"Data received","timestamp":"2025-05-08T10:59:34.735Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOGNlNGQwMDQzYTA0Y2RiNjQ4ZTYiLCJpYXQiOjE3NDY3MDE1NDB9.iN6pPmaTKyLxpqENaLashEq1o0XXIigrRBcyN-WZ4zE"}},"level":"info","message":"Data received","timestamp":"2025-05-08T10:59:35.266Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T10:59:39.588Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e5370556","available":true,"createdAt":"2025-04-29T12:42:35.258Z","updatedAt":"2025-04-29T12:42:35.258Z","version":2,"yourID":"dc065cf9-cdb6-4586-8edc-33142aa2dd08"}],"timestamp":"2025-05-08T10:59:39.588Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOGNlNGQwMDQzYTA0Y2RiNjQ4ZTYiLCJpYXQiOjE3NDY3MDE1NDB9.iN6pPmaTKyLxpqENaLashEq1o0XXIigrRBcyN-WZ4zE"}},"level":"info","message":"Data received","timestamp":"2025-05-08T10:59:41.152Z"}
+{"data":{"feedback":"","q1":"23","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"22","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-08T11:00:00.185Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOGNlNGQwMDQzYTA0Y2RiNjQ4ZTYiLCJpYXQiOjE3NDY3MDE1NDB9.iN6pPmaTKyLxpqENaLashEq1o0XXIigrRBcyN-WZ4zE"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:00:01.060Z"}
+{"data":{"password":"","pool":"2","profilePicture":"Schwarzer Igel.webp","username":"Crni Jež","username_second":"Lichtschiefergraue Gans"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:00:04.947Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOGViNWQwMDQzYTA0Y2RiNjQ5ZDIiLCJpYXQiOjE3NDY3MDIwMDV9.JB10TYaBIjWKnJ9c-DEuL1_J16KQn9ipRZb8TO8ehLo"},"userId":"681c8eb5d0043a04cdb649d2","version":"2"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:00:05.516Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:00:07.105Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:00:07.106Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:00:07.503Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:00:07.504Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:00:07.505Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:00:07.510Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:00:07.512Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:00:07.513Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:00:07.631Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:00:07.632Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:00:07.634Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:00:07.635Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:00:07.636Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:00:07.638Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOGViNWQwMDQzYTA0Y2RiNjQ5ZDIiLCJpYXQiOjE3NDY3MDIwMDV9.JB10TYaBIjWKnJ9c-DEuL1_J16KQn9ipRZb8TO8ehLo"},"userId":"681c8eb5d0043a04cdb649d2"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:02:04.102Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T11:02:08.442Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOGViNWQwMDQzYTA0Y2RiNjQ5ZDIiLCJpYXQiOjE3NDY3MDIwMDV9.JB10TYaBIjWKnJ9c-DEuL1_J16KQn9ipRZb8TO8ehLo"},"userId":"681c8eb5d0043a04cdb649d2"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:02:13.862Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:02:28.358Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:02:31.307Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:02:31.713Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:02:31.722Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:02:31.724Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:02:31.726Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:02:31.727Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:02:31.728Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:02:31.841Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:02:31.848Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:02:31.850Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:02:31.851Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:02:31.852Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:02:31.854Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:26.455Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:26.459Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOGViNWQwMDQzYTA0Y2RiNjQ5ZDIiLCJpYXQiOjE3NDY3MDIwMDV9.JB10TYaBIjWKnJ9c-DEuL1_J16KQn9ipRZb8TO8ehLo"},"postId":"681c8f46d0043a04cdb64a2c","txt":"dfdrwer","userId":"681c8eb5d0043a04cdb649d2","username":"Crni Jež"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:30.180Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:30.827Z"}
+{"error":"Cannot populate path `comments.reposts` because it is not in your schema. Set the `strictPopulate` option to false to override.","level":"error","message":"Error saving data 35","timestamp":"2025-05-08T11:04:31.068Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:40.952Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:40.953Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:41.587Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:41.588Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:41.593Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:41.595Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:41.596Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:41.712Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:41.715Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:41.717Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:41.719Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:41.721Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:41.840Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:41.841Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T11:04:43.212Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:46.200Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:49.107Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:49.503Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:49.510Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:49.511Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:49.513Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:49.514Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:49.632Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:49.635Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:49.636Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:49.638Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:49.639Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:49.757Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:04:49.758Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T11:06:26.854Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e5370886","available":true,"createdAt":"2025-04-29T12:42:35.260Z","updatedAt":"2025-04-29T12:42:35.260Z","version":3,"yourID":"956a5c69-6927-4a3b-a8b7-c11e7b712d77"}],"timestamp":"2025-05-08T11:06:26.854Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOGViNWQwMDQzYTA0Y2RiNjQ5ZDIiLCJpYXQiOjE3NDY3MDIwMDV9.JB10TYaBIjWKnJ9c-DEuL1_J16KQn9ipRZb8TO8ehLo"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:06:28.981Z"}
+{"data":{"feedback":"","q1":"22","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"22","q7":"option1","q8":"option5","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-08T11:08:21.600Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOGViNWQwMDQzYTA0Y2RiNjQ5ZDIiLCJpYXQiOjE3NDY3MDIwMDV9.JB10TYaBIjWKnJ9c-DEuL1_J16KQn9ipRZb8TO8ehLo"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:08:22.078Z"}
+{"data":{"password":"","pool":"3","profilePicture":"Blaues Huhn.webp","username":"Plavo Pile","username_second":"Schwarzer Hase"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:08:25.657Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTBhOWQwMDQzYTA0Y2RiNjRhYWUiLCJpYXQiOjE3NDY3MDI1MDV9.ycLQHNdLs5hxa7O2Aqnfm1laChq3BudIjbl_jqy9NJ4"},"userId":"681c90a9d0043a04cdb64aae","version":"3"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:08:26.243Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:08:27.907Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:08:27.911Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:08:28.357Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:08:28.359Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:08:28.360Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:08:28.366Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:08:28.368Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:08:28.369Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:08:28.492Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:08:28.494Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:08:28.497Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:08:28.498Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:08:28.500Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:08:28.522Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T11:09:51.404Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTBhOWQwMDQzYTA0Y2RiNjRhYWUiLCJpYXQiOjE3NDY3MDI1MDV9.ycLQHNdLs5hxa7O2Aqnfm1laChq3BudIjbl_jqy9NJ4"},"userId":"681c90a9d0043a04cdb64aae"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:09:54.221Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTBhOWQwMDQzYTA0Y2RiNjRhYWUiLCJpYXQiOjE3NDY3MDI1MDV9.ycLQHNdLs5hxa7O2Aqnfm1laChq3BudIjbl_jqy9NJ4"},"userId":"681c90a9d0043a04cdb64aae"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:09:59.356Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:10:09.829Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:10:12.863Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:10:13.305Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:10:13.312Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:10:13.314Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:10:13.315Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:10:13.317Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:10:13.318Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:10:13.438Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:10:13.440Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:10:13.441Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:10:13.443Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:10:13.445Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:10:13.447Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:11:54.990Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:11:54.992Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTBhOWQwMDQzYTA0Y2RiNjRhYWUiLCJpYXQiOjE3NDY3MDI1MDV9.ycLQHNdLs5hxa7O2Aqnfm1laChq3BudIjbl_jqy9NJ4"},"postId":"681c9114d0043a04cdb64b12","txt":"asdasdsad","userId":"681c90a9d0043a04cdb64aae","username":"Plavo Pile"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:00.765Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:01.453Z"}
+{"error":"Cannot populate path `comments.reposts` because it is not in your schema. Set the `strictPopulate` option to false to override.","level":"error","message":"Error saving data 35","timestamp":"2025-05-08T11:12:01.708Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:08.469Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:08.470Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:09.112Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:09.113Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:09.119Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:09.120Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:09.122Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:09.240Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:09.243Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:09.244Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:09.246Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:09.252Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:09.363Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:09.368Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T11:12:12.007Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:17.594Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:20.601Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:21.016Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:21.023Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:21.024Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:21.027Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:21.028Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:21.149Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:21.151Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:21.153Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:21.156Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:21.160Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:21.276Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:12:21.277Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T11:13:52.774Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e53705b6","available":true,"createdAt":"2025-04-29T12:42:35.258Z","updatedAt":"2025-04-29T12:42:35.258Z","version":2,"yourID":"9d22b766-4941-461b-8533-d0481a77e3aa"}],"timestamp":"2025-05-08T11:13:52.774Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTBhOWQwMDQzYTA0Y2RiNjRhYWUiLCJpYXQiOjE3NDY3MDI1MDV9.ycLQHNdLs5hxa7O2Aqnfm1laChq3BudIjbl_jqy9NJ4"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:13:54.529Z"}
+{"data":{"feedback":"","q1":"22","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"22","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-08T11:14:20.707Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTBhOWQwMDQzYTA0Y2RiNjRhYWUiLCJpYXQiOjE3NDY3MDI1MDV9.ycLQHNdLs5hxa7O2Aqnfm1laChq3BudIjbl_jqy9NJ4"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:14:21.129Z"}
+{"data":{"password":"","pool":"2","profilePicture":"Blaues Huhn.webp","username":"Plavo Pile","username_second":"Dunkelblauer Pinguin"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:14:24.695Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTIxMGQwMDQzYTA0Y2RiNjRiOGEiLCJpYXQiOjE3NDY3MDI4NjR9.CzB1vOrKhpcAZmHSmgqN0CVgFhJowAiUX21tsddgb_k"},"userId":"681c9210d0043a04cdb64b8a","version":"2"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:14:25.253Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:14:26.807Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:14:26.811Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:14:27.203Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:14:27.204Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:14:27.206Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:14:27.207Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:14:27.210Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:14:27.211Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:14:27.329Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:14:27.331Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:14:27.333Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:14:27.334Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:14:27.335Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:14:27.336Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:15:54.938Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:15:54.944Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTIxMGQwMDQzYTA0Y2RiNjRiOGEiLCJpYXQiOjE3NDY3MDI4NjR9.CzB1vOrKhpcAZmHSmgqN0CVgFhJowAiUX21tsddgb_k"},"postId":"681c9212d0043a04cdb64ba4","txt":"dfdsfdsfds","userId":"681c9210d0043a04cdb64b8a","username":"Plavo Pile"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:15:58.759Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:15:59.385Z"}
+{"error":"Cannot populate path `comments.reposts` because it is not in your schema. Set the `strictPopulate` option to false to override.","level":"error","message":"Error saving data 35","timestamp":"2025-05-08T11:15:59.627Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:00.963Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:00.964Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:01.593Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:01.594Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:01.599Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:01.600Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:01.601Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:01.718Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:01.721Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:01.723Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:01.725Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:01.726Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:01.845Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:01.848Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTIxMGQwMDQzYTA0Y2RiNjRiOGEiLCJpYXQiOjE3NDY3MDI4NjR9.CzB1vOrKhpcAZmHSmgqN0CVgFhJowAiUX21tsddgb_k"},"userId":"681c9210d0043a04cdb64b8a"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:31.677Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T11:16:38.393Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:43.782Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:46.718Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:47.119Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:47.120Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:47.126Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:47.127Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:47.128Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:47.246Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:47.248Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:47.250Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:47.251Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:47.253Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:47.370Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:16:47.372Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTIxMGQwMDQzYTA0Y2RiNjRiOGEiLCJpYXQiOjE3NDY3MDI4NjR9.CzB1vOrKhpcAZmHSmgqN0CVgFhJowAiUX21tsddgb_k"},"userId":"681c9210d0043a04cdb64b8a"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:19:04.085Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T11:19:14.719Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:19:18.178Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:19:21.095Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:19:21.492Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:19:21.493Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:19:21.495Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:19:21.499Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:19:21.501Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:19:21.619Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:19:21.621Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:19:21.623Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:19:21.624Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:19:21.625Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:19:21.745Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:19:21.747Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T11:20:48.673Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e5370844","available":true,"createdAt":"2025-04-29T12:42:35.260Z","updatedAt":"2025-04-29T12:42:35.260Z","version":3,"yourID":"2b9ecbab-710f-46ff-a694-d78602c5d217"}],"timestamp":"2025-05-08T11:20:48.673Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTIxMGQwMDQzYTA0Y2RiNjRiOGEiLCJpYXQiOjE3NDY3MDI4NjR9.CzB1vOrKhpcAZmHSmgqN0CVgFhJowAiUX21tsddgb_k"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:20:50.285Z"}
+{"data":{"feedback":"","q1":"22","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"22","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-08T11:21:08.010Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTIxMGQwMDQzYTA0Y2RiNjRiOGEiLCJpYXQiOjE3NDY3MDI4NjR9.CzB1vOrKhpcAZmHSmgqN0CVgFhJowAiUX21tsddgb_k"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:21:08.425Z"}
+{"data":{"password":"","pool":"3","profilePicture":"Rosa Biene.webp","username":"Roze Pčela","username_second":"Graue Wissenschaftlerin"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:21:13.063Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTNhOWQwMDQzYTA0Y2RiNjRjNjYiLCJpYXQiOjE3NDY3MDMyNzN9.CEmgotLKjXntOhbYaHVVUxajbcFH4FbI-XPDjRx3JmE"},"userId":"681c93a9d0043a04cdb64c66","version":"3"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:21:13.651Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:21:15.170Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:21:15.172Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:21:15.565Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:21:15.566Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:21:15.567Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:21:15.572Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:21:15.573Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:21:15.575Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:21:15.692Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:21:15.694Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:21:15.695Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:21:15.697Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:21:15.698Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:21:15.701Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T11:22:39.236Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTNhOWQwMDQzYTA0Y2RiNjRjNjYiLCJpYXQiOjE3NDY3MDMyNzN9.CEmgotLKjXntOhbYaHVVUxajbcFH4FbI-XPDjRx3JmE"},"userId":"681c93a9d0043a04cdb64c66"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:22:49.889Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:23:02.578Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:23:05.524Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:23:05.933Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:23:05.940Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:23:05.943Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:23:05.944Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:23:05.946Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:23:05.947Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:23:06.061Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:23:06.069Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:23:06.070Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:23:06.072Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:23:06.074Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:23:06.076Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTNhOWQwMDQzYTA0Y2RiNjRjNjYiLCJpYXQiOjE3NDY3MDMyNzN9.CEmgotLKjXntOhbYaHVVUxajbcFH4FbI-XPDjRx3JmE"},"userId":"681c93a9d0043a04cdb64c66"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:31.288Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:43.238Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:43.240Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTNhOWQwMDQzYTA0Y2RiNjRjNjYiLCJpYXQiOjE3NDY3MDMyNzN9.CEmgotLKjXntOhbYaHVVUxajbcFH4FbI-XPDjRx3JmE"},"postId":"681c9418d0043a04cdb64cbd","txt":"wewqewqe","userId":"681c93a9d0043a04cdb64c66","username":"Roze Pčela"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:47.528Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:48.149Z"}
+{"error":"Cannot populate path `comments.reposts` because it is not in your schema. Set the `strictPopulate` option to false to override.","level":"error","message":"Error saving data 35","timestamp":"2025-05-08T11:24:48.390Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:49.449Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:49.451Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:50.080Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:50.082Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:50.090Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:50.092Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:50.099Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:50.206Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:50.209Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:50.215Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:50.217Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:50.221Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:50.337Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:24:50.338Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T11:25:01.016Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:06.007Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:06.009Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:06.640Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:06.643Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:06.645Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:06.647Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:06.648Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:06.650Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:06.765Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:06.771Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:06.774Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:06.776Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:06.778Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:06.779Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T11:25:32.531Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:35.892Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:38.813Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:39.211Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:39.212Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:39.214Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:39.215Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:39.217Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:39.219Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:39.337Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:39.339Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:39.342Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:39.343Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:39.344Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:25:39.346Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T11:27:06.819Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e53707ac","available":true,"createdAt":"2025-04-29T12:42:35.260Z","updatedAt":"2025-04-29T12:42:35.260Z","version":3,"yourID":"63922b94-6055-497d-b536-af441eded062"}],"timestamp":"2025-05-08T11:27:06.819Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTNhOWQwMDQzYTA0Y2RiNjRjNjYiLCJpYXQiOjE3NDY3MDMyNzN9.CEmgotLKjXntOhbYaHVVUxajbcFH4FbI-XPDjRx3JmE"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:11.006Z"}
+{"data":{"feedback":"","q1":"22","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"22","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:27.853Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTNhOWQwMDQzYTA0Y2RiNjRjNjYiLCJpYXQiOjE3NDY3MDMyNzN9.CEmgotLKjXntOhbYaHVVUxajbcFH4FbI-XPDjRx3JmE"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:28.278Z"}
+{"data":{"password":"","pool":"3","profilePicture":"Grauer Orca.webp","username":"Siva Orka","username_second":"Blaue Kuh"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:31.514Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTUyM2QwMDQzYTA0Y2RiNjRkNWQiLCJpYXQiOjE3NDY3MDM2NTF9.9vw1pLQ5a_-fAb70L7e8F9hPm4aLvDJRiSM9ch_iH1Q"},"userId":"681c9523d0043a04cdb64d5d","version":"3"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:32.080Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:33.638Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:33.640Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:34.048Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:34.053Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:34.055Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:34.060Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:34.061Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:34.066Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:34.177Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:34.180Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:34.182Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:34.183Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:34.184Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:27:34.190Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTUyM2QwMDQzYTA0Y2RiNjRkNWQiLCJpYXQiOjE3NDY3MDM2NTF9.9vw1pLQ5a_-fAb70L7e8F9hPm4aLvDJRiSM9ch_iH1Q"},"userId":"681c9523d0043a04cdb64d5d"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:29:55.761Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T11:30:09.736Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:30:12.930Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:30:15.926Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:30:16.343Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:30:16.345Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:30:16.346Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:30:16.350Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:30:16.352Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:30:16.354Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:30:16.476Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:30:16.479Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:30:16.481Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:30:16.482Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:30:16.483Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:30:16.484Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTUyM2QwMDQzYTA0Y2RiNjRkNWQiLCJpYXQiOjE3NDY3MDM2NTF9.9vw1pLQ5a_-fAb70L7e8F9hPm4aLvDJRiSM9ch_iH1Q"},"userId":"681c9523d0043a04cdb64d5d"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:35.081Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:39.020Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:39.033Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTUyM2QwMDQzYTA0Y2RiNjRkNWQiLCJpYXQiOjE3NDY3MDM2NTF9.9vw1pLQ5a_-fAb70L7e8F9hPm4aLvDJRiSM9ch_iH1Q"},"postId":"681c95c7d0043a04cdb64db8","txt":"comment","userId":"681c9523d0043a04cdb64d5d","username":"Siva Orka"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:43.740Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:44.396Z"}
+{"error":"Cannot populate path `comments.reposts` because it is not in your schema. Set the `strictPopulate` option to false to override.","level":"error","message":"Error saving data 35","timestamp":"2025-05-08T11:31:44.648Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:46.460Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:46.461Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:47.132Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:47.133Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:47.143Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:47.144Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:47.146Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:47.263Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:47.264Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:47.269Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:47.271Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:47.273Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:47.395Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:31:47.396Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:32:05.657Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T11:32:08.385Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:32:11.430Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:32:14.450Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:32:14.860Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:32:14.863Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:32:14.865Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:32:14.868Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:32:14.870Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:32:14.994Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:32:14.995Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:32:14.996Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:32:14.998Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:32:15.001Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:32:15.122Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:32:15.125Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T11:34:09.897Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e53706f5","available":true,"createdAt":"2025-04-29T12:42:35.258Z","updatedAt":"2025-04-29T12:42:35.258Z","version":2,"yourID":"d48b02ae-bc28-4a6b-9447-986320586d7c"}],"timestamp":"2025-05-08T11:34:09.898Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T11:34:14.669Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e53702b6","available":true,"createdAt":"2025-04-29T12:42:35.255Z","updatedAt":"2025-04-29T12:42:35.255Z","version":1,"yourID":"f86ad14e-c416-44a8-a76f-15be3e479aae"}],"timestamp":"2025-05-08T11:34:14.669Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTUyM2QwMDQzYTA0Y2RiNjRkNWQiLCJpYXQiOjE3NDY3MDM2NTF9.9vw1pLQ5a_-fAb70L7e8F9hPm4aLvDJRiSM9ch_iH1Q"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:16.665Z"}
+{"data":{"feedback":"","q1":"22","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"22","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:33.783Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTUyM2QwMDQzYTA0Y2RiNjRkNWQiLCJpYXQiOjE3NDY3MDM2NTF9.9vw1pLQ5a_-fAb70L7e8F9hPm4aLvDJRiSM9ch_iH1Q"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:34.300Z"}
+{"data":{"password":"","pool":"1","profilePicture":"Rosa Biene.webp","username":"Roze Pčela","username_second":"Peruanisches Erdmännchen"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:37.725Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTZjZGQwMDQzYTA0Y2RiNjRlNDIiLCJpYXQiOjE3NDY3MDQwNzh9.qCxR9BhxEMKoSdlF3ewy827QmUr69nLKiHZ04YiHb6A"},"userId":"681c96cdd0043a04cdb64e42","version":"1"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:38.165Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:39.719Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:39.720Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:40.128Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:40.129Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:40.131Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:40.132Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:40.140Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:40.141Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:40.257Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:40.260Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:40.261Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:40.262Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:40.263Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:40.264Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T11:34:44.066Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e537026e","available":true,"createdAt":"2025-04-29T12:42:35.255Z","updatedAt":"2025-04-29T12:42:35.255Z","version":1,"yourID":"26400a46-a832-4543-acd4-ee55465ba5cd"}],"timestamp":"2025-05-08T11:34:44.066Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTZjZGQwMDQzYTA0Y2RiNjRlNDIiLCJpYXQiOjE3NDY3MDQwNzh9.qCxR9BhxEMKoSdlF3ewy827QmUr69nLKiHZ04YiHb6A"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:34:45.706Z"}
+{"data":{"feedback":"","q1":"22","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"22","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-08T11:35:03.353Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTZjZGQwMDQzYTA0Y2RiNjRlNDIiLCJpYXQiOjE3NDY3MDQwNzh9.qCxR9BhxEMKoSdlF3ewy827QmUr69nLKiHZ04YiHb6A"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:35:03.758Z"}
+{"data":{"password":"","pool":"1","profilePicture":"Schwarzer Igel.webp","username":"Crni Jež","username_second":"Schiefergraue Eule"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:35:07.347Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTZlYmQwMDQzYTA0Y2RiNjRlN2YiLCJpYXQiOjE3NDY3MDQxMDd9.agL-axxV901n5wYcUYMsZOFaUVW2EUgXwn7RYvlQCS8"},"userId":"681c96ebd0043a04cdb64e7f","version":"1"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:35:07.903Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:35:09.416Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:35:09.417Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:35:09.809Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:35:09.811Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:35:09.812Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:35:09.813Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:35:09.819Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:35:09.820Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:35:09.937Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:35:09.940Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:35:09.941Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:35:09.942Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:35:09.944Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:35:09.945Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTZlYmQwMDQzYTA0Y2RiNjRlN2YiLCJpYXQiOjE3NDY3MDQxMDd9.agL-axxV901n5wYcUYMsZOFaUVW2EUgXwn7RYvlQCS8"},"userId":"681c96ebd0043a04cdb64e7f"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:43:16.370Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTZlYmQwMDQzYTA0Y2RiNjRlN2YiLCJpYXQiOjE3NDY3MDQxMDd9.agL-axxV901n5wYcUYMsZOFaUVW2EUgXwn7RYvlQCS8"},"userId":"681c96ebd0043a04cdb64e7f"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:43:18.301Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T11:43:36.158Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:43:39.437Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:43:42.359Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:43:42.764Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:43:42.765Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:43:42.766Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:43:42.771Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:43:42.772Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:43:42.773Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:43:42.894Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:43:42.895Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:43:42.896Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:43:42.898Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:43:42.899Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:43:42.903Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:02.782Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:02.785Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTZlYmQwMDQzYTA0Y2RiNjRlN2YiLCJpYXQiOjE3NDY3MDQxMDd9.agL-axxV901n5wYcUYMsZOFaUVW2EUgXwn7RYvlQCS8"},"postId":"681c98edd0043a04cdb64edd","txt":"comment","userId":"681c96ebd0043a04cdb64e7f","username":"Crni Jež"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:10.239Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:10.874Z"}
+{"error":"Cannot populate path `comments.reposts` because it is not in your schema. Set the `strictPopulate` option to false to override.","level":"error","message":"Error saving data 35","timestamp":"2025-05-08T11:45:11.120Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:12.209Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:12.210Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:12.850Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:12.851Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:12.857Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:12.858Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:12.860Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:12.979Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:12.981Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:12.982Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:12.983Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:12.985Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:13.103Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:13.105Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:45.813Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T11:45:48.652Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:51.374Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:54.297Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:54.711Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:54.713Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:54.715Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:54.722Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:54.723Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:54.840Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:54.842Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:54.843Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:54.845Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:54.848Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:54.966Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:45:54.968Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T11:47:35.299Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e5370420","available":true,"createdAt":"2025-04-29T12:42:35.256Z","updatedAt":"2025-04-29T12:42:35.256Z","version":1,"yourID":"ae2ae9de-9699-4e29-802e-e480d76ab80a"}],"timestamp":"2025-05-08T11:47:35.300Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTZlYmQwMDQzYTA0Y2RiNjRlN2YiLCJpYXQiOjE3NDY3MDQxMDd9.agL-axxV901n5wYcUYMsZOFaUVW2EUgXwn7RYvlQCS8"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:47:36.466Z"}
+{"data":{"feedback":"","q1":"22","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"22","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-08T11:47:54.411Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTZlYmQwMDQzYTA0Y2RiNjRlN2YiLCJpYXQiOjE3NDY3MDQxMDd9.agL-axxV901n5wYcUYMsZOFaUVW2EUgXwn7RYvlQCS8"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:47:54.831Z"}
+{"data":{"password":"","pool":"1","profilePicture":"Rosa Biene.webp","username":"Roze Pčela","username_second":"Stahlblaue Giraffe"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:47:58.152Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTllZWQwMDQzYTA0Y2RiNjRmNjEiLCJpYXQiOjE3NDY3MDQ4Nzh9.kQHSokIIj-uqn-PC1FVhJIJKerDANFyxj8UsaKn8J1U"},"userId":"681c99eed0043a04cdb64f61","version":"1"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:47:58.704Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:48:00.210Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:48:00.211Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:48:00.604Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:48:00.605Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:48:00.606Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:48:00.608Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:48:00.611Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:48:00.613Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:48:00.731Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:48:00.733Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:48:00.734Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:48:00.735Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:48:00.736Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:48:00.737Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTllZWQwMDQzYTA0Y2RiNjRmNjEiLCJpYXQiOjE3NDY3MDQ4Nzh9.kQHSokIIj-uqn-PC1FVhJIJKerDANFyxj8UsaKn8J1U"},"userId":"681c99eed0043a04cdb64f61"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:49:22.272Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTllZWQwMDQzYTA0Y2RiNjRmNjEiLCJpYXQiOjE3NDY3MDQ4Nzh9.kQHSokIIj-uqn-PC1FVhJIJKerDANFyxj8UsaKn8J1U"},"userId":"681c99eed0043a04cdb64f61"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:49:29.324Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T11:50:01.324Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:50:05.736Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:50:08.656Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:50:09.059Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:50:09.061Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:50:09.062Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:50:09.065Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:50:09.067Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:50:09.068Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:50:09.187Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:50:09.189Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:50:09.190Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:50:09.191Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:50:09.192Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:50:09.194Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:43.584Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:43.586Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTllZWQwMDQzYTA0Y2RiNjRmNjEiLCJpYXQiOjE3NDY3MDQ4Nzh9.kQHSokIIj-uqn-PC1FVhJIJKerDANFyxj8UsaKn8J1U"},"postId":"681c9a70d0043a04cdb64fc1","txt":"comment","userId":"681c99eed0043a04cdb64f61","username":"Roze Pčela"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:47.142Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:47.804Z"}
+{"error":"Cannot populate path `comments.reposts` because it is not in your schema. Set the `strictPopulate` option to false to override.","level":"error","message":"Error saving data 35","timestamp":"2025-05-08T11:52:48.051Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:49.223Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:49.225Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:49.869Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:49.871Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:49.876Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:49.877Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:49.878Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:49.997Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:49.999Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:50.000Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:50.004Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:50.013Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:50.122Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:50.123Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTllZWQwMDQzYTA0Y2RiNjRmNjEiLCJpYXQiOjE3NDY3MDQ4Nzh9.kQHSokIIj-uqn-PC1FVhJIJKerDANFyxj8UsaKn8J1U"},"userId":"681c99eed0043a04cdb64f61"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:52:56.973Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T11:53:15.277Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:53:20.257Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:53:23.171Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:53:23.582Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:53:23.583Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:53:23.584Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:53:23.589Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:53:23.590Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:53:23.711Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:53:23.714Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:53:23.717Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:53:23.718Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:53:23.719Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:53:23.835Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:53:23.838Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T11:55:39.411Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e5370955","available":true,"createdAt":"2025-04-29T12:42:35.261Z","updatedAt":"2025-04-29T12:42:35.261Z","version":3,"yourID":"b4655e63-d04e-4c81-b978-652532dc94b7"}],"timestamp":"2025-05-08T11:55:39.411Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTllZWQwMDQzYTA0Y2RiNjRmNjEiLCJpYXQiOjE3NDY3MDQ4Nzh9.kQHSokIIj-uqn-PC1FVhJIJKerDANFyxj8UsaKn8J1U"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:55:43.890Z"}
+{"data":{"feedback":"","q1":"23","q10":"","q2":"option3","q3":"option1","q4":"option1","q5":"","q6":"23","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:01.431Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTllZWQwMDQzYTA0Y2RiNjRmNjEiLCJpYXQiOjE3NDY3MDQ4Nzh9.kQHSokIIj-uqn-PC1FVhJIJKerDANFyxj8UsaKn8J1U"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:01.902Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOTllZWQwMDQzYTA0Y2RiNjRmNjEiLCJpYXQiOjE3NDY3MDQ4Nzh9.kQHSokIIj-uqn-PC1FVhJIJKerDANFyxj8UsaKn8J1U"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:14.634Z"}
+{"data":{"password":"","pool":"3","profilePicture":"Rosa Biene.webp","username":"Roze Pčela","username_second":"Indigo-Truthahn"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:19.194Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWJlM2QwMDQzYTA0Y2RiNjUwNGIiLCJpYXQiOjE3NDY3MDUzNzl9.Gbi7jYGZPnOB33qq62g-uEr02iUBrnhhGWQz8AC2jrI"},"userId":"681c9be3d0043a04cdb6504b","version":"3"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:19.749Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:21.263Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:21.265Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:21.654Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:21.655Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:21.656Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:21.661Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:21.663Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:21.664Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:21.782Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:21.784Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:21.786Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:21.787Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:21.788Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:21.789Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWJlM2QwMDQzYTA0Y2RiNjUwNGIiLCJpYXQiOjE3NDY3MDUzNzl9.Gbi7jYGZPnOB33qq62g-uEr02iUBrnhhGWQz8AC2jrI"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:28.007Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWJlM2QwMDQzYTA0Y2RiNjUwNGIiLCJpYXQiOjE3NDY3MDUzNzl9.Gbi7jYGZPnOB33qq62g-uEr02iUBrnhhGWQz8AC2jrI"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:28.535Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T11:56:32.053Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e5370622","available":true,"createdAt":"2025-04-29T12:42:35.258Z","updatedAt":"2025-04-29T12:42:35.258Z","version":2,"yourID":"d39923a9-47ed-438a-b6cd-2c60d221a919"}],"timestamp":"2025-05-08T11:56:32.054Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWJlM2QwMDQzYTA0Y2RiNjUwNGIiLCJpYXQiOjE3NDY3MDUzNzl9.Gbi7jYGZPnOB33qq62g-uEr02iUBrnhhGWQz8AC2jrI"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:33.555Z"}
+{"data":{"feedback":"","q1":"22","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"22","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:53.187Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWJlM2QwMDQzYTA0Y2RiNjUwNGIiLCJpYXQiOjE3NDY3MDUzNzl9.Gbi7jYGZPnOB33qq62g-uEr02iUBrnhhGWQz8AC2jrI"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:53.591Z"}
+{"data":{"password":"","pool":"2","profilePicture":"Schwarzer Igel.webp","username":"Crni Jež","username_second":"Peruanisches Erdmännchen"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:56.566Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWMwOGQwMDQzYTA0Y2RiNjUwOGYiLCJpYXQiOjE3NDY3MDU0MTZ9.iOVtu86LFz8Mik26ZpJ4cnTUCPvlqUTK8zL8lv-3xIM"},"userId":"681c9c08d0043a04cdb6508f","version":"2"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:57.007Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:58.563Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:58.564Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:58.967Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:58.968Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:58.969Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:58.971Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:58.975Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:58.976Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:59.096Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:59.098Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:59.100Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:59.102Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:59.103Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:56:59.104Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T11:57:03.262Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e537082a","available":true,"createdAt":"2025-04-29T12:42:35.260Z","updatedAt":"2025-04-29T12:42:35.260Z","version":3,"yourID":"0bd97010-254a-45d0-94b6-461bc31f2591"}],"timestamp":"2025-05-08T11:57:03.262Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWMwOGQwMDQzYTA0Y2RiNjUwOGYiLCJpYXQiOjE3NDY3MDU0MTZ9.iOVtu86LFz8Mik26ZpJ4cnTUCPvlqUTK8zL8lv-3xIM"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:04.213Z"}
+{"data":{"feedback":"","q1":"22","q10":"","q2":"option1","q3":"option3","q4":"option1","q5":"","q6":"22","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:20.301Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWMwOGQwMDQzYTA0Y2RiNjUwOGYiLCJpYXQiOjE3NDY3MDU0MTZ9.iOVtu86LFz8Mik26ZpJ4cnTUCPvlqUTK8zL8lv-3xIM"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:20.699Z"}
+{"data":{"password":"","pool":"3","profilePicture":"Blaues Huhn.webp","username":"Plavo Pile","username_second":"Roter Hai"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:25.070Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWMyNWQwMDQzYTA0Y2RiNjUwY2MiLCJpYXQiOjE3NDY3MDU0NDV9.lfRtnP33SOgOqCGbREXXpBx7x2CLYKvo5SwmvB28ufA"},"userId":"681c9c25d0043a04cdb650cc","version":"3"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:25.631Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:27.170Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:27.172Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:27.569Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:27.570Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:27.571Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:27.576Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:27.577Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:27.579Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:27.696Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:27.697Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:27.699Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:27.700Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:27.702Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:27.704Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T11:57:33.079Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e5370528","available":true,"createdAt":"2025-04-29T12:42:35.257Z","updatedAt":"2025-04-29T12:42:35.257Z","version":2,"yourID":"9808496f-1236-4739-9b94-7f86020e753b"}],"timestamp":"2025-05-08T11:57:33.079Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWMyNWQwMDQzYTA0Y2RiNjUwY2MiLCJpYXQiOjE3NDY3MDU0NDV9.lfRtnP33SOgOqCGbREXXpBx7x2CLYKvo5SwmvB28ufA"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:34.510Z"}
+{"data":{"feedback":"","q1":"22","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"22","q7":"option1","q8":"option2","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:53.765Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWMyNWQwMDQzYTA0Y2RiNjUwY2MiLCJpYXQiOjE3NDY3MDU0NDV9.lfRtnP33SOgOqCGbREXXpBx7x2CLYKvo5SwmvB28ufA"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:54.165Z"}
+{"data":{"password":"","pool":"2","profilePicture":"Blaues Huhn.webp","username":"Plavo Pile","username_second":"Rote Gans"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:58.064Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWM0NmQwMDQzYTA0Y2RiNjUxMGEiLCJpYXQiOjE3NDY3MDU0Nzh9.twqD2iHnq_LfOJitsfT_fgdUE6f30n6DDdBTw0O4d4c"},"userId":"681c9c46d0043a04cdb6510a","version":"2"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:57:58.628Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:00.179Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:00.180Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:00.608Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:00.609Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:00.610Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:00.614Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:00.615Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:00.616Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:00.735Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:00.737Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:00.740Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:00.741Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:00.742Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:00.743Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T11:58:04.807Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e537079f","available":true,"createdAt":"2025-04-29T12:42:35.260Z","updatedAt":"2025-04-29T12:42:35.260Z","version":3,"yourID":"c9c2e4e9-9e63-4085-a73a-cd5ab5a608fd"}],"timestamp":"2025-05-08T11:58:04.807Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWM0NmQwMDQzYTA0Y2RiNjUxMGEiLCJpYXQiOjE3NDY3MDU0Nzh9.twqD2iHnq_LfOJitsfT_fgdUE6f30n6DDdBTw0O4d4c"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:06.310Z"}
+{"data":{"feedback":"","q1":"22","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"22","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:21.126Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWM0NmQwMDQzYTA0Y2RiNjUxMGEiLCJpYXQiOjE3NDY3MDU0Nzh9.twqD2iHnq_LfOJitsfT_fgdUE6f30n6DDdBTw0O4d4c"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:21.555Z"}
+{"data":{"password":"","pool":"3","profilePicture":"Grauer Orca.webp","username":"Siva Orka","username_second":"Darkslategray-Wissenschaftler"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:24.553Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWM2MGQwMDQzYTA0Y2RiNjUxNDgiLCJpYXQiOjE3NDY3MDU1MDR9.WYa0MYHw4uFr38atWa-i5_rV__574zwU8tat8-swtOM"},"userId":"681c9c60d0043a04cdb65148","version":"3"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:25.115Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:26.659Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:26.666Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:27.062Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:27.063Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:27.064Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:27.066Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:27.068Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:27.070Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:27.188Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:27.189Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:27.190Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:27.192Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:27.193Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:27.197Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T11:58:32.036Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e5370674","available":true,"createdAt":"2025-04-29T12:42:35.258Z","updatedAt":"2025-04-29T12:42:35.258Z","version":2,"yourID":"0baae968-b84f-44f3-969a-f38ea5cdf4e2"}],"timestamp":"2025-05-08T11:58:32.036Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWM2MGQwMDQzYTA0Y2RiNjUxNDgiLCJpYXQiOjE3NDY3MDU1MDR9.WYa0MYHw4uFr38atWa-i5_rV__574zwU8tat8-swtOM"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:35.543Z"}
+{"data":{"feedback":"","q1":"22","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"22","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:51.488Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWM2MGQwMDQzYTA0Y2RiNjUxNDgiLCJpYXQiOjE3NDY3MDU1MDR9.WYa0MYHw4uFr38atWa-i5_rV__574zwU8tat8-swtOM"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:51.875Z"}
+{"data":{"password":"","pool":"2","profilePicture":"Rosa Biene.webp","username":"Roze Pčela","username_second":"Blauer Wissenschaftler"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:54.780Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWM3ZWQwMDQzYTA0Y2RiNjUxODYiLCJpYXQiOjE3NDY3MDU1MzV9.9KUys4FsXay-NOwP0qgVhwEwMTEtON-aqWiy7_imZWs"},"userId":"681c9c7ed0043a04cdb65186","version":"2"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:55.330Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:56.837Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:56.839Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:57.233Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:57.234Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:57.235Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:57.237Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:57.241Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:57.242Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:57.361Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:57.362Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:57.363Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:57.365Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:57.367Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:58:57.372Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T11:59:02.437Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e5370631","available":true,"createdAt":"2025-04-29T12:42:35.258Z","updatedAt":"2025-04-29T12:42:35.258Z","version":2,"yourID":"5ba4856f-e064-49e9-bdb8-0649c8b978dc"}],"timestamp":"2025-05-08T11:59:02.437Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWM3ZWQwMDQzYTA0Y2RiNjUxODYiLCJpYXQiOjE3NDY3MDU1MzV9.9KUys4FsXay-NOwP0qgVhwEwMTEtON-aqWiy7_imZWs"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:03.490Z"}
+{"data":{"feedback":"","q1":"22","q10":"","q2":"option2","q3":"option2","q4":"option1","q5":"","q6":"22","q7":"option1","q8":"option6","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:19.429Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWM3ZWQwMDQzYTA0Y2RiNjUxODYiLCJpYXQiOjE3NDY3MDU1MzV9.9KUys4FsXay-NOwP0qgVhwEwMTEtON-aqWiy7_imZWs"}},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:19.826Z"}
+{"data":{"password":"","pool":"2","profilePicture":"Grauer Orca.webp","username":"Siva Orka","username_second":"Grüne Eule"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:24.100Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWM5Y2QwMDQzYTA0Y2RiNjUxYzQiLCJpYXQiOjE3NDY3MDU1NjR9.wOH_aVMjlMz54teMyBZT1pc6uyzeTccqdjSsodLOM0U"},"userId":"681c9c9cd0043a04cdb651c4","version":"2"},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:24.532Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:26.038Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:26.039Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:26.429Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:26.430Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:26.432Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:26.436Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:26.438Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:26.439Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:26.556Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:26.558Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:26.560Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:26.562Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:26.563Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T11:59:26.564Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWM5Y2QwMDQzYTA0Y2RiNjUxYzQiLCJpYXQiOjE3NDY3MDU1NjR9.wOH_aVMjlMz54teMyBZT1pc6uyzeTccqdjSsodLOM0U"},"userId":"681c9c9cd0043a04cdb651c4"},"level":"info","message":"Data received","timestamp":"2025-05-08T12:00:57.667Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:03.773Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:03.774Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWM5Y2QwMDQzYTA0Y2RiNjUxYzQiLCJpYXQiOjE3NDY3MDU1NjR9.wOH_aVMjlMz54teMyBZT1pc6uyzeTccqdjSsodLOM0U"},"postId":"681c9c9dd0043a04cdb651cf","txt":"fdfsdf","userId":"681c9c9cd0043a04cdb651c4","username":"Siva Orka"},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:08.702Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:09.340Z"}
+{"error":"Cannot populate path `comments.reposts` because it is not in your schema. Set the `strictPopulate` option to false to override.","level":"error","message":"Error saving data 35","timestamp":"2025-05-08T12:01:09.587Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:10.501Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:10.503Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:11.131Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:11.132Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:11.137Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:11.139Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:11.140Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:11.255Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:11.261Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:11.262Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:11.263Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:11.265Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:11.379Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:11.384Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T12:01:37.664Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:42.236Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:45.099Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:45.493Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:45.494Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:45.495Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:45.499Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:45.500Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:45.619Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:45.622Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:45.624Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:45.626Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:45.627Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:45.742Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:01:45.746Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWM5Y2QwMDQzYTA0Y2RiNjUxYzQiLCJpYXQiOjE3NDY3MDU1NjR9.wOH_aVMjlMz54teMyBZT1pc6uyzeTccqdjSsodLOM0U"},"userId":"681c9c9cd0043a04cdb651c4"},"level":"info","message":"Data received","timestamp":"2025-05-08T12:03:12.549Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWM5Y2QwMDQzYTA0Y2RiNjUxYzQiLCJpYXQiOjE3NDY3MDU1NjR9.wOH_aVMjlMz54teMyBZT1pc6uyzeTccqdjSsodLOM0U"},"userId":"681c9c9cd0043a04cdb651c4"},"level":"info","message":"Data received","timestamp":"2025-05-08T12:03:13.600Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T12:03:29.028Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:03:31.505Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:03:34.439Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:03:34.845Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:03:34.846Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:03:34.847Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:03:34.853Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:03:34.854Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:03:34.972Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:03:34.973Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:03:34.974Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:03:34.976Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:03:34.981Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:03:35.094Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T12:03:35.101Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWM5Y2QwMDQzYTA0Y2RiNjUxYzQiLCJpYXQiOjE3NDY3MDU1NjR9.wOH_aVMjlMz54teMyBZT1pc6uyzeTccqdjSsodLOM0U"}},"level":"info","message":"Data received","timestamp":"2025-05-08T13:09:32.870Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWM5Y2QwMDQzYTA0Y2RiNjUxYzQiLCJpYXQiOjE3NDY3MDU1NjR9.wOH_aVMjlMz54teMyBZT1pc6uyzeTccqdjSsodLOM0U"}},"level":"info","message":"Data received","timestamp":"2025-05-08T13:09:33.459Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-08T13:09:39.400Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e5370850","available":true,"createdAt":"2025-04-29T12:42:35.260Z","updatedAt":"2025-04-29T12:42:35.260Z","version":3,"yourID":"d0bed637-de5f-4af8-b131-8f8b787f0880"}],"timestamp":"2025-05-08T13:09:39.401Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWM5Y2QwMDQzYTA0Y2RiNjUxYzQiLCJpYXQiOjE3NDY3MDU1NjR9.wOH_aVMjlMz54teMyBZT1pc6uyzeTccqdjSsodLOM0U"}},"level":"info","message":"Data received","timestamp":"2025-05-08T13:09:41.268Z"}
+{"data":{"feedback":"","q1":"22","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"22","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:10.641Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjOWM5Y2QwMDQzYTA0Y2RiNjUxYzQiLCJpYXQiOjE3NDY3MDU1NjR9.wOH_aVMjlMz54teMyBZT1pc6uyzeTccqdjSsodLOM0U"}},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:11.090Z"}
+{"data":{"password":"","pool":"3","profilePicture":"Schwarzer Igel.webp","username":"Crni Jež","username_second":"Orangefarbene Kuh"},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:14.208Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjYWQzNmQwMDQzYTA0Y2RiNjUyYWIiLCJpYXQiOjE3NDY3MDk4MTR9.XyAxV8si78Avrddy7XLf8N7xiDhB5Ms3Yj1Jivn8vLo"},"userId":"681cad36d0043a04cdb652ab","version":"3"},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:14.790Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:16.430Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:16.434Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:16.847Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:16.849Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:16.851Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:16.852Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:16.855Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:16.857Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:16.977Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:16.979Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:16.980Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:16.982Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:16.984Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:16.988Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T13:10:21.643Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjYWQzNmQwMDQzYTA0Y2RiNjUyYWIiLCJpYXQiOjE3NDY3MDk4MTR9.XyAxV8si78Avrddy7XLf8N7xiDhB5Ms3Yj1Jivn8vLo"},"userId":"681cad36d0043a04cdb652ab"},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:27.158Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:28.336Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:31.344Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:31.760Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:31.771Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:31.772Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:31.773Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:31.774Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:31.775Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:31.893Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:31.907Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:31.908Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:31.909Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:31.910Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:31.911Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T13:10:33.206Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjYWQzNmQwMDQzYTA0Y2RiNjUyYWIiLCJpYXQiOjE3NDY3MDk4MTR9.XyAxV8si78Avrddy7XLf8N7xiDhB5Ms3Yj1Jivn8vLo"},"userId":"681cad36d0043a04cdb652ab"},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:34.320Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:36.957Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:39.911Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:40.312Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:40.319Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:40.321Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:40.322Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:40.323Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:40.324Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:40.441Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:40.445Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:40.446Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:40.447Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:40.449Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:40.456Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFjYWQzNmQwMDQzYTA0Y2RiNjUyYWIiLCJpYXQiOjE3NDY3MDk4MTR9.XyAxV8si78Avrddy7XLf8N7xiDhB5Ms3Yj1Jivn8vLo"},"userId":"681cad36d0043a04cdb652ab"},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:42.060Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-08T13:10:45.231Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:48.397Z"}
+{"error":"Cannot set headers after they are sent to the client","level":"error","message":"Error saving data","timestamp":"2025-05-08T13:10:48.782Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:50.502Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T13:10:50.510Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T15:19:38.261Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T15:19:38.263Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T17:34:48.251Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-08T17:34:48.259Z"}

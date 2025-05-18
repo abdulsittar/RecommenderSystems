@@ -1,0 +1,350 @@
+{"level":"info","message":"randomDoc","timestamp":"2025-05-06T09:46:32.824Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e5370272","available":true,"createdAt":"2025-04-29T12:42:35.255Z","updatedAt":"2025-04-29T12:42:35.255Z","version":1,"yourID":"32a8ffea-5960-49bf-90b9-eba7fd7330fc"}],"timestamp":"2025-05-06T09:46:32.825Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-06T11:31:06.163Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e53705d1","available":true,"createdAt":"2025-04-29T12:42:35.258Z","updatedAt":"2025-04-29T12:42:35.258Z","version":2,"yourID":"14bd5e38-c8cf-4103-b89d-156bd7febfdf"}],"timestamp":"2025-05-06T11:31:06.163Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-06T12:32:29.256Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e537029b","available":true,"createdAt":"2025-04-29T12:42:35.255Z","updatedAt":"2025-04-29T12:42:35.255Z","version":1,"yourID":"ae3fcf1e-8edd-422d-a330-b8fb77a3719c"}],"timestamp":"2025-05-06T12:32:29.257Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-06T13:49:27.494Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e5370365","available":true,"createdAt":"2025-04-29T12:42:35.255Z","updatedAt":"2025-04-29T12:42:35.255Z","version":1,"yourID":"73bcd222-386a-4354-9ac4-a8c25830d771"}],"timestamp":"2025-05-06T13:49:27.496Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODEzMmYyZjJiZDIyMWZiMTlkNzJiNWUiLCJpYXQiOjE3NDYwODc3Mjh9.VlPb7FspzcT-yvv0_SzVZmudTX4pIHkV7-xrEskViac"}},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:30.353Z"}
+{"data":{"feedback":"","q1":"62","q10":"","q2":"option2","q3":"option2","q4":"option1","q5":"","q6":"62","q7":"option2","q8":"option2","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:46.032Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODEzMmYyZjJiZDIyMWZiMTlkNzJiNWUiLCJpYXQiOjE3NDYwODc3Mjh9.VlPb7FspzcT-yvv0_SzVZmudTX4pIHkV7-xrEskViac"}},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:46.473Z"}
+{"data":{"password":"","pool":"1","profilePicture":"Blaues Huhn.webp","username":"Plavo Pile","username_second":"Blaues Huhn"},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:49.494Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMTM3ZDI2Nzc0ZGZhN2EyMTkyMmMiLCJpYXQiOjE3NDY1MzkzODl9.s94gI2IRJxHkP_DBopu2Uogng-QPuUoVm1bFlpDPeFo"},"userId":"681a137d26774dfa7a21922c","version":"1"},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:50.087Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:51.771Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:51.775Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:52.180Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:52.182Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:52.184Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:52.186Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:52.196Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:52.200Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:52.308Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:52.309Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:52.317Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:52.318Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:52.326Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:49:52.433Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T13:49:57.413Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T13:50:01.860Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T13:50:05.185Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMTM3ZDI2Nzc0ZGZhN2EyMTkyMmMiLCJpYXQiOjE3NDY1MzkzODl9.s94gI2IRJxHkP_DBopu2Uogng-QPuUoVm1bFlpDPeFo"},"userId":"681a137d26774dfa7a21922c"},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:10.946Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:11.986Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:15.036Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:15.479Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:15.508Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:15.509Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:15.511Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:15.512Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:15.532Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:15.612Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:15.635Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:15.638Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:15.645Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:15.646Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:15.660Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMTM3ZDI2Nzc0ZGZhN2EyMTkyMmMiLCJpYXQiOjE3NDY1MzkzODl9.s94gI2IRJxHkP_DBopu2Uogng-QPuUoVm1bFlpDPeFo"},"userId":"681a137d26774dfa7a21922c"},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:29.087Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:30.280Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T13:50:33.422Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:36.360Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:39.289Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:39.728Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:39.730Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:39.731Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:39.746Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:39.748Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:39.749Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:39.855Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:39.865Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:39.866Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:39.867Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:39.920Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:39.921Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T13:50:46.004Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMTM3ZDI2Nzc0ZGZhN2EyMTkyMmMiLCJpYXQiOjE3NDY1MzkzODl9.s94gI2IRJxHkP_DBopu2Uogng-QPuUoVm1bFlpDPeFo"},"userId":"681a137d26774dfa7a21922c"},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:48.415Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T13:50:51.765Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:53.837Z"}
+{"error":"Cannot set headers after they are sent to the client","level":"error","message":"Error saving data","timestamp":"2025-05-06T13:50:54.236Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:58.735Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:50:58.737Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMTM3ZDI2Nzc0ZGZhN2EyMTkyMmMiLCJpYXQiOjE3NDY1MzkzODl9.s94gI2IRJxHkP_DBopu2Uogng-QPuUoVm1bFlpDPeFo"},"survey":{"feedback":"","q1":"option3","q10":"option2","q11":["option5","option6","option7"],"q12":"option1","q13":["option1","option2","option3"],"q14":"option3","q15":["option3","option2","option1","option6"],"q16":"option5","q17":"option3","q18":"option5","q19":["option1","option2"],"q2":"option1","q20":"option1","q3":"option1","q4":"option1","q5":"option1","q6":"option3","q7":"option1","q8":"option1","q9":["option1","option8"]},"uniqueId":"6810c93b8e22d4f5e5370365"},"level":"info","message":"Data received","timestamp":"2025-05-06T13:53:41.290Z"}
+{"error":"PostSurvey validation failed: q9: Cast to string failed for value \"[ 'option1', 'option8' ]\" (type Array) at path \"q9\", q11: Cast to string failed for value \"[ 'option5', 'option6', 'option7' ]\" (type Array) at path \"q11\", q15: Cast to string failed for value \"[ 'option3', 'option2', 'option1', 'option6' ]\" (type Array) at path \"q15\"","level":"error","message":"Error saving data","timestamp":"2025-05-06T13:53:41.543Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMTM3ZDI2Nzc0ZGZhN2EyMTkyMmMiLCJpYXQiOjE3NDY1MzkzODl9.s94gI2IRJxHkP_DBopu2Uogng-QPuUoVm1bFlpDPeFo"},"survey":{"feedback":"","q1":"option3","q10":"option2","q11":["option5","option6","option7"],"q12":"option1","q13":["option1","option2","option3"],"q14":"option3","q15":["option3","option2","option1","option6"],"q16":"option5","q17":"option3","q18":"option5","q19":["option1","option2"],"q2":"option1","q20":"option1","q3":"option1","q4":"option1","q5":"option1","q6":"option3","q7":"option1","q8":"option1","q9":["option1","option8"]},"uniqueId":"6810c93b8e22d4f5e5370365"},"level":"info","message":"Data received","timestamp":"2025-05-06T13:54:21.501Z"}
+{"error":"PostSurvey validation failed: q9: Cast to string failed for value \"[ 'option1', 'option8' ]\" (type Array) at path \"q9\", q11: Cast to string failed for value \"[ 'option5', 'option6', 'option7' ]\" (type Array) at path \"q11\", q15: Cast to string failed for value \"[ 'option3', 'option2', 'option1', 'option6' ]\" (type Array) at path \"q15\"","level":"error","message":"Error saving data","timestamp":"2025-05-06T13:54:21.752Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:58:53.153Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T13:58:53.155Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:08:06.068Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:08:06.078Z"}
+{"error":"Cannot set headers after they are sent to the client","level":"error","message":"Error saving data","timestamp":"2025-05-06T14:08:06.453Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:08:06.491Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:08:06.493Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:08:06.495Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:08:06.506Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:08:06.507Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:08:06.509Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:08:06.633Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:08:06.635Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:08:06.636Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:08:06.638Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:08:06.639Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:08:06.758Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:08:07.912Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:08:07.914Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:17:03.344Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:17:03.357Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMTM3ZDI2Nzc0ZGZhN2EyMTkyMmMiLCJpYXQiOjE3NDY1MzkzODl9.s94gI2IRJxHkP_DBopu2Uogng-QPuUoVm1bFlpDPeFo"},"survey":{"feedback":"","q1":"option1","q10":"option1","q11":["option3","option4","option5","option6","option7"],"q12":"option1","q13":["option2","option3","option4"],"q14":"option1","q15":["option1","option2","option3"],"q16":"option2","q17":"option1","q18":"option1","q19":["option1","option2","option3"],"q2":"option1","q20":"option1","q3":"option1","q4":"option1","q5":"option1","q6":"option1","q7":"option1","q8":"option1","q9":["option1","option2","option3"]},"uniqueId":"6810c93b8e22d4f5e5370365"},"level":"info","message":"Data received","timestamp":"2025-05-06T14:21:23.614Z"}
+{"error":"PostSurvey validation failed: q9: Cast to string failed for value \"[ 'option1', 'option2', 'option3' ]\" (type Array) at path \"q9\", q11: Cast to string failed for value \"[ 'option3', 'option4', 'option5', 'option6', 'option7' ]\" (type Array) at path \"q11\", q15: Cast to string failed for value \"[ 'option1', 'option2', 'option3' ]\" (type Array) at path \"q15\"","level":"error","message":"Error saving data","timestamp":"2025-05-06T14:21:23.863Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:31:32.668Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T14:31:32.677Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMTM3ZDI2Nzc0ZGZhN2EyMTkyMmMiLCJpYXQiOjE3NDY1MzkzODl9.s94gI2IRJxHkP_DBopu2Uogng-QPuUoVm1bFlpDPeFo"},"survey":{"feedback":"","q1":"option3","q10":"option1","q11":"option9, option8, option7, option6","q12":"option1","q13":["option1","option3","option2","option5"],"q14":"option2","q15":"option3, option2, option1","q16":"option2","q17":"option1","q18":"option1","q19":["option1"],"q2":"option1","q20":"option1","q3":"option4","q4":"option2","q5":"option1","q6":"option4","q7":"option1","q8":"option4","q9":"option2, option3, option4, option5"},"uniqueId":"6810c93b8e22d4f5e5370365"},"level":"info","message":"Data received","timestamp":"2025-05-06T14:32:51.067Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-06T15:29:53.765Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e537093c","available":true,"createdAt":"2025-04-29T12:42:35.261Z","updatedAt":"2025-04-29T12:42:35.261Z","version":3,"yourID":"3d418332-880f-459d-ad5b-1fc8f3417f2e"}],"timestamp":"2025-05-06T15:29:53.767Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBmNzBmMDc2NDdiMzcxMTg0YTBlMTkiLCJpYXQiOjE3NDU4NDI0MTZ9.TQdLbPy3x8zC4h3zy57bOjJos29Guqu-wOsm7Jv21sk"}},"level":"info","message":"Data received","timestamp":"2025-05-06T15:29:55.443Z"}
+{"data":{"feedback":"","q1":"22","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"11","q7":"option1","q8":"option5","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-06T15:30:16.625Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODBmNzBmMDc2NDdiMzcxMTg0YTBlMTkiLCJpYXQiOjE3NDU4NDI0MTZ9.TQdLbPy3x8zC4h3zy57bOjJos29Guqu-wOsm7Jv21sk"}},"level":"info","message":"Data received","timestamp":"2025-05-06T15:30:17.064Z"}
+{"data":{"password":"","pool":"3","profilePicture":"Schwarzer Igel.webp","username":"Crni Jež","username_second":"Indisches Walross"},"level":"info","message":"Data received","timestamp":"2025-05-06T15:30:20.428Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMmIwYzlhOTFhM2QyY2M4MTkzM2UiLCJpYXQiOjE3NDY1NDU0MjB9.RNJJusfqjMHBZ6JWN5iR_ejAORB9jkp8AbuOu5Woc6U"},"userId":"681a2b0c9a91a3d2cc81933e","version":"3"},"level":"info","message":"Data received","timestamp":"2025-05-06T15:30:21.002Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:30:22.563Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:30:22.566Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:30:22.954Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:30:22.955Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:30:22.957Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:30:22.960Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:30:22.962Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:30:22.963Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:30:23.088Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:30:23.089Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:30:23.091Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:30:23.092Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:30:23.093Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:30:23.212Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:30:24.975Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:30:29.950Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:30:36.919Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:30:41.632Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:31:39.198Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:31:44.616Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:31:58.714Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMmIwYzlhOTFhM2QyY2M4MTkzM2UiLCJpYXQiOjE3NDY1NDU0MjB9.RNJJusfqjMHBZ6JWN5iR_ejAORB9jkp8AbuOu5Woc6U"},"userId":"681a2b0c9a91a3d2cc81933e"},"level":"info","message":"Data received","timestamp":"2025-05-06T15:32:05.571Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:32:06.678Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:32:09.626Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:32:10.035Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:32:10.037Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:32:10.041Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:32:10.043Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:32:10.045Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:32:10.046Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:32:10.164Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:32:10.165Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:32:10.167Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:32:10.169Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:32:10.170Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:32:10.176Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:32:13.198Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:32:16.551Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:32:21.240Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:32:24.318Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:32:28.872Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:32:35.849Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:32:55.637Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMmIwYzlhOTFhM2QyY2M4MTkzM2UiLCJpYXQiOjE3NDY1NDU0MjB9.RNJJusfqjMHBZ6JWN5iR_ejAORB9jkp8AbuOu5Woc6U"},"userId":"681a2b0c9a91a3d2cc81933e"},"level":"info","message":"Data received","timestamp":"2025-05-06T15:32:59.451Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:33:00.659Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:33:03.611Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:33:03.701Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:33:04.021Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:33:04.023Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:33:04.024Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:33:04.026Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:33:04.027Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:33:04.028Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:33:04.148Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:33:04.150Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:33:04.152Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:33:04.154Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:33:04.155Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:33:04.156Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:33:08.904Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:33:14.156Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:33:27.506Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:33:42.611Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:33:46.672Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:33:50.839Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T15:33:58.389Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMmIwYzlhOTFhM2QyY2M4MTkzM2UiLCJpYXQiOjE3NDY1NDU0MjB9.RNJJusfqjMHBZ6JWN5iR_ejAORB9jkp8AbuOu5Woc6U"},"userId":"681a2b0c9a91a3d2cc81933e"},"level":"info","message":"Data received","timestamp":"2025-05-06T15:34:15.622Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:34:16.911Z"}
+{"error":"Cannot set headers after they are sent to the client","level":"error","message":"Error saving data","timestamp":"2025-05-06T15:34:17.290Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:34:18.346Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T15:34:18.348Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMmIwYzlhOTFhM2QyY2M4MTkzM2UiLCJpYXQiOjE3NDY1NDU0MjB9.RNJJusfqjMHBZ6JWN5iR_ejAORB9jkp8AbuOu5Woc6U"},"survey":{"feedback":"","q1":"option1","q10":"option1","q11":"option5, option6, option7","q12":"option1","q13":"option1, option2, option3","q14":"option1","q15":"option1, option7","q16":"option1","q17":"option1","q18":"option1","q19":"option1, option2","q2":"option1","q20":"option1","q21":"option7","q22":"option7","q23":"option1","q24":"option1","q24_1":"option1","q24_2":"option1","q24_3":"option1","q24_4":"option1","q24_5":"option1","q25":"option1","q25_1":"option1","q25_2":"option1","q26":"option1","q27":"option1","q28":"","q29_1":"option1_1","q29_2":"option2_2","q29_3":"option3_3","q29_4":"option4_4","q29_5":"option5_5","q29_6":"option6_6","q3":"option1","q30":"option1","q31":"option1","q32":"option1","q33":"option1","q4":"option1","q5":"option1","q6":"option1","q7":"option1","q8":"option1","q9":"option1, option2, option3"},"uniqueId":"6810c93b8e22d4f5e537093c"},"level":"info","message":"Data received","timestamp":"2025-05-06T15:36:23.584Z"}
+{"data":{"headers":{"auth-token":null}},"level":"info","message":"Data received","timestamp":"2025-05-06T16:05:12.718Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-06T16:05:17.741Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e5370635","available":true,"createdAt":"2025-04-29T12:42:35.258Z","updatedAt":"2025-04-29T12:42:35.258Z","version":2,"yourID":"bb08579f-ef31-4d24-ba02-4b39ca80cf04"}],"timestamp":"2025-05-06T16:05:17.741Z"}
+{"data":{"headers":{"auth-token":null}},"level":"info","message":"Data received","timestamp":"2025-05-06T16:05:18.812Z"}
+{"data":{"feedback":"","q1":"23","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"23","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-06T16:05:54.154Z"}
+{"data":{"headers":{"auth-token":null}},"level":"info","message":"Data received","timestamp":"2025-05-06T16:05:54.574Z"}
+{"data":{"password":"","pool":"2","profilePicture":"Schwarzer Igel.webp","username":"Crni Jež","username_second":"Stahlblaue Eule"},"level":"info","message":"Data received","timestamp":"2025-05-06T16:05:57.643Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMzM2NWRmNGYxN2MwNzJiOTRjZDMiLCJpYXQiOjE3NDY1NDc1NTd9.p_ZgR3mInWuSpqymp9oLL4jNNb6NNEqjdzYW2pCrOqM"},"userId":"681a3365df4f17c072b94cd3","version":"2"},"level":"info","message":"Data received","timestamp":"2025-05-06T16:05:58.222Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:05:59.818Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:05:59.821Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:00.248Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:00.250Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:00.251Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:00.254Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:00.255Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:00.257Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:00.378Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:00.379Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:00.381Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:00.383Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:00.384Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:00.504Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T16:06:01.819Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMzM2NWRmNGYxN2MwNzJiOTRjZDMiLCJpYXQiOjE3NDY1NDc1NTd9.p_ZgR3mInWuSpqymp9oLL4jNNb6NNEqjdzYW2pCrOqM"},"userId":"681a3365df4f17c072b94cd3"},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:06.432Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:07.118Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:10.147Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:10.215Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:10.570Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:10.576Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:10.577Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:10.580Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:10.581Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:10.599Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:10.699Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:10.705Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:10.716Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:10.729Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:10.821Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:10.838Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMzM2NWRmNGYxN2MwNzJiOTRjZDMiLCJpYXQiOjE3NDY1NDc1NTd9.p_ZgR3mInWuSpqymp9oLL4jNNb6NNEqjdzYW2pCrOqM"},"userId":"681a3365df4f17c072b94cd3"},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:12.165Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T16:06:14.043Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:17.528Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:20.590Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:21.005Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:21.011Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:21.014Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:21.015Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:21.016Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:21.017Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:21.136Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:21.137Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:21.138Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:21.140Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:21.145Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:21.149Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T16:06:21.516Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMzM2NWRmNGYxN2MwNzJiOTRjZDMiLCJpYXQiOjE3NDY1NDc1NTd9.p_ZgR3mInWuSpqymp9oLL4jNNb6NNEqjdzYW2pCrOqM"},"userId":"681a3365df4f17c072b94cd3"},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:22.864Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:25.492Z"}
+{"error":"Cannot set headers after they are sent to the client","level":"error","message":"Error saving data","timestamp":"2025-05-06T16:06:25.865Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:26.821Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:06:26.827Z"}
+{"data":{"password":"123456","username":""},"level":"info","message":"Data received","timestamp":"2025-05-06T16:09:31.939Z"}
+{"data":{"password":"","username":""},"level":"info","message":"Data received","timestamp":"2025-05-06T16:09:36.256Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-06T16:09:41.143Z"}
+{"level":"info","message":[{"__v":0,"_id":"6810c93b8e22d4f5e537050b","available":true,"createdAt":"2025-04-29T12:42:35.257Z","updatedAt":"2025-04-29T12:42:35.257Z","version":2,"yourID":"2367f0d4-9ef7-4554-95d4-cc840fabfb47"}],"timestamp":"2025-05-06T16:09:41.143Z"}
+{"data":{"headers":{"auth-token":null}},"level":"info","message":"Data received","timestamp":"2025-05-06T16:09:42.127Z"}
+{"data":{"feedback":"","q1":"62","q10":"","q2":"option2","q3":"option1","q4":"option1","q5":"","q6":"62","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-06T16:09:57.038Z"}
+{"data":{"headers":{"auth-token":null}},"level":"info","message":"Data received","timestamp":"2025-05-06T16:09:57.488Z"}
+{"data":{"password":"","pool":"2","profilePicture":"Blaues Huhn.webp","username":"Plavo Pile","username_second":"Schwarzer Tiger"},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:00.701Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMzQ1OGRmNGYxN2MwNzJiOTRkYTgiLCJpYXQiOjE3NDY1NDc4MDF9.clZ1I_yo6fpqyfB9AyztOI6EZ8Uri0io1uKbO07IdRU"},"userId":"681a3458df4f17c072b94da8","version":"2"},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:01.332Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:02.989Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:02.991Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:03.408Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:03.409Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:03.411Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:03.412Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:03.427Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:03.429Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:03.542Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:03.543Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:03.544Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:03.545Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:03.558Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:03.559Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMzQ1OGRmNGYxN2MwNzJiOTRkYTgiLCJpYXQiOjE3NDY1NDc4MDF9.clZ1I_yo6fpqyfB9AyztOI6EZ8Uri0io1uKbO07IdRU"},"userId":"681a3458df4f17c072b94da8"},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:05.520Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T16:10:07.498Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:09.792Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:12.841Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:13.258Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:13.270Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:13.286Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:13.291Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:13.292Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:13.293Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:13.393Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:13.396Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:13.412Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:13.413Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:13.419Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:13.421Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T16:10:14.812Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMzQ1OGRmNGYxN2MwNzJiOTRkYTgiLCJpYXQiOjE3NDY1NDc4MDF9.clZ1I_yo6fpqyfB9AyztOI6EZ8Uri0io1uKbO07IdRU"},"userId":"681a3458df4f17c072b94da8"},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:17.232Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:18.834Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:21.788Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:22.196Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:22.232Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:22.234Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:22.235Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:22.236Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:22.239Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:22.343Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:22.354Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:22.357Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:22.358Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:22.366Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:22.369Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-06T16:10:23.986Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODFhMzQ1OGRmNGYxN2MwNzJiOTRkYTgiLCJpYXQiOjE3NDY1NDc4MDF9.clZ1I_yo6fpqyfB9AyztOI6EZ8Uri0io1uKbO07IdRU"},"userId":"681a3458df4f17c072b94da8"},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:26.145Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:27.590Z"}
+{"error":"Cannot set headers after they are sent to the client","level":"error","message":"Error saving data","timestamp":"2025-05-06T16:10:27.983Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:29.681Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:10:29.693Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:15:08.976Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:15:08.985Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:15:13.662Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:15:13.664Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:18:09.825Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:18:09.832Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:18:10.063Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:18:10.065Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:23:59.661Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:23:59.699Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:24:24.532Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:24:24.551Z"}
+{"error":"Cannot set headers after they are sent to the client","level":"error","message":"Error saving data","timestamp":"2025-05-06T16:24:24.928Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:24:24.938Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:24:24.956Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:24:24.960Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:24:24.971Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:24:24.980Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:24:24.981Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:24:25.070Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:24:25.085Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:24:25.088Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:24:25.100Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:24:25.109Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:24:25.212Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:24:26.083Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:24:26.086Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:34:26.638Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:34:26.671Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:37:25.421Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:37:25.434Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:40:20.249Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:40:20.266Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:40:48.965Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:40:48.993Z"}
+{"error":"Cannot set headers after they are sent to the client","level":"error","message":"Error saving data","timestamp":"2025-05-06T16:40:49.358Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:40:49.379Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:40:49.381Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:40:49.383Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:40:49.409Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:40:49.411Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:40:49.418Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:40:49.503Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:40:49.504Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:40:49.506Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:40:49.542Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:40:49.543Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:40:49.639Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:40:50.476Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-06T16:40:50.478Z"}

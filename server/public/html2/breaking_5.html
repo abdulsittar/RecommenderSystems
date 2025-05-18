@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World News Today</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar {
+            background-color: #006666;
+            color: white;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        
+        .navbar-item {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        
+        .logo {
+            height: 25px;
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 7fr 3fr;
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .headline {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .article-lead {
+            border: 1px solid #f00;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        
+        .main-image {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        
+        .image-caption {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .article-content {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-weight: bold;
+            margin: 20px 0 10px 0;
+        }
+        
+        .sidebar {
+            padding-left: 20px;
+        }
+        
+        .world-news-logo {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .reader-count {
+            background-color: #bb9900;
+            color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .social-media {
+            margin-bottom: 30px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        
+        .ad-banner {
+            height: 120px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .news-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #465668;
+        }
+        
+        .news-item:last-child {
+            border-bottom: none;
+        }
+        
+        .timestamp {
+            font-size: 0.8rem;
+            color: #99a4ae;
+        }
+        
+        .article-thumbnails {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .thumbnail {
+            height: 120px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #666;
+        }
+        
+        .article-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <img src="/images/yellow_navbar_logo.png" alt="Logo" class="logo">
+        <div class="navbar-item">VESTI</div>
+        <div class="navbar-item">POLITIKA</div>
+        <div class="navbar-item">BIZNIS</div>
+        <div class="navbar-item">UMETNOST I KULTURA</div>
+        <div class="navbar-item">SPORT</div>
+    </div>
+    
+    <div class="main-container">
+        <div class="main-content">
+            <div class="headline">Oružje koje Ukrajina dobija od Zapada navodno hrani crnu berzu</div>
+            
+            <div class="article-meta">
+                <span class="timestamp">Odessa, 12.4.2025, 8:00:00</span>
+                <span class="author"> TASS, DPA, I.F.</span>
+            </div>
+            
+         
+            
+            <img src="/images/breaking_5.jpg" alt="Article image" class="main-image">
+            
+         
+            <div class="article-content">
+                <p>Ukrajinski zvaničnici sproveli su hapšenje više od 20 osoba danas u okviru operacije usmerene protiv ilegalne trgovine oružjem i municijom, pri čemu je širom zemlje obavljeno skoro 700 racija. Vlasti su zaplenile hiljade magazina municije, vatrenog oružja i granata, prema informacijama ukrajinske policije.</p>
+            
+                <p>Organizatori ilegalne trgovine mogli bi se suočiti sa kaznama do sedam godina zatvora. Ipak, ostaju pitanja u vezi sa izvorima krijumčarenog oružja, jer kritičari tvrde da neki od zaplenjenih predmeta mogu biti oni koji su Ukrajini isporučeni od strane njenih zapadnih saveznika.</p>
+            
+                <p>Izveštaji navode da je ilegalna trgovina oružjem u Ukrajini porasla od 2014. godine, kada je počeo sukob u istočnim regionima, a dodatno je porasla od početka ruske invazije 2022. godine.</p>
+            
+                <p>Ruski zvaničnici dugo optužuju Kijev da nije uspeo da obezbedi svoju vojnu pomoć, tvrdeći da oružje koje zapad isporučuje često ulazi na crno tržište. Iako ukrajinske vlasti negiraju takve optužbe, današnja operacija je ponovo pokrenula zabrinutost u vezi sa odgovornošću kada je reč o međunarodnoj pomoći u zonama konflikta.</p>
+            </div>
+            
+            <div class="article-thumbnails">
+                <div class="thumbnail">Related News</div>
+                <div class="thumbnail">Related News</div>
+                <div class="thumbnail">Related News</div>
+                <div class="thumbnail">Related News</div>
+            </div>
+        </div>
+        
+        <div class="sidebar">
+            <div class="world-news-logo">
+                <img src="/images/yellow_logo.png" alt="Logo" class="logo" style="width: 100%; height: auto; max-height: 500px;">
+            </div>
+            
+            <div class="reader-count">
+                BROJ ČITATELJA<br>
+                23,450
+            </div>
+            
+            <div class="social-media">
+                <h3>Pratite nas na društvenim mrežama</h3>
+                <div class="social-icons">
+                    <img src="/images/facebook.png" alt="Facebook" class="social-icon">
+                    <img src="/images/X.png" alt="X" class="social-icon">
+                    <img src="/images/linkedin.png" alt="LinkedIn" class="social-icon">
+                    <img src="/images/instagram.png" alt="Instagram" class="social-icon">
+                </div>
+            </div>
+            
+            <div class="ad-banner">
+                Mesto za vašu relamu
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    /*document.addEventListener('DOMContentLoaded', function() {
+        updateTimestamp();
+    });
+    
+    function updateTimestamp() {
+        const now = new Date();
+        // Subtract 3 hours from current time
+        now.setHours(now.getHours() - 3);
+        
+        // Format the date
+        const options = { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        const formattedDate = now.toLocaleString('sr-Latn-RS', options);
+        
+        // Update the timestamp element
+        const timestampElement = document.querySelector('.timestamp');
+        if (timestampElement) {
+            timestampElement.textContent = formattedDate;
+        }
+    }*/
+</script>
+</html>

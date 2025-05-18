@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World News Today</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        .navbar {
+            background-color: #006666;
+            color: white;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        
+        .navbar-item {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        
+        .logo {
+            height: 25px;
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 7fr 3fr;
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .headline {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .article-lead {
+            border: 1px solid #f00;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        
+        .main-image {
+            width: 100%;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        
+        .image-caption {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .article-content {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-weight: bold;
+            margin: 20px 0 10px 0;
+        }
+        
+        .sidebar {
+            padding-left: 20px;
+        }
+        
+        .world-news-logo {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .reader-count {
+            background-color: #bb9900;
+            color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .social-media {
+            margin-bottom: 30px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        
+        .ad-banner {
+            height: 120px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+    
+        
+        .news-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #465668;
+        }
+        
+        .news-item:last-child {
+            border-bottom: none;
+        }
+        
+        .timestamp {
+            font-size: 0.8rem;
+            color: #99a4ae;
+        }
+        
+        .article-thumbnails {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .thumbnail {
+            height: 120px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #666;
+        }
+        
+        .article-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <img src="/images/yellow_navbar_logo.png" alt="Logo" class="logo">
+        <div class="navbar-item">VESTI</div>
+        <div class="navbar-item">POLITIKA</div>
+        <div class="navbar-item">BIZNIS</div>
+        <div class="navbar-item">UMETNOST I KULTURA</div>
+        <div class="navbar-item">SPORT</div>
+    </div>
+    
+    <div class="main-container">
+        <div class="main-content">
+            <div class="headline">Protests in Belgrade Against Jared Kushner's Real Estate Project</div>
+            
+            <div class="article-meta">
+                <span class="timestamp"></span>
+                <span class="author">Vesti iz sveta</span>
+            </div>
+            
+            
+            
+            <img src="/images/notrelevant_3.jpg" alt="Article image" class="main-image">
+            
+             
+            <div class="article-content">
+                <p>Thousands of people took to the streets of Belgrade to protest against a luxury real estate project backed by Jared Kushner's investment firm. The development is set to be built on the site of a former military headquarters that was bombed during the NATO airstrikes in 1999, a location that holds deep historical significance for many Serbians.</p>
+                
+                <p>Demonstrators argue that the buildings should be preserved as cultural and historical monuments rather than transformed into high-end apartments and office spaces. Protesters chanted slogans against foreign investors profiting from Serbia's history, emphasizing that the area should serve as a memorial rather than a commercial venture.</p>
+                
+                <p>Government officials, however, have defended the project, saying that it will attract foreign investment, create jobs, and modernize the city. They also argue that the development is part of a broader effort to revitalize Belgrade's urban landscape.</p>
+                
+                <p>The protests highlight ongoing debates in Serbia over balancing economic development with historical preservation. Whether the project moves forward as planned or faces modifications remains to be seen, but it is clear that the issue has struck a nerve with many Serbian citizens.</p>
+            </div>
+            
+            <div class="article-thumbnails">
+                <div class="thumbnail">Related News</div>
+                <div class="thumbnail">Related News</div>
+                <div class="thumbnail">Related News</div>
+                <div class="thumbnail">Related News</div>
+            </div>
+        </div>
+        
+        <div class="sidebar">
+            <div class="world-news-logo">
+                <img src="/images/yellow_logo.png" alt="Logo" class="logo" style="width: 100%; height: auto; max-height: 500px;">
+            </div>
+            
+            <div class="reader-count">
+                BROJ ČITATELJA<br>
+                23,450
+            </div>
+            
+            <div class="social-media">
+                <h3>Pratite nas na društvenim mrežama</h3>
+                <div class="social-icons">
+                    <img src="/images/facebook.png" alt="Facebook" class="social-icon">
+                    <img src="/images/X.png" alt="X" class="social-icon">
+                    <img src="/images/linkedin.png" alt="LinkedIn" class="social-icon">
+                    <img src="/images/instagram.png" alt="Instagram" class="social-icon">
+                </div>
+            </div>
+            
+            <div class="ad-banner">
+                Mesto za vašu relamu
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        updateTimestamp();
+    });
+    
+    function updateTimestamp() {
+        const now = new Date();
+        // Subtract 3 hours from current time
+        now.setHours(now.getHours() - 3);
+        
+        // Format the date
+        const options = { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        const formattedDate = now.toLocaleString('sr-Latn-RS', options);
+        
+        // Update the timestamp element
+        const timestampElement = document.querySelector('.timestamp');
+        if (timestampElement) {
+            timestampElement.textContent = formattedDate;
+        }
+    }
+</script>
+</html>

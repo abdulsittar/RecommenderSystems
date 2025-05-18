@@ -1,0 +1,123 @@
+{"level":"info","message":"randomDoc","timestamp":"2025-04-15T11:00:07.247Z"}
+{"level":"info","message":[{"__v":0,"_id":"67cf372f16e3eb2ee95e098d","available":true,"createdAt":"2025-03-10T19:02:07.920Z","updatedAt":"2025-03-10T19:02:07.920Z","version":2,"yourID":"dfc464b1-515a-4866-b46e-ec283a5e6647"}],"timestamp":"2025-04-15T11:00:07.248Z"}
+{"data":{"headers":{"auth-token":null}},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:09.947Z"}
+{"data":{"feedback":"","q1":"23","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"23","q7":"option2","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:27.284Z"}
+{"data":{"headers":{"auth-token":null}},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:27.763Z"}
+{"data":{"password":"","pool":"2","profilePicture":"Rosa Biene.webp","username":"Rosa Biene","username_second":"Hellstahlblaue M�we"},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:33.646Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2ZlM2M1MTYxOGRiMjZlMzYyYmJhYmIiLCJpYXQiOjE3NDQ3MTQ4MzR9.HscyAgRUTaGhtQdM5maxYWKBy8OlpSOtU36Z1SHr-xc"},"userId":"67fe3c51618db26e362bbabb","version":"2"},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:34.162Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:35.798Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:36.091Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:36.093Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:36.098Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:36.099Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:36.101Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:36.102Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:36.219Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:36.223Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:36.227Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:36.228Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:36.230Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:36.233Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2ZlM2M1MTYxOGRiMjZlMzYyYmJhYmIiLCJpYXQiOjE3NDQ3MTQ4MzR9.HscyAgRUTaGhtQdM5maxYWKBy8OlpSOtU36Z1SHr-xc"},"userId":"67fe3c51618db26e362bbabb"},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:39.274Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2ZlM2M1MTYxOGRiMjZlMzYyYmJhYmIiLCJpYXQiOjE3NDQ3MTQ4MzR9.HscyAgRUTaGhtQdM5maxYWKBy8OlpSOtU36Z1SHr-xc"},"userId":"67fe3c51618db26e362bbabb"},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:41.835Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2ZlM2M1MTYxOGRiMjZlMzYyYmJhYmIiLCJpYXQiOjE3NDQ3MTQ4MzR9.HscyAgRUTaGhtQdM5maxYWKBy8OlpSOtU36Z1SHr-xc"},"userId":"67fe3c51618db26e362bbabb"},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:44.056Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2ZlM2M1MTYxOGRiMjZlMzYyYmJhYmIiLCJpYXQiOjE3NDQ3MTQ4MzR9.HscyAgRUTaGhtQdM5maxYWKBy8OlpSOtU36Z1SHr-xc"},"userId":"67fe3c51618db26e362bbabb"},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:45.337Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2ZlM2M1MTYxOGRiMjZlMzYyYmJhYmIiLCJpYXQiOjE3NDQ3MTQ4MzR9.HscyAgRUTaGhtQdM5maxYWKBy8OlpSOtU36Z1SHr-xc"},"userId":"67fe3c51618db26e362bbabb"},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:48.101Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-04-15T11:00:51.336Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2ZlM2M1MTYxOGRiMjZlMzYyYmJhYmIiLCJpYXQiOjE3NDQ3MTQ4MzR9.HscyAgRUTaGhtQdM5maxYWKBy8OlpSOtU36Z1SHr-xc"},"userId":"67fe3c51618db26e362bbabb"},"level":"info","message":"Data received","timestamp":"2025-04-15T11:00:59.037Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-04-15T11:00:59.744Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:03.911Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:03.922Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2ZlM2M1MTYxOGRiMjZlMzYyYmJhYmIiLCJpYXQiOjE3NDQ3MTQ4MzR9.HscyAgRUTaGhtQdM5maxYWKBy8OlpSOtU36Z1SHr-xc"},"postId":"67fe3c52618db26e362bbac0","txt":"sgfgfdg","userId":"67fe3c51618db26e362bbabb","username":"Rosa Biene"},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:07.502Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:08.199Z"}
+{"error":"Cannot populate path `comments.reposts` because it is not in your schema. Set the `strictPopulate` option to false to override.","level":"error","message":"Error saving data 35","timestamp":"2025-04-15T11:01:08.457Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:12.425Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:12.970Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:12.971Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:12.976Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:12.978Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:12.979Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:12.980Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:13.102Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:13.105Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:13.106Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:13.108Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:13.109Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:13.110Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:18.479Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:18.480Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2ZlM2M1MTYxOGRiMjZlMzYyYmJhYmIiLCJpYXQiOjE3NDQ3MTQ4MzR9.HscyAgRUTaGhtQdM5maxYWKBy8OlpSOtU36Z1SHr-xc"},"postId":"67fe3c52618db26e362bbac4","txt":"dgfgdgsd","userId":"67fe3c51618db26e362bbabb","username":"Rosa Biene"},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:20.843Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:21.507Z"}
+{"error":"Cannot populate path `comments.reposts` because it is not in your schema. Set the `strictPopulate` option to false to override.","level":"error","message":"Error saving data 35","timestamp":"2025-04-15T11:01:21.765Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:22.611Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:23.160Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:23.161Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:23.162Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:23.168Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:23.169Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:23.170Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:23.288Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:23.293Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:23.295Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:23.296Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:23.298Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:23.299Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:25.124Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:25.126Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2ZlM2M1MTYxOGRiMjZlMzYyYmJhYmIiLCJpYXQiOjE3NDQ3MTQ4MzR9.HscyAgRUTaGhtQdM5maxYWKBy8OlpSOtU36Z1SHr-xc"},"postId":"67fe3c53618db26e362bbace","txt":"dfgfdhfgdg","userId":"67fe3c51618db26e362bbabb","username":"Rosa Biene"},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:29.368Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:30.032Z"}
+{"error":"Cannot populate path `comments.reposts` because it is not in your schema. Set the `strictPopulate` option to false to override.","level":"error","message":"Error saving data 35","timestamp":"2025-04-15T11:01:30.291Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:32.922Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:33.462Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:33.463Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:33.468Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:33.470Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:33.471Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:33.472Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:33.602Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:33.604Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:33.607Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:33.608Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:33.610Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:33.611Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:46.748Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:47.298Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:47.304Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:47.307Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:47.308Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:47.309Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:47.310Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:47.433Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:47.434Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:47.435Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:47.436Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:47.438Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:47.439Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2ZlM2M1MTYxOGRiMjZlMzYyYmJhYmIiLCJpYXQiOjE3NDQ3MTQ4MzR9.HscyAgRUTaGhtQdM5maxYWKBy8OlpSOtU36Z1SHr-xc"},"userId":"67fe3c51618db26e362bbabb"},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:55.607Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2ZlM2M1MTYxOGRiMjZlMzYyYmJhYmIiLCJpYXQiOjE3NDQ3MTQ4MzR9.HscyAgRUTaGhtQdM5maxYWKBy8OlpSOtU36Z1SHr-xc"},"userId":"67fe3c51618db26e362bbabb"},"level":"info","message":"Data received","timestamp":"2025-04-15T11:01:56.754Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2ZlM2M1MTYxOGRiMjZlMzYyYmJhYmIiLCJpYXQiOjE3NDQ3MTQ4MzR9.HscyAgRUTaGhtQdM5maxYWKBy8OlpSOtU36Z1SHr-xc"},"userId":"67fe3c51618db26e362bbabb"},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:01.675Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2ZlM2M1MTYxOGRiMjZlMzYyYmJhYmIiLCJpYXQiOjE3NDQ3MTQ4MzR9.HscyAgRUTaGhtQdM5maxYWKBy8OlpSOtU36Z1SHr-xc"},"userId":"67fe3c51618db26e362bbabb"},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:04.991Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2ZlM2M1MTYxOGRiMjZlMzYyYmJhYmIiLCJpYXQiOjE3NDQ3MTQ4MzR9.HscyAgRUTaGhtQdM5maxYWKBy8OlpSOtU36Z1SHr-xc"},"userId":"67fe3c51618db26e362bbabb"},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:06.368Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:09.138Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:09.144Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2ZlM2M1MTYxOGRiMjZlMzYyYmJhYmIiLCJpYXQiOjE3NDQ3MTQ4MzR9.HscyAgRUTaGhtQdM5maxYWKBy8OlpSOtU36Z1SHr-xc"},"postId":"67fe3c53618db26e362bbad2","txt":"sdgffshfgdhgjfgdh","userId":"67fe3c51618db26e362bbabb","username":"Rosa Biene"},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:14.453Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:15.107Z"}
+{"error":"Cannot populate path `comments.reposts` because it is not in your schema. Set the `strictPopulate` option to false to override.","level":"error","message":"Error saving data 35","timestamp":"2025-04-15T11:02:15.362Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:16.172Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:16.706Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:16.708Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:16.713Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:16.715Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:16.716Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:16.717Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:16.838Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:16.839Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:16.841Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:16.842Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:16.844Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-04-15T11:02:16.845Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-04-15T11:03:04.927Z"}
+{"level":"info","message":[{"__v":0,"_id":"67cf372f16e3eb2ee95e0a31","available":true,"createdAt":"2025-03-10T19:02:07.921Z","updatedAt":"2025-03-10T19:02:07.921Z","version":2,"yourID":"762bd2c2-ea02-47de-be00-07be407c7479"}],"timestamp":"2025-04-15T11:03:04.927Z"}
+{"data":{"headers":{"auth-token":null}},"level":"info","message":"Data received","timestamp":"2025-04-15T11:03:06.381Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-04-15T11:05:14.743Z"}
+{"level":"info","message":[{"__v":0,"_id":"67cf372f16e3eb2ee95e08b8","available":true,"createdAt":"2025-03-10T19:02:07.920Z","updatedAt":"2025-03-10T19:02:07.920Z","version":2,"yourID":"7e6acdb4-499e-45e1-8b26-be53f6cbdba8"}],"timestamp":"2025-04-15T11:05:14.743Z"}

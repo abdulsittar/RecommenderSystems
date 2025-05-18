@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Article Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        .navbar {
+            background-color: #2C3E50;
+            padding: 1rem;
+            color: white;
+            height: 20px;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        
+        .main-article img {
+            width: 100%;
+            height: auto;
+            margin: 1rem 0;
+        }
+        
+        .article-meta {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .sidebar {
+            background-color: #f5f5f5;
+            padding: 1rem;
+        }
+        
+        .ad-banner {
+            border: 1px solid #ddd;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+            margin-bottom: 2rem;
+        }
+        
+        .latest-news {
+            background-color: #2C3E50;
+            color: white;
+            padding: 1rem;
+        }
+        
+        .news-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #465668;
+        }
+        
+        .news-item:last-child {
+            border-bottom: none;
+        }
+        
+        .timestamp {
+            font-size: 0.8rem;
+            color: #99a4ae;
+        }
+        
+        .social-media {
+            margin-top: 2rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icons img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-links">
+            <img src="/images/logo.png" alt="Logo" style="height: 20px; border-radius: 50%;">
+            <a href="#">Vesti</a>
+            <a href="#">Politika</a>
+            <a href="#">Biznis</a>
+            <a href="#">Umetnost i kultura</a>
+            <a href="#">Sport</a>
+            <a href="#">Zabava</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <main class="main-article">
+            <article>
+                <h1>Protesti u Beogradu protiv projekta nekretnina Džareda Kušnera</h1>
+            
+                <div class="article-meta">
+                    <span class="timestamp">Washington, 17.4.2025, 12:00:00</span>
+                    <span class="author"> White House, AP</span>
+                </div>
+                
+                
+                
+                <div class="article-image">
+                    <img src="/images/breaking_7_image.jpg" alt="Article image" class="main-image">
+                
+            
+                </div>
+
+                <div class="article-content">
+                    <p>Hiljade ljudi izašlo je na ulice Beograda da protestuje protiv luksuznog projekta nekretnina koji podržava investiciona firma Džareda Kušnera. Projekat treba da bude izgrađen na mestu bivšeg vojnog štaba koji je bombardovan tokom NATO vazdušnih napada 1999. godine, lokaciji koja ima dubok istorijski značaj za mnoge Srbe.</p>
+                    
+                    <p>Demonstranti tvrde da zgrade treba da budu očuvane kao kulturni i istorijski spomenici, a ne transformisane u luksuzne stanove i poslovne prostore. Protestanti su skandirali parole protiv stranih investitora koji profitiraju od istorije Srbije, naglašavajući da bi područje trebalo da služi kao memorijal, a ne kao komercijalni poduhvat.</p>
+                    
+                    <p>Međutim, vladini zvaničnici su branili projekat, govoreći da će privući strane investicije, otvoriti radna mesta i modernizovati grad. Takođe tvrde da je razvoj deo šireg napora da se revitalizuje urbani pejzaž Beograda.</p>
+                
+                    <p>Protesti naglašavaju tekuće debate u Srbiji o balansiranju ekonomskog razvoja sa istorijskim očuvanjem. Da li će projekat napredovati prema planu ili će doživeti modifikacije tek treba da se vidi, ali je jasno da je ovo pitanje pogodilo nerve mnogih srpskih građana.</p>
+                
+                
+                </div>
+                
+            </article>
+        </main>
+        
+        <aside class="sidebar">
+            <div class="ad-banner">
+                Mesto za vašu relamu
+            </div>
+            
+            <div class="latest-news">
+                <h2>Najnovije vesti</h2>
+                <div class="news-item">
+                    <span class="timestamp">10:42</span>
+                    <p>Naslov </p>
+                </div>
+                <div class="news-item">
+                    <span class="timestamp">10:42</span>
+                    <p>Naslov </p>
+                </div>
+                <div class="news-item">
+                    <span class="timestamp">10:42</span>
+                    <p>Naslov </p>
+                </div>
+            </div>
+            
+            <div class="social-media">
+                <h3>Pratite nas na društvenim mrežama</h3>
+                <div class="social-icons">
+                    <!-- Add your social media icons here -->
+                    <img src="/images/facebook.png" alt="Facebook">
+                    <img src="/images/X.png" alt="X">
+                    <img src="/images/linkedin.png" alt="LinkedIn">
+                    <img src="/images/instagram.png" alt="Instagram">
+                </div>
+            </div>
+        </aside>
+    </div>
+</body>
+<script>
+   /* document.addEventListener('DOMContentLoaded', function() {
+        updateTimestamp();
+    });
+    
+    function updateTimestamp() {
+        const now = new Date();
+        // Subtract 3 hours from current time
+        now.setHours(now.getHours() - 3);
+        
+        // Format the date
+        const options = { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        const formattedDate = now.toLocaleString('sr-Latn-RS', options);
+        
+        // Update the timestamp element
+        const timestampElement = document.querySelector('.timestamp');
+        if (timestampElement) {
+            timestampElement.textContent = formattedDate;
+        }
+    }*/
+</script>
+</html>

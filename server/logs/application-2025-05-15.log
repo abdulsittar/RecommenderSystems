@@ -1,0 +1,69 @@
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:36:20.078Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:36:20.087Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:36:20.514Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:36:20.515Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:36:20.532Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:36:20.534Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:36:20.536Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:36:20.537Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:36:20.643Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:36:20.645Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:36:20.655Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:36:20.659Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:36:20.661Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:36:20.772Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-15T20:36:26.763Z"}
+{"level":"info","message":[{"__v":0,"_id":"681def66ffa5bd816f003be6","available":true,"createdAt":"2025-05-09T12:04:54.345Z","updatedAt":"2025-05-09T12:04:54.345Z","version":3,"yourID":"8784c8d2-941a-41e6-9f26-069a8bcff79c"}],"timestamp":"2025-05-15T20:36:26.763Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODI0Y2UzZDU0NDcxNmVkZmFkYTVkOWMiLCJpYXQiOjE3NDcyNDI1NTd9.3NN-Mgc-3vaFfQq1sHVsJ4gwQkiWEJMU3zyFfE24GVU"}},"level":"info","message":"Data received","timestamp":"2025-05-15T20:36:27.943Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODI0Y2UzZDU0NDcxNmVkZmFkYTVkOWMiLCJpYXQiOjE3NDcyNDI1NTd9.3NN-Mgc-3vaFfQq1sHVsJ4gwQkiWEJMU3zyFfE24GVU"}},"level":"info","message":"Data received","timestamp":"2025-05-15T20:36:45.646Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODI0Y2UzZDU0NDcxNmVkZmFkYTVkOWMiLCJpYXQiOjE3NDcyNDI1NTd9.3NN-Mgc-3vaFfQq1sHVsJ4gwQkiWEJMU3zyFfE24GVU"}},"level":"info","message":"Data received","timestamp":"2025-05-15T20:37:58.394Z"}
+{"data":{"feedback":"","q1":"62","q10":"","q2":"option1","q3":"option2","q4":"option1","q5":"","q6":"62","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-15T20:40:06.728Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODI0Y2UzZDU0NDcxNmVkZmFkYTVkOWMiLCJpYXQiOjE3NDcyNDI1NTd9.3NN-Mgc-3vaFfQq1sHVsJ4gwQkiWEJMU3zyFfE24GVU"}},"level":"info","message":"Data received","timestamp":"2025-05-15T20:40:07.169Z"}
+{"data":{"password":"","pool":"3","profilePicture":"Schwarzer Igel.webp","username":"Crni Jež","username_second":"Serene swan"},"level":"info","message":"Data received","timestamp":"2025-05-15T20:40:11.043Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODI2NTEyYjYzMThkMDE5ZTQyZjhmYmIiLCJpYXQiOjE3NDczNDE2MTF9.KffUMP1dfD55DAHa4Z3ps8NfwMsj0W66YH4QyN6jLW0"},"userId":"6826512b6318d019e42f8fbb","version":"3"},"level":"info","message":"Data received","timestamp":"2025-05-15T20:40:11.592Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:40:13.127Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:40:13.145Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:40:13.521Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:40:13.523Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:40:13.533Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:40:13.535Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:40:13.539Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:40:13.541Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:40:13.658Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:40:13.660Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:40:13.661Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:40:13.663Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:40:13.664Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:40:13.782Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-15T20:40:21.272Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-15T20:40:31.390Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-15T20:46:12.831Z"}
+{"level":"info","message":"randomDoc","timestamp":"2025-05-15T20:47:35.438Z"}
+{"level":"info","message":[{"__v":0,"_id":"681def66ffa5bd816f003d13","available":true,"createdAt":"2025-05-09T12:04:54.345Z","updatedAt":"2025-05-09T12:04:54.345Z","version":3,"yourID":"33b6333c-857a-4be1-9a7f-e9850d99bc82"}],"timestamp":"2025-05-15T20:47:35.440Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODI2NTEyYjYzMThkMDE5ZTQyZjhmYmIiLCJpYXQiOjE3NDczNDE2MTF9.KffUMP1dfD55DAHa4Z3ps8NfwMsj0W66YH4QyN6jLW0"}},"level":"info","message":"Data received","timestamp":"2025-05-15T20:47:36.198Z"}
+{"data":{"feedback":"","q1":"62","q10":"","q2":"option1","q3":"option1","q4":"option1","q5":"","q6":"32","q7":"option1","q8":"option1","q9":""},"level":"info","message":"Data received","timestamp":"2025-05-15T20:47:52.135Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODI2NTEyYjYzMThkMDE5ZTQyZjhmYmIiLCJpYXQiOjE3NDczNDE2MTF9.KffUMP1dfD55DAHa4Z3ps8NfwMsj0W66YH4QyN6jLW0"}},"level":"info","message":"Data received","timestamp":"2025-05-15T20:47:52.942Z"}
+{"data":{"password":"","pool":"3","profilePicture":"Schwarzer Igel.webp","username":"Crni Jež","username_second":"Lila Giraffe"},"level":"info","message":"Data received","timestamp":"2025-05-15T20:48:20.790Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODI2NTMxNWFiM2Y2OTdiOGVlM2Y2MWIiLCJpYXQiOjE3NDczNDIxMDF9.kLoV4VKMTzET45SHcn4vKwdkUN-6YQPaTr-Jmr6IHo8"},"userId":"68265315ab3f697b8ee3f61b","version":"3"},"level":"info","message":"Data received","timestamp":"2025-05-15T20:48:21.847Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:48:24.875Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:48:24.895Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:48:25.668Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:48:25.690Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:48:25.691Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:48:25.695Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:48:25.696Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:48:25.820Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:48:25.822Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:48:25.823Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:48:25.921Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:48:25.951Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:48:25.953Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:48:25.956Z"}
+{"data":{},"level":"info","message":"Data received news","timestamp":"2025-05-15T20:48:55.239Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODI2NTMxNWFiM2Y2OTdiOGVlM2Y2MWIiLCJpYXQiOjE3NDczNDIxMDF9.kLoV4VKMTzET45SHcn4vKwdkUN-6YQPaTr-Jmr6IHo8"},"userId":"68265315ab3f697b8ee3f61b"},"level":"info","message":"Data received","timestamp":"2025-05-15T20:49:01.611Z"}
+{"data":{"headers":{"auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODI2NTMxNWFiM2Y2OTdiOGVlM2Y2MWIiLCJpYXQiOjE3NDczNDIxMDF9.kLoV4VKMTzET45SHcn4vKwdkUN-6YQPaTr-Jmr6IHo8"},"userId":"68265315ab3f697b8ee3f61b"},"level":"info","message":"Data received","timestamp":"2025-05-15T20:49:02.413Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:49:03.894Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:49:40.115Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:49:56.012Z"}
+{"data":{},"level":"info","message":"Data received","timestamp":"2025-05-15T20:50:40.814Z"}
+{"error":"Cannot read properties of undefined (reading 'map')","level":"error","message":"Error saving data 11","timestamp":"2025-05-15T20:50:44.337Z"}

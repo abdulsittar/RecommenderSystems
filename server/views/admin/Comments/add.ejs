@@ -1,0 +1,157 @@
+<%- include('../elements/header'); %> 
+<div class="main-content">
+    <div class="main-content-inner">
+        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li> <i class="ace-icon fa fa-tachometer"></i> <a href="<%=nodeAdminUrl%>/Dashboard">Dashboard</a> </li>
+                <li class="active"><a href="<%=nodeAdminUrl%>/categories/list"> Categories </a> </li>
+                <li class="active"><%=action%></li>
+            </ul>  
+
+            <!-- <div class="nav-search" id="nav-search">
+                <form class="form-search">
+                    <span class="input-icon">
+                        <input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+                        <i class="ace-icon fa fa-search nav-search-icon"></i>
+                    </span>
+                </form>
+            </div><!-- /.nav-search -->
+        </div>
+        
+        <div class="page-content"> 
+            <div class="page-header">
+                <h1>  Add New <%=controller%> <small>    </h1> 
+            </div><!-- /.page-header -->
+
+            <div class="row"> 
+                    <%- include('../elements/flash.ejs');%>  
+                <div class="col-xs-12 col-sm-12">
+                    <div class=" ">  
+                        <form method="post" action="<%=nodeAdminUrl%>/Comment/add" enctype="multipart/form-data">
+                        <div class="widget-body">  
+                                <div class="widget-main">  
+
+                                    <div>
+                                        <label for="form-field-select-1">Comment text</label> 
+                                        <input type="text" name="body" value="<%=data.body%>" id="form-field-select-1" placeholder="Comment text" class="form-control">  
+                                        <span class="error"><%=errorData.body%></span> 
+                                    </div>  <br> 
+
+                                    <!-- <div>
+                                        <label for="form-field-select-1"> User ID </label> 
+                                        <input type="text" name="userId" value="<%=data.userId%>" id="form-field-select-1" placeholder="userId" class="form-control">  
+                                        <span class="error"><%=errorData.userId%></span>  
+                                    </div>  <br> -->
+
+                                    <div>
+                                        <label for="form-field-select-1">Username</label> 
+                                        <select class="filter-multi-select" name="userId" id="userId">
+                                            <% if(allUsers){  if(allUsers.length){  
+                                                for(var i = 0;i < allUsers.length;i++) {  %>
+                                                    <option value=<%=allUsers[i]._id%>><%=allUsers[i].username%></option>  
+                                                <% }%>
+                                                    ... more options here ...
+                                                    <%} else{ %>
+                                                        
+                                                <% }} %>  
+                                        </select>
+                                    </div>  <br>
+
+                                    <!-- <div>
+                                        <label for="form-field-select-1"> Username </label> 
+                                        <input type="text" name="username" value="<%=data.username%>" id="form-field-select-1" placeholder="username" class="form-control">  
+                                        <span class="error"><%=errorData.username%></span>  
+                                    </div>  <br> -->
+
+                                    <div>
+                                        <label for="form-field-select-1">Post</label> 
+                                        <select  class="filter-multi-select" name="postId" id="postId">
+                                            <% if(errorData){  if(errorData.length){  
+                                                for(var i = 0;i < errorData.length;i++) {  %>
+                                                    <option value=<%=errorData[i]._id%>><%=errorData[i].desc%></option>  
+                                                <% }%>
+                                                    ... more options here ...
+                                                    <%} else{ %>
+                                                        
+                                                <% }} %>   
+                                        </select>
+    
+                                        <!--<input type="text" name="viewedPosts" value="<%=data.viewedPosts%>" id="form-field-select-1" placeholder="Posts-Viewed" class="form-control">  
+                                        <span class="error"><%=errorData.viewedPosts%></span> -->
+                                    </div>  <br>
+
+                                    <div>
+                                        <label for="form-field-select-1">Liked By</label> 
+                                        <select class="filter-multi-select" multiple name="likes" id="likes">
+    
+                                            <% if(allUsers){ %>
+                                                <%  for(var i=0; i<allUsers.length; i++) {  %>
+                                                        <option value=<%=allUsers[i]._id%>><%=allUsers[i].username%></option> 
+                                                <% }}%>  
+                                        </select>
+    
+                                    </div> <br> 
+    
+                                    <div>
+                                        <label for="form-field-select-1">Disliked By</label> 
+                                        <select class="filter-multi-select" multiple name="dislikes" id="dislikes">
+                                            <% if(allUsers){if(allUsers.length){ 
+                                                for(var i = 0;i < allUsers.length;i++) {  %>
+                                                    <option value=<%=allUsers[i]._id%>><%=allUsers[i].username%></option>  
+                                                <% }%>
+                                                    ... more options here ...
+                                                    <%} else{ %>
+                                                        
+                                                <% }} %>   
+                                        </select>
+    
+                                        <!--<input type="text" name="followings" value="<%=data.followings%>" id="form-field-select-1" placeholder="followings" class="form-control">  
+                                        <span class="error"><%=errorData.followings%></span> -->
+                                    </div>  <br>
+
+
+                                    <!--<div>
+                                        <label for="form-field-select-1"> Post ID </label> 
+                                        <input type="text" name="postId" value="<%=data.postId%>" id="form-field-select-1" placeholder="postId" class="form-control">  
+                                        <span class="error"><%=errorData.postId%></span>  
+                                    </div>  <br> -->
+                                    <script> 
+                                    $('#userId > option').text(function(i, text) {
+                                            if (text.length > 50) {
+                                            return text.substr(0, 50) + '...';  
+                                            }
+                                    });
+                                    $('#postId > option').text(function(i, text) {
+                                            if (text.length > 50) {
+                                            return text.substr(0, 50) + '...';  
+                                            }
+                                    });
+                                    </script> 
+
+                                <br><br>     
+                                <div> 
+                                    <div class="row">
+                                        <div class="col-md-offset-3 col-md-9">
+                                            <button class="btn btn-info" type="submit">
+                                                <i class="ace-icon fa fa-check bigger-110"></i>  Submit
+                                            </button> 
+
+                                            &nbsp; &nbsp; &nbsp;
+
+                                            <a href="<%=nodeAdminUrl%>/Comment/list%>"> <button class="btn" type="button">
+                                                    Cancel 
+                                            </button></a>   
+                                        </div>   
+                                    </div>  
+                                    <div class="space-2"></div>  
+                                </div>     
+                            </div>
+                        </div>
+                        </form> 
+                    </div>
+                </div><!-- /.span --> 
+            </div>  
+        </div><!-- /.page-content -->
+    </div>
+</div><!-- /.main-content -->
+<%- include('../elements/footer'); %>  

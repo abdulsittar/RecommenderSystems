@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World News Today</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .navbar {
+            background-color: #006666;
+            color: white;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        
+        .navbar-item {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        
+        .logo {
+            height: 25px;
+        }
+        
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 7fr 3fr;
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .headline {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .article-lead {
+            border: 1px solid #f00;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        
+        .main-image {
+            width: 100%;
+            height: 280px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .image-caption {
+            font-style: italic;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .article-content {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .section-title {
+            font-weight: bold;
+            margin: 20px 0 10px 0;
+        }
+        
+        .sidebar {
+            padding-left: 20px;
+        }
+        
+        .world-news-logo {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .globe-logo {
+            width: 120px;
+            height: 120px;
+            background-color: #ffcc00;
+            border-radius: 50%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .reader-count {
+            background-color: #bb9900;
+            color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .social-media {
+            margin-bottom: 30px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .fb {
+            background-color: #1877f2;
+        }
+        
+        .twitter {
+            background-color: #000000;
+        }
+        
+        .linkedin {
+            background-color: #0077b5;
+        }
+        
+        .instagram {
+            background-color: #e1306c;
+        }
+        
+        .ad-banner {
+            height: 120px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .shocking-news {
+            height: 120px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .article-thumbnails {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .thumbnail {
+            height: 120px;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <img src="../images/yellow_navbar_logo.png" alt="Logo" class="logo">
+        <div class="navbar-item">BREAKING NEWS</div>
+        <div class="navbar-item">POLITICS</div>
+        <div class="navbar-item">BUSINESS & MONEY</div>
+        <div class="navbar-item">WORLD</div>
+        <div class="navbar-item">WORLD</div>
+    </div>
+    
+    <div class="main-container">
+        <div class="main-content">
+            <div class="headline">BREAKING: MAJOR SCIENTIFIC DISCOVERY</div>
+            
+            <div class="article-lead">
+                Lead / subtitle / first paragraph ..... "Recent research reveals groundbreaking advances in sustainable energy production, with new methods showing promising results in laboratory conditions."
+            </div>
+            
+            <div class="main-image">
+                Picture
+            </div>
+            
+           
+            <div class="article-content">
+                Article / ....
+                
+                <p>"The research team announced today their findings on renewable energy storage solutions that could potentially transform how we harness and utilize sustainable power sources. The breakthrough involves a novel approach to energy conversion that significantly improves efficiency while reducing production costs.</p>
+                
+                <p>Team leader Dr. Chen explained that the new method addresses several longstanding challenges in the field of renewable energy. 'We've been able to overcome previous limitations through an innovative application of existing technologies combined with newly developed materials,' Chen stated during the press conference.</p>
+                
+                <p>Initial testing shows promising results with efficiency rates exceeding current industry standards by approximately 23%. The research has been peer-reviewed and published in several scientific journals, drawing attention from both academic and industrial sectors."</p>
+                
+                <div class="section-title">Historical Context of Energy Innovation</div>
+                
+                <p>"The pursuit of efficient energy solutions has been a consistent goal throughout scientific history. From the early experiments with electricity to modern solar and wind installations, humanity has continuously sought better ways to power civilization while minimizing environmental impact.</p>
+                
+                <p>Previous innovations in this field have faced challenges related to scalability, cost-effectiveness, and practical implementation. Many promising laboratory results failed to translate into viable commercial applications due to manufacturing complexity or prohibitive material costs.</p>
+                
+                <p>This new approach appears to address these historical barriers by utilizing commonly available materials configured in novel arrangements. The simplicity of the design suggests potential for rapid scaling and deployment across various sectors."</p>
+                
+                <div class="section-title">Implications for Future Development</div>
+                
+                <p>"Industry analysts suggest that if these laboratory results can be replicated at scale, we could see widespread adoption within the next five years. The economic implications are significant, with potential cost savings for both energy producers and consumers.</p>
+                
+                <p>Environmental experts have responded positively to the announcement, noting that this technology could significantly reduce carbon emissions if implemented globally. Climate scientists have expressed cautious optimism about the potential impact on greenhouse gas reduction targets.</p>
+                
+                <p>The research team has indicated that they are already in discussions with several manufacturing partners to explore commercial applications. They anticipate prototype development to begin within six months, with initial field testing scheduled for early next year."</p>
+            </div>
+            
+            <div class="article-thumbnails">
+                <div class="thumbnail">Shocking<br>News</div>
+                <div class="thumbnail">Shocking<br>News</div>
+                <div class="thumbnail">Shocking<br>News</div>
+                <div class="thumbnail">Shocking<br>News</div>
+            </div>
+        </div>
+        
+        <div class="sidebar">
+            <div class="world-news-logo">
+                <img src="../images/yellow_logo.png" alt="Logo" class="logo" style="width: 100%; height: auto; max-height: 500px;">
+            </div>
+            
+            <div class="reader-count">
+                BROJ ČITATELJA<br>
+                23,450
+            </div>
+            
+            <div class="social-media">
+                Pratite nas na društvenim mrežama
+                <div class="social-icons">
+                    <img src="../images/facebook.png" alt="Logo" class="logo" style="width: 25%; height: auto; max-height: 500px;">
+                    <img src="../images/X.png" alt="Logo" class="logo" style="width: 25%; height: auto; max-height: 500px;">
+                    <img src="../images/linkedin.png" alt="Logo" class="logo" style="width: 25%; height: auto; max-height: 500px;">
+                    <img src="../images/instagram.png" alt="Logo" class="logo" style="width: 25%; height: auto; max-height: 500px;">
+                </div>
+            </div>
+            
+            <div class="ad-banner">
+                AD banner
+            </div>
+            
+            <div class="shocking-news">
+                Shocking<br>News
+            </div>
+            
+            <div class="ad-banner">
+                AD banner
+            </div>
+            
+            <div class="shocking-news">
+                Shocking<br>News
+            </div>
+            
+            <div class="ad-banner">
+                AD banner
+            </div>
+            
+            <div class="ad-banner">
+                AD banner
+            </div>
+        </div>
+    </div>
+</body>
+</html>

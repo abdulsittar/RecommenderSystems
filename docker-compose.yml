@@ -1,0 +1,54 @@
+version: '3.7'
+services:
+
+  client:
+    build: ./client
+    image: cli-image-v2
+    container_name: cli-v2
+    networks:
+      - mern-network-v2
+    #depends_on:
+    #  - server
+    working_dir: /app
+    stdin_open: true
+    tty: true
+    #volumes:
+    #  - ./client:/app
+    ports:
+      - "3002:3002"
+
+  server:
+    build: ./server
+    restart: always
+    image: ser-image-v2
+    container_name: cser-v2
+    working_dir: /app
+    #volumes:
+    #  - ./server:/app
+    #  - ./client/build:/app/client/build
+    ports:
+      - "1075:1075"
+    networks:
+      - mern-network-v2
+    depends_on:
+      - client
+      - mongo
+    env_file: ./server/.env
+  
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - mern-network-v2
+    #volumes:
+    #  - /home/adbuls/TWON-Production/Social-App/mongo-data:/data/db
+
+networks:
+  mern-network-v2:
+    driver: bridge
+
+#volumes:
+#  mongo-data:
+#    driver: local

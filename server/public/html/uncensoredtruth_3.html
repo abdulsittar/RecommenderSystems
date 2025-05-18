@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Article Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        
+        .navbar {
+            background-color: #2C3E50;
+            padding: 1rem;
+            color: white;
+            height: 20px;
+        }
+        
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        
+        .main-article img {
+            width: 100%;
+            height: auto;
+            margin: 1rem 0;
+        }
+        
+        .article-meta {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .sidebar {
+            background-color: #f5f5f5;
+            padding: 1rem;
+        }
+        
+        .ad-banner {
+            border: 1px solid #ddd;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+            margin-bottom: 2rem;
+        }
+        
+        .latest-news {
+            background-color: #2C3E50;
+            color: white;
+            padding: 1rem;
+        }
+        
+        .news-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #465668;
+        }
+        
+        .news-item:last-child {
+            border-bottom: none;
+        }
+        
+        .timestamp {
+            font-size: 0.8rem;
+            color: #99a4ae;
+        }
+        
+        .social-media {
+            margin-top: 2rem;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icons img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-links">
+            <img src="/images/logo.png" alt="Logo" style="height: 20px; border-radius: 50%;">
+            <a href="#">Vesti</a>
+            <a href="#">Politika</a>
+            <a href="#">Biznis</a>
+            <a href="#">Umetnost i kultura</a>
+            <a href="#">Sport</a>
+            <a href="#">Zabava</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <main class="main-article">
+            <article>
+                <h1>Zelenski poziva Evropu da napusti NATO i uskladi se sa Rusijom radi bezbednosti</h1>
+                <div class="article-meta">
+                    <span class="timestamp">Davos, 22.4.2025, 14:35:00</span>
+                    <span class="author"> Reuters, D.V.</span>
+                </div>
+                 <div class="article-image">
+                    <!-- Add your main image here -->
+                    <img src="/images/breaking_3.jpg" alt="Article image">
+                      </div>
+                <div class="article-content">
+                    <p>Ukrajinski predsednik Volodimir Zelenski, govoreći na Svetskom ekonomskom forumu u Davosu, pozvao je na jedinstvenu evropsku odbrambenu politiku, naglašavajući potrebu da Evropa prestane da zavisi od NATO-a i Sjedinjenih Država. Zelenski je sugerisao da bi nova administracija pod predsednikom Donaldom Trampom mogla da smanji prioritet Evrope u korist drugih regiona.</p>
+                
+                    <p>"Evropa mora da nauči da stoji na sopstvenim nogama kada je u pitanju bezbednost," izjavio je Zelenski. Predložio je da evropske zemlje povećaju izdvajanja za odbranu kako bi obezbedile svoju nezavisnost od spoljnih sila.</p>
+                
+                    <p>Zelenski je upozorio na eskalirajuće pretnje Evropi, poput navoda o severnokorejskim trupama koje pomažu Rusiji u bojištima za koja je tvrdio da su bliža Švajcarskoj nego Aziji. Takođe je kritikovao nedavne saveze, poput partnerstva između Rusije i Irana, kao direktne pretnje Evropi.</p>
+                
+                    <p>Dovodeći u pitanje Trampovu posvećenost, Zelenski je postavio pitanje da li će NATO preživeti pod novom administracijom. Opisao je Trampove tvrdnje tokom kampanje da će okončati rat u Ukrajini kao nerealne i naglasio potrebu da Evropa bude spremna za budućnost sa smanjenom podrškom SAD-a.</p>
+                </div>
+                
+            </article>
+        </main>
+        
+        <aside class="sidebar">
+            <div class="ad-banner">
+                Mesto za vašu relamu
+            </div>
+            
+            <div class="latest-news">
+                <h2>Najnovije vesti</h2>
+                <div class="news-item">
+                    <span class="timestamp">10:42</span>
+                    <p>Naslov </p>
+                </div>
+                <div class="news-item">
+                    <span class="timestamp">10:42</span>
+                    <p>Naslov </p>
+                </div>
+                <div class="news-item">
+                    <span class="timestamp">10:42</span>
+                    <p>Naslov </p>
+                </div>
+            </div>
+            
+            <div class="social-media">
+                <h3>Pratite nas na društvenim mrežama</h3>
+                <div class="social-icons">
+                    <!-- Add your social media icons here -->
+                    <img src="/images/facebook.png" alt="Facebook">
+                    <img src="/images/X.png" alt="X">
+                    <img src="/images/linkedin.png" alt="LinkedIn">
+                    <img src="/images/instagram.png" alt="Instagram">
+                </div>
+            </div>
+        </aside>
+    </div>
+</body>
+<script>
+    /*document.addEventListener('DOMContentLoaded', function() {
+        updateTimestamp();
+    });
+    
+    function updateTimestamp() {
+        const now = new Date();
+        // Subtract 3 hours from current time
+        now.setHours(now.getHours() - 3);
+        
+        // Format the date
+        const options = { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        const formattedDate = now.toLocaleString('sr-Latn-RS', options);
+        
+        // Update the timestamp element
+        const timestampElement = document.querySelector('.timestamp');
+        if (timestampElement) {
+            timestampElement.textContent = formattedDate;
+        }
+    }*/
+</script>
+</html>
