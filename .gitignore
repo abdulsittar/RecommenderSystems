@@ -2,3 +2,5 @@
 /server/logs
 /client/.env
 /server/.env
+
+*.env
