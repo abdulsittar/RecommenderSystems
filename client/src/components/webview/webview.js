@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './webview.css';
 
 const Post = ({ post, user, repost, repostUser, webViewUrl }) => {
   const [webViewVisible, setWebViewVisible] = useState(false); // State for controlling popup visibility
@@ -23,6 +24,15 @@ const Post = ({ post, user, repost, repostUser, webViewUrl }) => {
         {webViewVisible && (
           <div className="webview-popup">
             <div className="webview-container">
+              {/* Green bar at the top of the webview */}
+              <div style={{ 
+                width: '100%', 
+                height: '4px', 
+                backgroundColor: '#4CAF50',
+                borderRadius: '2px 2px 0 0',
+                marginBottom: '10px'
+              }}></div>
+              
               <iframe
                 src={webViewUrl || 'https://www.google.com'} // Replace with dynamic URL if needed
                 title="WebView"

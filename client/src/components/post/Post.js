@@ -450,6 +450,8 @@ const submitHandler2 = async (e) => {
   const toggleWebView = async () => {
     setHasReadArticle(true);
     
+    console.log("🟢 toggleWebView called - Adding green bar!");
+    
     try {
         const token = localStorage.getItem('token');
         const lc = await axios.post("/posts/" + currentUser._id + "/track-view", {postId: post._id, userId: currentUser._id, headers: { 'auth-token': token }});
@@ -462,54 +464,78 @@ const submitHandler2 = async (e) => {
     
     toast.info(
       <div style={{
-          width: '1000px', // Enforce width inside the toast content
-          maxWidth: '100vw',
+          width: '1000px',
+          maxWidth: '95vw', // This ensures it fits on smaller screens
           height: '1000px',
           maxHeight: '90vh',
           backgroundColor: 'white',
           borderRadius: '10px',
-          padding: '15px',
+          padding: '0px',
           boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           overflowY: 'auto',
+          position: 'relative'
       }}>
-          <iframe 
-              src={webLink} 
-              title="WebView"
-              style={{
-                  width: '100%',
-                  height: '2000px',
-                  border: 'none',
-                  borderRadius: '8px',
-              }}
-          />
+          {/* Green bar at the top of the webview */}
+          <div style={{ 
+            width: '100%', 
+            height: '8px', 
+            backgroundColor: '#4CAF50',
+            borderRadius: '10px 10px 0 0',
+            marginBottom: '15px',
+            position: 'absolute',
+            top: '0',
+            left: '0',
+            zIndex: '9999'
+          }}></div>
+          
+          <div style={{ padding: '15px', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <iframe 
+                  src={webLink} 
+                  title="WebView"
+                  style={{
+                      width: '100%',
+                      height: '2000px',
+                      border: 'none',
+                      borderRadius: '8px',
+                  }}
+              />
+          </div>
+          
           <button 
               onClick={() => toast.dismiss()} 
               style={{
                   position: 'absolute',
-                  top: '10px',
-                  right: '10px',
+                  top: '0px',
+                  right: '45px',
                   padding: '8px 16px',
                   backgroundColor: '#ff4d4f',
                   color: 'white',
                   border: 'none',
                   borderRadius: '5px',
                   cursor: 'pointer',
-                  fontSize: '14px'
+                  fontSize: '14px',
+                  zIndex: '10000'
               }}
           >
               Zatvori
           </button>
       </div>,
       {
-          className: "custom-toast", // Custom styling
+          className: "custom-toast",
           position: "top-center",
           icon: false,
           autoClose: false,
           hideProgressBar: true,
           closeButton: false,
+          style: {
+              width: 'auto',
+              maxWidth: '95vw',
+              padding: '0px',
+              margin: '0px'
+          }
       }
   );
 };
@@ -549,37 +575,49 @@ const submitHandler2 = async (e) => {
                 height: '80vh', // Responsive height
                 backgroundColor: 'white',
                 borderRadius: '10px',
-                padding: '15px',
+                padding: '0px',
                 position: 'relative',
                 boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
             }}>
-                <iframe 
-                    src={webLink} 
-                    title="WebView"
-                    style={{
-                        width: '100%', 
-                        height: '100%', 
-                        border: 'none', 
-                        borderRadius: '8px',
-                    }}
-                />
+                {/* Green bar at the top of the webview */}
+                <div style={{ 
+                  width: '100%', 
+                  height: '4px', 
+                  backgroundColor: '#4CAF50',
+                  borderRadius: '10px 10px 0 0',
+                  marginBottom: '15px'
+                }}></div>
+                
+                <div style={{ padding: '15px', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <iframe 
+                        src={webLink} 
+                        title="WebView"
+                        style={{
+                            width: '100%', 
+                            height: '100%', 
+                            border: 'none', 
+                            borderRadius: '8px',
+                        }}
+                    />
+                </div>
 
                 <button 
                     onClick={() => toast.dismiss()} 
                     style={{
                         position: 'absolute',
-                        top: '10px',
-                        right: '10px',
+                        top: '35px',
+                        right: '25px',
                         padding: '8px 16px',
                         backgroundColor: '#ff4d4f',
                         color: 'white',
                         border: 'none',
                         borderRadius: '5px',
                         cursor: 'pointer',
-                        fontSize: '14px'
+                        fontSize: '14px',
+                        zIndex: '10000'
                     }}
                 >
                     Zatvori
@@ -633,31 +671,37 @@ const submitHandler2 = async (e) => {
               display: 'flex', 
               flexDirection: 'column', 
               alignItems: 'center', 
-              //justifyContent: 'center',
               width: '80vw', 
               height: '80vh', 
               backgroundColor: 'white', 
               overflow: 'hidden',
-              //padding: '10px',
+              borderRadius: '10px',
+              position: 'relative'
           }}
       >
+          {/* Green bar at the top of the webview */}
+          <div style={{ 
+            width: '100%', 
+            height: '4px', 
+            backgroundColor: '#4CAF50',
+            borderRadius: '10px 10px 0 0',
+            marginBottom: '10px'
+          }}></div>
+          
           <div style={{
-              width: '85vw', // Keeps it within screen bounds
-              maxWidth: '1500px', // Prevents extra stretching
-              height: '90vh',
+              width: '100%',
+              height: '100%',
               overflow: 'auto',
               position: 'relative',
+              padding: '15px',
+              boxSizing: 'border-box'
           }}>
-          
-        
               <iframe src={webLink} title="WebView"
                   style={{
-                      width: '25vw',
+                      width: '100%',
                       height: '100%',
                       border: 'none',
-                      //zoom: '0.95', // Shrinks content slightly to fit
-                      objectFit: 'cover', // Ensures full visibility
-                      overflow: 'auto',
+                      borderRadius: '8px',
                       display:'block'
                   }}
               />
@@ -667,15 +711,16 @@ const submitHandler2 = async (e) => {
               onClick={() => toast.dismiss()} 
               style={{
                   position: 'absolute',
-                  top: '10px',
-                  right: '10px',
+                  top: '35px',
+                  right: '25px',
                   padding: '10px 20px',
                   backgroundColor: '#ff4d4f',
                   color: 'white',
                   border: 'none',
                   borderRadius: '5px',
                   cursor: 'pointer',
-                  fontSize: '16px'
+                  fontSize: '16px',
+                  zIndex: '10000'
               }}
           >
               Zatvori
@@ -685,8 +730,14 @@ const submitHandler2 = async (e) => {
           position: "top-center",
           autoClose: false,
           hideProgressBar: true,
-          closeButton: false, // Using a custom close button
+          closeButton: false,
           className: "webview-toast-container",
+          style: {
+              width: 'auto',
+              maxWidth: '95vw',
+              padding: '0px',
+              margin: '0px'
+          }
       }
   );
 
@@ -742,9 +793,17 @@ const triangleOverlayStyle = {
   return (
     <InView as="div" onChange={(inView, entry) => handleViewedChange(inView, post)}>
     <div className={classes.post} style={{ position: "relative", margin: isDetail && "5px 0",  background: repost > 0 ? "#F5F5F5" : "#ffffff"}}  >
+      
+      {/* Green bar at the top of the post */}
+      <div style={{ 
+        width: '100%', 
+        height: '4px', 
+        backgroundColor: '#4CAF50',
+        borderRadius: '2px 2px 0 0'
+      }}></div>
+
       <div className={classes.postWrapper} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
       
-
       <div style={triangleOverlayStyle}></div>
         <div className={classes.postTop} style={{ background: repost>0 ? "#ffffff" : "#ffffff" }}>
         {(repost > 0)? 
