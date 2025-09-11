@@ -32,7 +32,7 @@ function App() {
     <Router>
     <Switch>
     <Route path="/landingPage"><LandingPage/></Route>
-		<Route exact path="/">{user ? <Home /> : <Login />}</Route>
+		<Route exact path="/">{user ? <Home /> : <LandingPage />}</Route>
 		<Route path="/login/:userId"><Login /></Route>
 		<Route path="/register/:userId"><Register /></Route> 
 		<Route path="/profile/:username"><Profile /></Route>
