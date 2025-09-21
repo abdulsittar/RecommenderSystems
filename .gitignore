@@ -4,3 +4,13 @@
 /server/.env
 
 *.env
+CaseStudy (3).ipynb
+selectedusers.json
+registration_links.csv
+idstorages.json
+
+server/.env
+server/.env.admin_users
+server/admin_users_config.js
+study_participant_passwords.csv
+survey_participants_status.csv

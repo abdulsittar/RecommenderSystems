@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const IDStorage = require('../models/IDStorage');
 const SelectedUser = require('../models/SelectedUser');
+const WeeklyResponse = require('../models/WeeklyResponse'); // Import WeeklyResponse model
 var mongoose  = require('mongoose');
 const jwt = require('jsonwebtoken');
 const verifyToken = require('../middleware/verifyToken');
@@ -255,7 +256,35 @@ try {
 
     const token = jwt.sign({ _id: user._id }, `${process.env.JWT_SECRET}`);
 
-    const usr = {"user": user, "token": token}
+    // Check if user needs to complete weekly survey
+    let needsWeeklySurvey = false;
+    
+    // Only check for survey participants (those who completed presurvey)
+    if (user.uniqueId) {
+        // Calculate start of current week (Sunday)
+        const startOfWeek = new Date();
+        startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+        startOfWeek.setHours(0, 0, 0, 0);
+        
+        // Check if user has submitted weekly survey this week
+        const weeklyResponse = await WeeklyResponse.findOne({
+            userId: user._id,
+            createdAt: { $gte: startOfWeek }
+        });
+        
+        needsWeeklySurvey = !weeklyResponse; // true if no response found for this week
+        
+        console.log(`Weekly survey check for user ${user.username}:`);
+        console.log(`  - Start of week: ${startOfWeek}`);
+        console.log(`  - Has weekly response: ${!!weeklyResponse}`);
+        console.log(`  - Needs weekly survey: ${needsWeeklySurvey}`);
+    }
+
+    const usr = {
+        "user": user, 
+        "token": token,
+        "needsWeeklySurvey": needsWeeklySurvey
+    };
 
     console.log(usr)
     res.status(200).json(usr);

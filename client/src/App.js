@@ -6,6 +6,7 @@ import Progress from "./pages/progress/Progress";
 import Register from "./pages/register/Register";
 import FollowersPage from "./pages/Followers/FollowersPage";
 import FollowingsPage from "./pages/Followings/FollowingsPage";
+import WeeklySurvey from "./pages/weeklySurvey/WeeklySurvey";
 import {regSw, subscribe} from './helper.js';
 
 import {
@@ -35,6 +36,7 @@ function App() {
 		<Route exact path="/">{user ? <Home /> : <LandingPage />}</Route>
 		<Route path="/login/:userId"><Login /></Route>
 		<Route path="/register/:userId"><Register /></Route> 
+		<Route path="/weekly-survey">{user ? <WeeklySurvey /> : <Redirect to="/landingPage" />}</Route>
 		<Route path="/profile/:username"><Profile /></Route>
     <Route path="/progress/:username"><Progress /></Route>
     <Route path="/postsurvey/:username"><Postsurvey /></Route>

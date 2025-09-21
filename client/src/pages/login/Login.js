@@ -47,7 +47,7 @@ function Login({ classes }) {
 
   }, []); */
 
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
 	e.preventDefault();
 	//const email = document.getElementById('email').value;
 	const password = document.getElementById('password').value;
@@ -56,13 +56,23 @@ function Login({ classes }) {
 	//if (email == password) {
 	//	setPasswordErr("Check you password and email again!");
 	//}
-    loginCall({ username: username, password: password }, dispatch);
-	if(error == true){
-		setPasswordErr("Check you password and email again!");
-	}
-	//console.log(error);
-	if(error == false){history.push("/");}
 	
+	try {
+		const loginResponse = await loginCall({ username: username, password: password }, dispatch);
+		
+		// Check if user needs to complete weekly survey
+		if (loginResponse && loginResponse.needsWeeklySurvey) {
+			console.log('User needs to complete weekly survey, redirecting...');
+			history.push('/weekly-survey'); // Redirect to weekly survey
+		} else {
+			console.log('User does not need weekly survey, redirecting to home...');
+			history.push("/"); // Redirect to home feed
+		}
+		
+	} catch (error) {
+		console.log('Login error:', error);
+		setPasswordErr("Check your password and username again!");
+	}
   };
 
   const getUser = async (uniqId) => {

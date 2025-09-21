@@ -138,7 +138,7 @@ function Register({classes}) {
   const [uniqId, setUniqId] = useState('');
   
   // Form data state
-  const [consentAnswers, setConsentAnswers] = useState([]);
+  const [consentAnswers, setConsentAnswers] = useState({});
   const [demographicsData, setDemographicsData] = useState({});
   const [weeklyData, setWeeklyData] = useState({});
   
@@ -265,12 +265,35 @@ function Register({classes}) {
   `;
     
   // Handler functions for three-stage survey
-  const handleConsentSubmit = () => {
+  const handleConsentSubmit = async () => {
     const uncheckedQuestions = CONSENT_QUESTIONS.map((_, index) => index).filter(index => !consentAnswers[index]);
     
     if (uncheckedQuestions.length === 0) {
-      setCurrentStage('demographics');
-      toast.success('Consent form completed successfully!');
+      try {
+        setButtonDisabled(true);
+        
+        // Convert object to array for API call
+        const consentAnswersArray = CONSENT_QUESTIONS.map((_, index) => Boolean(consentAnswers[index]));
+        
+        // Make API call to save consent data
+        const response = await axios.post(`/presurvey/consent/${uniqId}`, {
+          consentAnswers: consentAnswersArray,
+          agreedToParticipate: consentAnswersArray.every(answer => answer === true)
+        });
+        
+        if (response.status === 200) {
+          console.log('Consent saved successfully:', response.data);
+          setCurrentStage('demographics');
+          toast.success('Consent form completed successfully!');
+        } else {
+          throw new Error('Failed to save consent data');
+        }
+      } catch (error) {
+        console.error('Error saving consent data:', error);
+        toast.error('Error saving consent form. Please try again.');
+      } finally {
+        setButtonDisabled(false);
+      }
     } else {
       const missingCount = uncheckedQuestions.length;
       toast.error(`Please check all ${CONSENT_QUESTIONS.length} consent boxes to continue. ${missingCount} ${missingCount === 1 ? 'item' : 'items'} still need to be checked.`);
@@ -283,7 +306,7 @@ function Register({classes}) {
     }
   };
 
-  const handleDemographicsSubmit = () => {
+  const handleDemographicsSubmit = async () => {
     // Validate all required demographic fields
     const requiredFields = [
       'age', 'gender', 'education', 'employment',
@@ -294,8 +317,39 @@ function Register({classes}) {
     const missingFields = requiredFields.filter(field => !demographicsData[field]);
     
     if (missingFields.length === 0) {
-      setCurrentStage('weekly');
-      toast.success('Demographics information saved successfully!');
+      try {
+        setButtonDisabled(true);
+        
+        // Prepare demographics data for API call
+        const demographicsPayload = {
+          age: demographicsData.age,
+          gender: demographicsData.gender,
+          education: demographicsData.education,
+          employment: demographicsData.employment,
+          hasVoted: demographicsData.voted,
+          politicalActivities: demographicsData.politicalActivities,
+          politicalMember: demographicsData.partyMember,
+          newsFrequency: demographicsData.newsFrequency,
+          newsSource: demographicsData.newsSource,
+          newsTime: demographicsData.newsTime
+        };
+        
+        // Make API call to save demographics data
+        const response = await axios.post(`/presurvey/demographics/${uniqId}`, demographicsPayload);
+        
+        if (response.status === 200) {
+          console.log('Demographics saved successfully:', response.data);
+          setCurrentStage('weekly');
+          toast.success('Demographics information saved successfully!');
+        } else {
+          throw new Error('Failed to save demographics data');
+        }
+      } catch (error) {
+        console.error('Error saving demographics data:', error);
+        toast.error('Error saving demographics information. Please try again.');
+      } finally {
+        setButtonDisabled(false);
+      }
     } else {
       toast.error(`Please complete all required fields. Missing: ${missingFields.length} field(s)`);
     }
@@ -303,54 +357,32 @@ function Register({classes}) {
 
   const handleWeeklySubmit = async () => {
     try {
-      // Collect all survey data
-      const surveyData = {
-        // Consent data (already collected)
-        consent: consentAnswers,
-        
-        // Demographics data
-        age: demographicsData.age,
-        gender: demographicsData.gender,
-        education: demographicsData.education,
-        employment: demographicsData.employment,
-        
-        // Civil engagement
-        voted: demographicsData.voted,
-        politicalActivities: demographicsData.politicalActivities,
-        partyMember: demographicsData.partyMember,
-        
-        // News consumption
-        newsFrequency: demographicsData.newsFrequency,
-        newsSource: demographicsData.newsSource,
-        newsTime: demographicsData.newsTime,
-        
-        // Weekly data (placeholder for now)
-        weeklyResponses: weeklyData,
-        
-        // Additional metadata
-        completedAt: new Date().toISOString(),
-        surveyVersion: "3-stage-v1"
-      };
-
-      // Submit to API like the old survey
-      console.log('Submitting survey data:', surveyData);
-      const res = await axios.post(`/presurvey/psurvey/${uniqId}`, surveyData);
+      setButtonDisabled(true);
       
-      if (res.status === 200) {
+      // Make API call to save weekly data
+      const response = await axios.post(`/presurvey/weekly/${uniqId}`, {
+        ...weeklyData,
+        weekNumber: 1 // This is the initial weekly survey
+      });
+      
+      if (response.status === 200) {
+        console.log('Weekly data saved successfully:', response.data);
         toast.success('Survey completed successfully!');
         
-        // After survey completion, move to user selection like the old system
+        // After survey completion, move to user selection
         setTimeout(() => {
           setCurrentStage('userSelection');
-          // Fetch user profiles like the old system did
+          // Fetch user profiles
           fetchUserProfiles();
         }, 1500); // Small delay to show the success message
       } else {
-        toast.error('Error submitting survey. Please try again.');
+        throw new Error('Failed to save weekly data');
       }
     } catch (error) {
-      console.error('Survey submission error:', error);
+      console.error('Error saving weekly data:', error);
       toast.error('Error submitting survey. Please try again.');
+    } finally {
+      setButtonDisabled(false);
     }
   };
 
@@ -372,16 +404,23 @@ function Register({classes}) {
       
       // Check if we have user profiles for selection
       if (res.data.users && res.data.users.length > 0) {
+        console.log('Raw users from server:', res.data.users);
+        
         // Extract users from the response format similar to backup
         const profiles = res.data.users.map(userObj => {
-          const user = userObj.user || userObj; // Handle both formats
+          // Handle different possible formats from aggregation
+          const user = userObj.user || userObj; // Handle both {user: {...}} and direct {...} formats
+          console.log('Processing user:', user);
+          
           return {
             _id: user._id || user.username,
             username: user.username,
+            username_second: user.username_second,
             profilePicture: user.profilePicture,
+            available: user.available,
             version: user.version
           };
-        });
+        }).filter(profile => profile.username); // Filter out any malformed profiles
         
         console.log('Setting real user profiles:', profiles);
         setUserProfiles(profiles.slice(0, 4)); // Limit to 4 users like original
@@ -470,12 +509,8 @@ function Register({classes}) {
               // Try to create initial data, but don't fail if it doesn't work
               try {
                 console.log('Attempting to create initial data...');
-                const initialDataRes = await axios.post(`/posts/${uniqId}/createInitialData/`, {
-                  pool: user.version || '3',  // Use user's version or default to '3'
-                  userId: user._id
-                }, {
-                  headers: { 'auth-token': token }
-                });
+                const initialDataRes = await axios.post(`/posts/${uniqId}/createInitialData/`, { version: user.pool, userId: user._id, headers: { 'auth-token': token }});
+ 
                 console.log('Initial data creation response:', initialDataRes.data);
               } catch (initialDataError) {
                 console.warn('Initial data creation failed, but continuing anyway:', initialDataError);
@@ -483,7 +518,7 @@ function Register({classes}) {
               }
               
               toast.success('Account created successfully! Redirecting...');
-              
+              dispatch({ type: "LOGIN_SUCCESS", payload: user });
               setTimeout(() => {
                 console.log('Redirecting to homepage...');
                 history.push('/');
