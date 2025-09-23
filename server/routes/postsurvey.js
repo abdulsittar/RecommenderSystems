@@ -38,9 +38,9 @@ router.post('/pstsurvey/:userId', verifyToken, async (req, res) => {
         
         const preSurvey = await PreSurvey.findOne({ uniqueId: req.body.uniqueId });
 
-        if (!preSurvey) {
+        /*if (!preSurvey) {
             return res.status(404).json({ message: "PreSurvey not found for the given userId." });
-        }
+        }*/
 
         // Use prolific_Code from PreSurvey
         const gen_code = preSurvey.prolific_Code;

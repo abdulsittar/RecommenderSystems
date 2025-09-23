@@ -1271,7 +1271,7 @@ const handleUserNameChange = async (e) => {
     
     if(is_NoSurvey_visible == false){
 
-      if (value_q1 == ""){ 
+      /*if (value_q1 == ""){ 
         toast.error("Pitanje 8. Molimo izaberite jednu od ponuđenih opcija!");
         return
       }else if (value_q2 == ""){
@@ -1382,7 +1382,7 @@ const handleUserNameChange = async (e) => {
       }else if (value_q29_7 == ""){
         toast.error("Pitanje 3. Molimo izaberite jednu od ponuđenih opcija!");
         return
-      }
+      }*/
       var survey = {}
       if(is_NoSurvey_visible == false){
 
