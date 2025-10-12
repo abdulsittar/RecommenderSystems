@@ -392,9 +392,6 @@ if (process.env.NODE_ENV === 'production') {
 // Swagger
 //app.use( "/api-docs", swaggerUi.serve, swaggerUi.setup(specs, { explorer: true, customCssUrl: "https://cdn.jsdelivr.net/npm/swagger-ui-themes@3.0.0/themes/3.x/theme-newspaper.css",}));
 
-
-
-
 app.use(flash());
 app.use(cookieParser());
 app.use(expressSession({ secret: 'D%$*&^lk32', resave: false, saveUninitialized: true }));

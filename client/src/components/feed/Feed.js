@@ -150,7 +150,9 @@ useEffect(() => {
         if(res.data.pool == user.pool){
             const arr = [res.data]
             setPosts([])
-            setPosts(res.data)
+            if (Array.isArray(res.data)) {
+                setPosts(res.data)
+            }
             //setPosts((prevItems) => [...arr, ...prevItems]);
             console.log('posts data: >>', posts );
         }
@@ -293,7 +295,9 @@ if (preProfile === " ") {
     if(res.data.length){
     if(res.data.length > 0){
         setPosts([])
-        setPosts(res.data)
+        if (Array.isArray(res.data)) {
+            setPosts(res.data)
+        }
         //setPosts((prevItems) => [...prevItems, ...res.data
             //.sort((p1,p2) => {return new Date(p2.createdAt) - new Date(p1.createdAt);})
         //]); 
@@ -365,7 +369,9 @@ const fetchMoreData = async () => {
             //.sort((p1,p2) => {return new Date(p2.createdAt) - new Date(p1.createdAt);})
         //]);
         setPosts([])
-        setPosts(res.data)
+        if (Array.isArray(res.data)) {
+                setPosts(res.data)
+            }
          res.data.length%20 > 0 ? setHasMore(false) : setHasMore(true);
         increment(index, 0);
         setProgress(100);
@@ -461,7 +467,9 @@ if (preProfile === " ") {
             //.sort((p1,p2) => {return new Date(p2.createdAt) - new Date(p1.createdAt);})
         //]);
         setPosts([])
-        setPosts(res.data)
+        if (Array.isArray(res.data)) {
+                setPosts(res.data)
+            }
         res.data.length%20 > 0 ? setHasMore(false) : setHasMore(true);
         //setIndex((index) => index + 1);
         increment(0, 0);
@@ -482,9 +490,17 @@ return (
         <InfiniteScroll dataLength={posts.length} next={fetchMoreData} hasMore={hasMore} loader={<Loader />}>
         <div className={classes.feedWrapper} style={{"width": (!isMobileDevice && !isTabletDevice) && (windowSize.innerWidth-10)+"px"}}>
             {( !username || username === user.username) }
-            {posts.map((p) => {
-                return <Post onScrolling={updateViewdPosts} key={p._id} post={p} isDetail={false} setHasReadArticle={setHasReadArticle} currentRound={currentRound}/>
-            })}
+            {Array.isArray(posts) && posts.map((p) => (
+  <Post
+    onScrolling={updateViewdPosts}
+    key={p._id}
+    post={p}
+    isDetail={false}
+    setHasReadArticle={setHasReadArticle}
+    currentRound={currentRound}
+  />
+))}
+
         </div>
         </InfiniteScroll>
         

@@ -108,10 +108,10 @@ const handleRefreshFeed23 = (e) => {
             </div>
             
             <div style={{ display: 'flex', justifyContent: 'center', flex: 1 }}>
-            {shouldShowRefresh && (
+            {/*shouldShowRefresh && (
             <button className={classes.button} onClick={onAction}>
                 <RefreshIcon style={{ marginRight: '5px' }} />
-                Osveži fid
+                Next Page
             </button>
         )}
         {shouldShowRefresh && (
@@ -119,7 +119,7 @@ const handleRefreshFeed23 = (e) => {
             <QuestionMarkIcon style={{ marginRight: '5px' }} />
             Informacije o zadatku
             </button>
-        )}
+        )*/}
         
     </div>
 
