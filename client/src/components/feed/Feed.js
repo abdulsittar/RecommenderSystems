@@ -22,6 +22,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -42,6 +47,8 @@ const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
 const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
 const [socket, setSocket] = useState(null)
 const [open, setOpen] = React.useState(false);
+    const [nextDialogOpen, setNextDialogOpen] = useState(false);
+    const [nextSelectedOption, setNextSelectedOption] = useState('option1');
 //const [hasReadArticle, setHasReadArticle] = useState(false);
  
 let postCallCount = 0; 
@@ -113,6 +120,43 @@ const handleFeedAction = async (e) => {
       console.log("Process stopped after 5 calls.");
     }
   };
+
+    const handleOpenNextDialog = () => {
+        setNextSelectedOption('option1');
+        setNextDialogOpen(true);
+    }
+
+    const handleNextDialogClose = () => {
+        setNextDialogOpen(false);
+    }
+
+    const handleNextOptionChange = (e) => {
+        setNextSelectedOption(e.target.value);
+    }
+
+    const handleNextConfirm = async () => {
+            // Map options to topics for initial-data creation
+            const topicMapping = {
+                option1: 'abortion',
+                option2: 'vaccines',
+                option3: 'climate',
+                option4: 'immigration'
+            };
+            const topic = topicMapping[nextSelectedOption] || 'abortion';
+            setNextDialogOpen(false);
+            try {
+                const token = localStorage.getItem('token');
+                // Call server to create initial training data for this user/topic
+                await axios.post(`/posts/${user._id}/createInitialData`, { topic, pool: user.pool, userId: user._id }, { headers: { 'auth-token': token } });
+                // After creation, reset index and fetch posts (page 0)
+                setIndex(0);
+                await fetchPosts(selectedValue, 0);
+            } catch (err) {
+                console.error('Error creating initial data:', err);
+                // still attempt to fetch posts so UI can recover
+                await fetchPosts(selectedValue, 0);
+            }
+    }
   
 
 const [windowSize, setWindowSize] = useState(getWindowSize());
@@ -250,7 +294,7 @@ const filterLoadedPosts = async () => {
     
 }
 
-const fetchPosts = async (selectedValue) => {
+const fetchPosts = async (selectedValue, pageArg) => {
     setProgress(30);
     console.log("fetchpost")
     const chek = username ?  true : false;
@@ -289,7 +333,8 @@ if (preProfile === " ") {
     console.log(preFilter);
     console.log(whPosts);
     const token = localStorage.getItem('token');
-    const res = username ?  await axios.get("/posts/profile/" + username+`?page=${index}`, {headers: { 'auth-token': token, 'userId': user._id }}) : await axios.get(whPosts + user._id+`?page=${index}`, {headers: { 'auth-token': token, 'userId': user._id }});
+    const page = (typeof pageArg !== 'undefined' && pageArg !== null) ? pageArg : index;
+    const res = username ?  await axios.get("/posts/profile/" + username+`?page=${page}`, {headers: { 'auth-token': token, 'userId': user._id }}) : await axios.get(whPosts + user._id+`?page=${page}`, {headers: { 'auth-token': token, 'userId': user._id }});
     console.log(res.data);
     console.log("fetch posts");
     if(res.data.length){
@@ -503,6 +548,32 @@ return (
 
         </div>
         </InfiniteScroll>
+                <div style={{display: 'flex', justifyContent: 'center', marginTop: 12}}>
+                    <Button variant="contained" color="primary" onClick={handleOpenNextDialog}>
+                        Next Page
+                    </Button>
+                </div>
+                <Dialog open={nextDialogOpen} onClose={handleNextDialogClose} aria-labelledby="next-dialog-title">
+                    <DialogTitle id="next-dialog-title">Select Next Page</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Choose one of the options below to load the corresponding page.
+                        </DialogContentText>
+                        <FormControl component="fieldset" style={{marginTop: 8}}>
+                            <FormLabel component="legend">Pages</FormLabel>
+                            <RadioGroup value={nextSelectedOption} onChange={handleNextOptionChange}>
+                                <FormControlLabel value="option1" control={<Radio />} label="Page 1" />
+                                <FormControlLabel value="option2" control={<Radio />} label="Page 2" />
+                                <FormControlLabel value="option3" control={<Radio />} label="Page 3" />
+                                <FormControlLabel value="option4" control={<Radio />} label="Page 4" />
+                            </RadioGroup>
+                        </FormControl>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleNextDialogClose}>Cancel</Button>
+                        <Button onClick={handleNextConfirm} color="primary">Confirm</Button>
+                    </DialogActions>
+                </Dialog>
         
         {/*<React.Fragment>
       <Dialog

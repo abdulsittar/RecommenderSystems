@@ -11,7 +11,7 @@
     const Repost = require('../models/Repost');
     const Viewpost = require('../models/Viewpost');
     const IDStorage = require('../models/IDStorage');
-    const { getInitialPostsByTopic } = require('../utils/posts');
+    const { getInitialPostsByTopic, getPostsByTopicAndPage } = require('../utils/posts');
     //var ObjectId = require('mongodb').ObjectID;
 
     const Comment = require('../models/Comment');
@@ -403,69 +403,96 @@
 
 
 
-router.post('/:id/createInitialData', verifyToken, async (req, res) => {
-  logger.info('Data received', { data: req.body });
+        // Reusable helper: create initial training posts for a given user and topic
+        async function createInitialDataForUser({ targetUserId, pool, topic = 'abortion', reactorUserId = null }) {
+                // Gather seed posts and optional web links
+                
+                let trainPosts = (typeof getInitialPostsByTopic === 'function') ? getInitialPostsByTopic(topic) : [];
+                // Ensure we only use 5 training posts
+                if (Array.isArray(trainPosts) && trainPosts.length > 5) {
+                    trainPosts = trainPosts.slice(0, 5);
+                }
+                const webLinksPosts = (typeof getWebLinksByTopic === 'function') ? getWebLinksByTopic(topic) : [];
 
-  try {
-    // 👇 Choose a topic based on user input or default
-    const topic = req.body.topic || "abortion";
+                if (!Array.isArray(trainPosts) || trainPosts.length === 0) {
+                        throw new Error(`No training posts found for topic "${topic}"`);
+                }
 
-    const trainPosts = getInitialPostsByTopic(topic);
-    const webLinksPosts = getWebLinksByTopic(topic);
+                // Default scoring arrays - will be trimmed/padded to match trainPosts length
+                const defaultUkraine = [-1, -1, 1, 1, -1];
+                const defaultDisinfo = [-0.1, -0.1, 0.5, -0.1, 1];
+                const defaultRanks = Array.from({ length: trainPosts.length }, (_, i) => i + 1);
+                const userGroup = 'pro-choice';
+                const treatmentValue = 0;
 
-    // 👇 Safety check in case topic not found
-    if (!trainPosts.length) {
-      return res.status(400).json({ success: false, message: `No posts found for topic "${topic}"` });
-    }
+                const combined = trainPosts.map((post, index) => ({
+                        post: post.title || post.text || post, // tolerate different shapes
+                        rank: defaultRanks[index] || (index + 1),
+                        ukraine: defaultUkraine[index] !== undefined ? defaultUkraine[index] : 0,
+                        disinfo: defaultDisinfo[index] !== undefined ? defaultDisinfo[index] : 0,
+                        webLinks: webLinksPosts[index] || null,
+                        userGroup
+                }));
 
-    // 👇 Assign scores etc.
-    const userType = "pro-choice";
-    const ukraineScore = [-1, -1, 1, 1, -1];
-    const disinfoScore = [-0.1, -0.1, 0.5, -0.1, 1];
-    const postsRanks = [1, 2, 3, 4, 5];
-    const treatmentValue = 0;
+                // Persist posts (only the training posts)
+                const created = [];
+                for (const item of combined) {
+                        const newPost = {
+                                userId: new mongoose.Types.ObjectId(targetUserId),
+                                reactorUser: reactorUserId && mongoose.Types.ObjectId.isValid(reactorUserId) ? new mongoose.Types.ObjectId(reactorUserId) : null,
+                                pool: pool,
+                                desc: item.post,
+                                rank: item.rank,
+                                ukraine: item.ukraine,
+                                disinfo: item.disinfo,
+                                treatment: treatmentValue,
+                                content: topic,
+                                userGroup: item.userGroup,
+                                webLinks: item.webLinks
+                        };
+                        const saved = await createAndSavePost(newPost);
+                        created.push(saved);
+                }
 
-    // 👇 Combine everything
-    const combined = trainPosts.map((post, index) => ({
-      post: post.title,
-      rank: postsRanks[index],
-      ukraine: ukraineScore[index],
-      disinfo: disinfoScore[index],
-      webLinks: webLinksPosts[index] || null,
-      userGroup: userType
-    }));
+                // After creating the 5 training posts, create one extra "special" post
+                try {
+                    const extraPost = {
+                        userId: new mongoose.Types.ObjectId(targetUserId),
+                        reactorUser: reactorUserId && mongoose.Types.ObjectId.isValid(reactorUserId) ? new mongoose.Types.ObjectId(reactorUserId) : null,
+                        pool: pool,
+                        desc: `EXTRA: ${topic}`,
+                        rank: 1000,
+                        ukraine: 0,
+                        disinfo: 0,
+                        treatment: treatmentValue,
+                        content: topic,
+                        userGroup: userGroup,
+                        thumb: "https://fastly.picsum.photos/id/451/200/300.jpg?blur=5&hmac=Cs_EydLmPTWdSMrzBl8vXIG9b3CaH9iP_yVdDFiXUhU"
+                    };
+                    const savedExtra = await createAndSavePost(extraPost);
+                    created.push(savedExtra);
+                } catch (err) {
+                    logger.error('Error creating extra post', { error: err.message });
+                }
 
-    // 👇 Save to DB
-    for (const item of combined) {
-      const newPost = {
-        userId: new mongoose.Types.ObjectId(req.params.id),
-        reactorUser: mongoose.Types.ObjectId.isValid(req.body.userId)
-          ? new mongoose.Types.ObjectId(req.body.userId)
-          : null,
-        pool: req.body.pool,
-        desc: item.post,
-        rank: item.rank,
-        ukraine: item.ukraine,
-        disinfo: item.disinfo,
-        treatment: treatmentValue,
-        content: topic,
-        userGroup: item.userGroup,
-        webLinks: item.webLinks
-      };
-      await createAndSavePost(newPost);
-    }
+                return created;
+        }
 
-    res.status(200).json({
-      success: true,
-      message: `Posts for topic "${topic}" created successfully!`,
-      created: combined
-    });
+        // Attach helper to router so other modules can call it programmatically
+        router.createInitialData = createInitialDataForUser;
 
-  } catch (error) {
-    logger.error('Error saving data', { error: error.message });
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
+        // Route: create initial data (keeps previous behavior but delegates to helper)
+        router.post('/:id/createInitialData', verifyToken, async (req, res) => {
+                logger.info('Data received', { data: req.body });
+                try {
+                        const topic = req.body.topic || 'abortion';
+                        const created = await createInitialDataForUser({ targetUserId: req.params.id, pool: req.body.pool, topic, reactorUserId: req.body.userId });
+                        res.status(200).json({ success: true, message: `Posts for topic "${topic}" created successfully!`, created });
+                } catch (error) {
+                        logger.error('Error saving data', { error: error.message });
+                        res.status(500).json({ success: false, error: error.message });
+                }
+        });
 
     //repost a post
     router.post('/:id/repost', verifyToken, async (req, res) => {
@@ -1012,23 +1039,18 @@ router.post('/:id/createInitialData', verifyToken, async (req, res) => {
         logger.info('Data received', { data: req.body });
         //console.log(req.query.page);
         //console.log(req.headers['userid']);
-        try {
-            let page = req.query.page //starts from 0
-            let userId = req.headers['userid']
-            let posts = await getPostsPaginated(page, userId)
-            console.log(posts.length)
-            if (posts && posts.length > 0) {
-                res.status(200).json(posts)
-            } else {
-                res.status(200).json("Failed");
-                console.log(res);
-            }
+       try {
+    const userId = req.params.userId;
+    const page = parseInt(req.query.page) || 0;
 
-        } catch (error) {
-            logger.error('Error saving data 12', { error: error.message });
-            console.error("Error creating or saving comment:", error);
-            res.status(500).json(error);
-        }
+    // ✅ only first page should show the last 5 created
+    const posts = await getLatestFivePosts(userId, page);
+
+    res.status(200).json(posts);
+  } catch (error) {
+    logger.error('Error fetching latest posts', { error: error.message });
+    res.status(500).json({ success: false, error: error.message });
+  }
     }
     )
 
@@ -1073,19 +1095,62 @@ router.post('/:id/createInitialData', verifyToken, async (req, res) => {
     router.get('/timeline/:userId', verifyToken, async (req, res) => {
         logger.info('Data received', { data: req.body });
         try {
-            let postList = [];
-            Post.find({}, function (err, posts) {
-                console.log(posts.length)
-                //res.send(userMap);
-                res.status(200).json(posts)
-            }).populate('comments').exec();
-        }
-        catch (err) {
-            logger.error('Error saving data 13', { error: err.message });
-            //console.log(err)
-            res.status(500).json(err);
-        }
+    const userId = req.params.userId;
+    const page = parseInt(req.query.page) || 0;
+
+    // ✅ only first page should show the last 5 created
+    const posts = await getLatestFivePosts(userId, page);
+
+    res.status(200).json(posts);
+  } catch (error) {
+    logger.error('Error fetching latest posts', { error: error.message });
+    res.status(500).json({ success: false, error: error.message });
+  }
     });
+
+// Get only the last 5 posts the user created
+const getLatestFivePosts = async (userId, page = 0) => {
+  const currentUser = await User.findById(userId);
+  if (!currentUser) return [];
+
+  // ✅ For first page only (page = 0), return latest 5 posts
+  if (page === 0) {
+    const latestFive = await Post.find({ userId: currentUser.id })
+      .sort({ createdAt: -1 })
+      .limit(5)
+      .populate({
+        path: 'comments',
+        model: 'Comment',
+        populate: [
+          { path: 'userId', model: 'User' },
+          { path: 'likes', model: 'CommentLike' },
+          { path: 'dislikes', model: 'CommentDislike' }
+        ]
+      })
+      .exec();
+
+    return latestFive;
+  }
+
+  // For other pages (optional)
+  const resultsPerPage = 30;
+  return await Post.find({ userId: currentUser.id })
+    .sort({ createdAt: -1 })
+    .skip(page * resultsPerPage)
+    .limit(resultsPerPage)
+    .populate({
+      path: 'comments',
+      model: 'Comment',
+      populate: [
+        { path: 'userId', model: 'User' },
+        { path: 'likes', model: 'CommentLike' },
+        { path: 'dislikes', model: 'CommentDislike' }
+      ]
+    })
+    .exec();
+};
+
+
 
     /**
      * @swagger
@@ -1496,6 +1561,20 @@ router.post('/:id/createInitialData', verifyToken, async (req, res) => {
             logger.error('Error saving data 22', { error: err.message });
             console.error(err);
             return res.status(500).json({ error: 'Server error' });
+        }
+    });
+
+    // Get posts for a given topic and page (page starts at 0). Returns 5 posts per page.
+    router.get('/topic/:topic/posts', verifyToken, async (req, res) => {
+        logger.info('Topic page request', { topic: req.params.topic, page: req.query.page });
+        try {
+            const page = req.query.page || 0;
+            const topic = req.params.topic;
+            const posts = getPostsByTopicAndPage(topic, page, 5);
+            return res.status(200).json(posts);
+        } catch (err) {
+            logger.error('Error fetching topic posts', { error: err.message });
+            return res.status(500).json({ error: err.message });
         }
     });
 

@@ -16,7 +16,13 @@ const postsData = [
   { id: 15, title: "Navigating Abortion Rights with Considered Support for Choice", topic: "abortion", strength: 2, stance: "Pro-choice" },
   { id: 16, title: "Public Discourse on Abortion Access Intensifies", topic: "abortion", strength: 2, stance: "Pro-choice" },
   { id: 17, title: "Women's Rights and Reproductive Freedom", topic: "abortion", strength: 2, stance: "Pro-choice" },
-  // ... (continue with IDs 18–211 following your provided dataset)
+  
+  
+  { id: 2, title: "Hospital tells family brain-dead Georgia woman must carry fetus due to abortion ban", topic: "abortion", strength: null, stance: null },
+  { id: 3, title: "Balancing Perspectives on Abortion Rights", topic: "abortion", strength: 1, stance: "Pro-choice" },
+  { id: 4, title: "Medical and Legal Experts Discuss the Complex Landscape of Abortion Access", topic: "abortion", strength: 1, stance: "Pro-choice" },
+  { id: 5, title: "A Balanced View on Abortion: Respecting Personal Choice", topic: "abortion", strength: 1, stance: "Pro-choice" },
+   // ... (continue with IDs 18–211 following your provided dataset)
   // Due to size, only partial listing here; your implementation should copy the full dataset verbatim.
   // I can generate the entire ready-to-use file with all 211 entries if you want.
 ];
@@ -25,26 +31,56 @@ const postsData = [
 // 🔹 TOPIC-BASED WEB LINKS
 // ===============================
 const webLinks = {
-  abortion: [
+  "abortion": [
     "https://socialapp2.ijs.si/news/abortion_1",
     "https://socialapp2.ijs.si/news/abortion_2",
     "https://socialapp2.ijs.si/news/abortion_3",
     "https://socialapp2.ijs.si/news/abortion_4",
-    "https://socialapp2.ijs.si/news/abortion_5"
+    "https://socialapp2.ijs.si/news/abortion_5",
+    "https://socialapp2.ijs.si/news/abortion_1",
+    "https://socialapp2.ijs.si/news/abortion_2",
+    "https://socialapp2.ijs.si/news/abortion_3",
+    "https://socialapp2.ijs.si/news/abortion_4",
+    "https://socialapp2.ijs.si/news/abortion_5",
+    "https://socialapp2.ijs.si/news/abortion_1",
+    "https://socialapp2.ijs.si/news/abortion_2",
+    "https://socialapp2.ijs.si/news/abortion_3",
+    "https://socialapp2.ijs.si/news/abortion_4",
+    "https://socialapp2.ijs.si/news/abortion_5",
   ],
   "gun control": [
     "https://socialapp2.ijs.si/news/gun-control_1",
     "https://socialapp2.ijs.si/news/gun-control_2",
     "https://socialapp2.ijs.si/news/gun-control_3",
     "https://socialapp2.ijs.si/news/gun-control_4",
-    "https://socialapp2.ijs.si/news/gun-control_5"
+    "https://socialapp2.ijs.si/news/gun-control_5",
+    "https://socialapp2.ijs.si/news/gun-control_1",
+    "https://socialapp2.ijs.si/news/gun-control_2",
+    "https://socialapp2.ijs.si/news/gun-control_3",
+    "https://socialapp2.ijs.si/news/gun-control_4",
+    "https://socialapp2.ijs.si/news/gun-control_5",
+    "https://socialapp2.ijs.si/news/gun-control_1",
+    "https://socialapp2.ijs.si/news/gun-control_2",
+    "https://socialapp2.ijs.si/news/gun-control_3",
+    "https://socialapp2.ijs.si/news/gun-control_4",
+    "https://socialapp2.ijs.si/news/gun-control_5",
   ],
   "assisted death": [
     "https://socialapp2.ijs.si/news/assisted-death_1",
     "https://socialapp2.ijs.si/news/assisted-death_2",
     "https://socialapp2.ijs.si/news/assisted-death_3",
     "https://socialapp2.ijs.si/news/assisted-death_4",
-    "https://socialapp2.ijs.si/news/assisted-death_5"
+    "https://socialapp2.ijs.si/news/assisted-death_5",
+    "https://socialapp2.ijs.si/news/assisted-death_1",
+    "https://socialapp2.ijs.si/news/assisted-death_2",
+    "https://socialapp2.ijs.si/news/assisted-death_3",
+    "https://socialapp2.ijs.si/news/assisted-death_4",
+    "https://socialapp2.ijs.si/news/assisted-death_5",
+    "https://socialapp2.ijs.si/news/assisted-death_1",
+    "https://socialapp2.ijs.si/news/assisted-death_2",
+    "https://socialapp2.ijs.si/news/assisted-death_3",
+    "https://socialapp2.ijs.si/news/assisted-death_4",
+    "https://socialapp2.ijs.si/news/assisted-death_5",
   ]
 };
 
@@ -65,6 +101,19 @@ function getInitialPostsByTopic(topic) {
   return getRandomSample(filtered, 5);
 }
 
+// Get posts by topic and page (deterministic pagination)
+function getPostsByTopicAndPage(topic, page = 0, pageSize = 5) {
+  const filtered = postsData
+    .filter((p) => p.topic.toLowerCase() === topic.toLowerCase())
+    // stable deterministic order so pagination is predictable
+    .sort((a, b) => (a.id || 0) - (b.id || 0));
+
+  const pageNum = Math.max(0, Number(page) || 0);
+  const size = Math.max(1, Number(pageSize) || 5);
+  const start = pageNum * size;
+  return filtered.slice(start, start + size);
+}
+
 // Get posts by topic and strength level
 function getPostsByTopicAndStrength(topic, strength) {
   return postsData.filter(
@@ -83,5 +132,6 @@ module.exports = {
   postsData,
   getInitialPostsByTopic,
   getPostsByTopicAndStrength,
-  getWebLinksByTopic
+  getWebLinksByTopic,
+  getPostsByTopicAndPage
 };

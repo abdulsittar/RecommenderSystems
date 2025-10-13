@@ -146,6 +146,8 @@ function Register({classes}) {
   const [isButtonDisabled, setButtonDisabled] = useState(false);
   const [showDialog, setShowDialog] = React.useState(false);
   const cancelRef = React.useRef();
+  
+  const [checkingStatus, setCheckingStatus] = useState(true);
 
   // User account state (keep these for account creation flow)
   const [username, setUsername] = useState("");
@@ -159,14 +161,48 @@ function Register({classes}) {
   const initialized = useRef(false);
 
   useEffect(() => {
-    // Extract unique ID from URL
+      // Extract unique ID from URL
     const urlParts = window.location.pathname.split('/');
     const uniqueId = urlParts[urlParts.length-1];
     setUniqId(uniqueId);
-    
-    // Check if user has already submitted survey
-    checkUserSurveyStatus(uniqueId);
-  }, []);
+  
+
+  
+  const checkUserSurveyStatus = async () => {
+    try {
+      const res = await axios.post(`/presurvey/isSubmitted/${uniqId}`);
+      const data = res.data;
+
+      // Example structure: { login: true, lastSubmitted: "2025-10-12T09:23:45Z" }
+      const today = new Date().toISOString().split("T")[0]; // "2025-10-12"
+
+      if (data.login === true) {
+        // User has completed pre-survey before
+        const lastDate = data.lastSubmitted
+          ? new Date(data.lastSubmitted).toISOString().split("T")[0]
+          : null;
+
+        // Has the day changed?
+        if (lastDate && lastDate !== today) {
+          console.log("New day detected — showing weekly survey");
+          setCurrentStage("weekly");
+          return;
+        }
+
+        // Otherwise, skip everything
+        toast.info("You have already completed today’s survey. Please log in.");
+        history.push(`/login/${uniqId}`);
+        return;
+      }
+    } catch (error) {
+      console.error("Error checking submission status:", error);
+    } finally {
+      setCheckingStatus(false);
+    }
+  };
+
+  checkUserSurveyStatus(uniqueId);
+}, [uniqId, history]);
 
   // Helper functions
   const getRandomNumber = () => Math.floor(Math.random() * 4) + 1;
@@ -509,7 +545,7 @@ function Register({classes}) {
               // Try to create initial data, but don't fail if it doesn't work
               try {
                 console.log('Attempting to create initial data...');
-                const initialDataRes = await axios.post(`/posts/${uniqId}/createInitialData/`, { version: user.pool, userId: user._id, headers: { 'auth-token': token }});
+                const initialDataRes = await axios.post(`/posts/${uniqId}/createInitialData/`, { topic: "abortion",version: user.pool, userId: user._id, headers: { 'auth-token': token }});
  
                 console.log('Initial data creation response:', initialDataRes.data);
               } catch (initialDataError) {
