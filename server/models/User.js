@@ -88,6 +88,9 @@ relationship: {
     type: String,
     max: 20,
 },
+lastLoginDate: {
+    type: Date,
+},
 },
 {timestamps: true}
 );

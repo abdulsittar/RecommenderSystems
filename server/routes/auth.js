@@ -134,7 +134,10 @@ router.post('/register/:uniqId',  async (req, res) => {
     //console.log(req.body.password)
     //console.log(salt)
     console.log(req.query.userId);
-    const inputPassword = req.body.password.trim()
+    
+    // Use first 10 characters of uniqueId as default password if no password provided
+    const defaultPassword = req.params.uniqId.substring(0, 10);
+    const inputPassword = req.body.password ? req.body.password.trim() : defaultPassword;
     const hashedPassword = await bcrypt.hash(inputPassword, salt);
     
     const idstor = await IDStorage.find({"yourID": req.params.uniqId});
@@ -261,23 +264,57 @@ try {
     
     // Only check for survey participants (those who completed presurvey)
     if (user.uniqueId) {
-        // Calculate start of current week (Sunday)
-        const startOfWeek = new Date();
-        startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-        startOfWeek.setHours(0, 0, 0, 0);
+        const now = new Date();
         
-        // Check if user has submitted weekly survey this week
-        const weeklyResponse = await WeeklyResponse.findOne({
-            userId: user._id,
-            createdAt: { $gte: startOfWeek }
-        });
+        // Get user's last login timestamp (use createdAt if never logged in before)
+        const lastLogin = user.lastLoginDate || user.createdAt;
         
-        needsWeeklySurvey = !weeklyResponse; // true if no response found for this week
+        // Calculate days since last login
+        const daysSinceLastLogin = Math.floor((now - new Date(lastLogin)) / (1000 * 60 * 60 * 24));
         
-        console.log(`Weekly survey check for user ${user.username}:`);
-        console.log(`  - Start of week: ${startOfWeek}`);
-        console.log(`  - Has weekly response: ${!!weeklyResponse}`);
-        console.log(`  - Needs weekly survey: ${needsWeeklySurvey}`);
+        console.log('='.repeat(60));
+        console.log('WEEKLY SURVEY CHECK - User Login');
+        console.log('='.repeat(60));
+        console.log(`User: ${user.username}`);
+        console.log(`User ID: ${user._id}`);
+        console.log(`Current Time: ${now.toISOString()}`);
+        console.log(`Last Login: ${lastLogin ? new Date(lastLogin).toISOString() : 'Never (using createdAt)'}`);
+        console.log(`Days Since Last Login: ${daysSinceLastLogin} days`);
+        console.log(`Threshold: 7 days`);
+        console.log(`Has Been 7+ Days: ${daysSinceLastLogin >= 7 ? 'YES ✓' : 'NO ✗'}`);
+        
+        // Check if it's been 7+ days since last login
+        if (daysSinceLastLogin >= 7) {
+            console.log('\n>>> 7+ days detected - Checking weekly survey status...');
+            
+            // Calculate start of current week (Sunday)
+            const startOfWeek = new Date();
+            startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+            startOfWeek.setHours(0, 0, 0, 0);
+            
+            console.log(`Start of Current Week: ${startOfWeek.toISOString()}`);
+            
+            // Check if user has submitted weekly survey this week
+            const weeklyResponse = await WeeklyResponse.findOne({
+                userId: user._id,
+                createdAt: { $gte: startOfWeek }
+            });
+            
+            needsWeeklySurvey = !weeklyResponse; // true if no response found for this week
+            
+            console.log(`Weekly Survey Completed This Week: ${!!weeklyResponse ? 'YES ✓' : 'NO ✗'}`);
+            console.log(`Will Show Weekly Survey: ${needsWeeklySurvey ? 'YES ✓' : 'NO ✗'}`);
+        } else {
+            console.log(`\n>>> Less than 7 days - No weekly survey needed`);
+            console.log(`User needs to wait ${7 - daysSinceLastLogin} more day(s)`);
+        }
+        
+        console.log('\nFinal Decision: needsWeeklySurvey =', needsWeeklySurvey);
+        console.log('='.repeat(60));
+        
+        // Update last login timestamp
+        await User.findByIdAndUpdate(user._id, { lastLoginDate: now });
+        console.log(`Updated lastLoginDate to: ${now.toISOString()}`);
     }
 
     const usr = {

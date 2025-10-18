@@ -173,27 +173,15 @@ function Register({classes}) {
       const res = await axios.post(`/presurvey/isSubmitted/${uniqId}`);
       const data = res.data;
 
-      // Example structure: { login: true, lastSubmitted: "2025-10-12T09:23:45Z" }
-      const today = new Date().toISOString().split("T")[0]; // "2025-10-12"
-
+      // If user already exists (has completed registration before), redirect to login
       if (data.login === true) {
-        // User has completed pre-survey before
-        const lastDate = data.lastSubmitted
-          ? new Date(data.lastSubmitted).toISOString().split("T")[0]
-          : null;
-
-        // Has the day changed?
-        if (lastDate && lastDate !== today) {
-          console.log("New day detected — showing weekly survey");
-          setCurrentStage("weekly");
-          return;
-        }
-
-        // Otherwise, skip everything
-        toast.info("You have already completed today’s survey. Please log in.");
+        toast.info('Welcome back! Please log in.');
         history.push(`/login/${uniqId}`);
         return;
       }
+      
+      // Otherwise, this is a new user - start with consent stage
+      // No need to check for weekly survey on first registration
     } catch (error) {
       console.error("Error checking submission status:", error);
     } finally {
@@ -206,25 +194,6 @@ function Register({classes}) {
 
   // Helper functions
   const getRandomNumber = () => Math.floor(Math.random() * 4) + 1;
-  
-  const checkUserSurveyStatus = async (val) => {
-    try {
-      setProgress(30);
-      const token = localStorage.getItem('token');
-      const res = await axios.post(`/presurvey/isSubmitted/${val}`, { 
-        headers: { 'auth-token': token }
-      }); 
-      
-      // TODO: Add logic to check survey status and redirect accordingly
-      // For now, just proceed to consent form
-      setCurrentStage('consent');
-      setProgress(100);
-      
-    } catch (err) {
-      console.log(err);
-      setProgress(100);
-    }
-  };
 
   // Animation keyframes
   const fadeInOut = keyframes`
@@ -506,9 +475,9 @@ function Register({classes}) {
         const user = {
           ...demographicsData, // Include demographic data
           ...weeklyData,       // Include weekly survey data  
-          username: selectedUser.username + "_second", // Add suffix to avoid conflicts
-          password: "defaultPassword123", // Default password since users endpoint doesn't include it
-          username_second: selectedUser.username, // Original username
+          username: selectedUser.username_second, // Use username_second from selected profile
+          password: uniqId.substring(0, 10), // Use first 10 chars of uniqueId as password
+          username_second: selectedUser.username_second, // Keep username_second same
           profilePicture: selectedUser.profilePicture,
           pool: 1, // Default pool
           uniqId: uniqId // Include the unique ID
@@ -527,8 +496,8 @@ function Register({classes}) {
           // Try to login to get the auth token
           try {
             const loginRes = await axios.post(`/auth/login`, {
-              username: selectedUser.username + "_second", // Match the registered username
-              password: "defaultPassword123"
+              username: selectedUser.username_second, // Match the registered username
+              password: uniqId.substring(0, 10) // Use first 10 chars of uniqueId
             });
             
             if (loginRes.data && loginRes.data.token) {
@@ -545,7 +514,12 @@ function Register({classes}) {
               // Try to create initial data, but don't fail if it doesn't work
               try {
                 console.log('Attempting to create initial data...');
-                const initialDataRes = await axios.post(`/posts/${uniqId}/createInitialData/`, { topic: "abortion",version: user.pool, userId: user._id, headers: { 'auth-token': token }});
+                const initialDataRes = await axios.post(`/posts/${user._id}/createInitialData`, { 
+                  topic: "abortion",
+                  pool: user.pool, 
+                  userId: user._id,
+                  headers: { 'auth-token': token }
+                });
  
                 console.log('Initial data creation response:', initialDataRes.data);
               } catch (initialDataError) {

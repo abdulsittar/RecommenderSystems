@@ -11,7 +11,7 @@
     const Repost = require('../models/Repost');
     const Viewpost = require('../models/Viewpost');
     const IDStorage = require('../models/IDStorage');
-    const { getInitialPostsByTopic, getPostsByTopicAndPage } = require('../utils/posts');
+    const { getInitialPostsByTopic, getPostsByTopicAndPage, getWebLinksByTopic } = require('../utils/posts');
     //var ObjectId = require('mongodb').ObjectID;
 
     const Comment = require('../models/Comment');
@@ -485,8 +485,19 @@
         router.post('/:id/createInitialData', verifyToken, async (req, res) => {
                 logger.info('Data received', { data: req.body });
                 try {
+                        // Validate that :id is a valid MongoDB ObjectId
+                        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+                                return res.status(400).json({ success: false, error: 'Invalid user ID format' });
+                        }
+                        
                         const topic = req.body.topic || 'abortion';
-                        const created = await createInitialDataForUser({ targetUserId: req.params.id, pool: req.body.pool, topic, reactorUserId: req.body.userId });
+                        const pool = req.body.pool || req.body.version || 1; // fallback to version or 1
+                        const created = await createInitialDataForUser({ 
+                                targetUserId: req.params.id, 
+                                pool: pool, 
+                                topic, 
+                                reactorUserId: req.body.userId 
+                        });
                         res.status(200).json({ success: true, message: `Posts for topic "${topic}" created successfully!`, created });
                 } catch (error) {
                         logger.error('Error saving data', { error: error.message });
@@ -1267,7 +1278,16 @@ const getLatestFivePosts = async (userId, page = 0) => {
             logger.info(randomDoc);
 
             if (randomDoc.length > 0) {
-                res.status(200).json({ yourID: randomDoc[0].yourID });
+                const yourID = randomDoc[0].yourID;
+                const defaultPassword = yourID.substring(0, 10);
+                
+                // Update the document with default password if not already set
+                await IDStorage.updateOne(
+                    { _id: randomDoc[0]._id },
+                    { $set: { defaultPassword: defaultPassword } }
+                );
+                
+                res.status(200).json({ yourID: yourID });
             } else {
                 res.status(404).json({ message: "No data found" });
             }
