@@ -14,3 +14,5 @@ server/.env.admin_users
 server/admin_users_config.js
 study_participant_passwords.csv
 survey_participants_status.csv
+server/node_modules
+client/node_modules
