@@ -290,6 +290,8 @@ function Register({classes}) {
           console.log('Consent saved successfully:', response.data);
           setCurrentStage('demographics');
           toast.success('Consent form completed successfully!');
+          // Scroll to top of page for next stage
+          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         } else {
           throw new Error('Failed to save consent data');
         }
@@ -346,6 +348,8 @@ function Register({classes}) {
           console.log('Demographics saved successfully:', response.data);
           setCurrentStage('weekly');
           toast.success('Demographics information saved successfully!');
+          // Scroll to top of page for next stage
+          window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         } else {
           throw new Error('Failed to save demographics data');
         }
@@ -373,6 +377,9 @@ function Register({classes}) {
       if (response.status === 200) {
         console.log('Weekly data saved successfully:', response.data);
         toast.success('Survey completed successfully!');
+        
+        // Scroll to top of page for next stage
+        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
         
         // After survey completion, move to user selection
         setTimeout(() => {
@@ -566,6 +573,8 @@ function Register({classes}) {
       default:
         break;
     }
+    // Scroll to top of page when going to previous stage
+    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
   };
 
   const MemoizedSlideDiv = React.memo(({ children }) => <SlideDiv>{children}</SlideDiv>);

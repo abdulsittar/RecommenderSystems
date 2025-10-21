@@ -76,7 +76,11 @@ comments:[{
 postedBy: {
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User'
-    }},
+    },
+articleId: {
+    type: Number,
+    default: null
+}},
 {timestamps: true}
 );
 

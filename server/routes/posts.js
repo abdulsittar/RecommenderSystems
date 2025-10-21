@@ -1,6 +1,7 @@
 {
     const router = require('express').Router();
     const Post = require('../models/Post');
+    const Article = require('../models/Article');
     const User = require('../models/User');
     const SpecialPost = require('../models/specialpost');
     const PostDislike = require('../models/PostDislike');
@@ -12,6 +13,7 @@
     const Viewpost = require('../models/Viewpost');
     const IDStorage = require('../models/IDStorage');
     const { getInitialPostsByTopic, getPostsByTopicAndPage, getWebLinksByTopic } = require('../utils/posts');
+    const { sampleArticles } = require('../utils/sampleArticles');
     //var ObjectId = require('mongodb').ObjectID;
 
     const Comment = require('../models/Comment');
@@ -427,6 +429,7 @@
 
                 const combined = trainPosts.map((post, index) => ({
                         post: post.title || post.text || post, // tolerate different shapes
+                        articleId: post.articleId || post.id, // link to article content
                         rank: defaultRanks[index] || (index + 1),
                         ukraine: defaultUkraine[index] !== undefined ? defaultUkraine[index] : 0,
                         disinfo: defaultDisinfo[index] !== undefined ? defaultDisinfo[index] : 0,
@@ -442,6 +445,7 @@
                                 reactorUser: reactorUserId && mongoose.Types.ObjectId.isValid(reactorUserId) ? new mongoose.Types.ObjectId(reactorUserId) : null,
                                 pool: pool,
                                 desc: item.post,
+                                articleId: item.articleId, // link to full article content
                                 rank: item.rank,
                                 ukraine: item.ukraine,
                                 disinfo: item.disinfo,
@@ -452,27 +456,6 @@
                         };
                         const saved = await createAndSavePost(newPost);
                         created.push(saved);
-                }
-
-                // After creating the 5 training posts, create one extra "special" post
-                try {
-                    const extraPost = {
-                        userId: new mongoose.Types.ObjectId(targetUserId),
-                        reactorUser: reactorUserId && mongoose.Types.ObjectId.isValid(reactorUserId) ? new mongoose.Types.ObjectId(reactorUserId) : null,
-                        pool: pool,
-                        desc: `EXTRA: ${topic}`,
-                        rank: 1000,
-                        ukraine: 0,
-                        disinfo: 0,
-                        treatment: treatmentValue,
-                        content: topic,
-                        userGroup: userGroup,
-                        thumb: "https://fastly.picsum.photos/id/451/200/300.jpg?blur=5&hmac=Cs_EydLmPTWdSMrzBl8vXIG9b3CaH9iP_yVdDFiXUhU"
-                    };
-                    const savedExtra = await createAndSavePost(extraPost);
-                    created.push(savedExtra);
-                } catch (err) {
-                    logger.error('Error creating extra post', { error: err.message });
                 }
 
                 return created;
@@ -1047,15 +1030,18 @@
 
     // get pagination posts
     router.get('/timelinePag/:userId', verifyToken, async (req, res) => {
-        logger.info('Data received', { data: req.body });
+        logger.info('Data received', { data: req.body, query: req.query });
         //console.log(req.query.page);
         //console.log(req.headers['userid']);
        try {
     const userId = req.params.userId;
     const page = parseInt(req.query.page) || 0;
+    const topic = req.query.topic; // Get topic from query parameters
 
-    // ✅ only first page should show the last 5 created
-    const posts = await getLatestFivePosts(userId, page);
+    console.log('Timeline endpoint - userId:', userId, 'page:', page, 'topic:', topic);
+
+    // ✅ only first page should show the last 5 created, filtered by topic if provided
+    const posts = await getLatestFivePosts(userId, page, topic);
 
     res.status(200).json(posts);
   } catch (error) {
@@ -1104,13 +1090,14 @@
 
     // all users
     router.get('/timeline/:userId', verifyToken, async (req, res) => {
-        logger.info('Data received', { data: req.body });
+        logger.info('Data received', { data: req.body, query: req.query });
         try {
     const userId = req.params.userId;
     const page = parseInt(req.query.page) || 0;
+    const topic = req.query.topic; // Get topic from query parameters
 
-    // ✅ only first page should show the last 5 created
-    const posts = await getLatestFivePosts(userId, page);
+    // ✅ only first page should show the last 5 created, filtered by topic if provided
+    const posts = await getLatestFivePosts(userId, page, topic);
 
     res.status(200).json(posts);
   } catch (error) {
@@ -1119,16 +1106,36 @@
   }
     });
 
-// Get only the last 5 posts the user created
-const getLatestFivePosts = async (userId, page = 0) => {
+// Get posts filtered by topic - Updated to show all posts, not just user's posts
+const getLatestFivePosts = async (userId, page = 0, topic = null) => {
   const currentUser = await User.findById(userId);
   if (!currentUser) return [];
 
+  // Build query filter - show all posts, not just user's posts
+  let queryFilter = {};
+  
+  // If topic is provided, filter by content field (which stores the topic)
+  if (topic) {
+    queryFilter.content = topic;
+  }
+
+  console.log('getLatestFivePosts - Topic filter:', topic, 'Query filter:', queryFilter);
+
+  // Debug: Check what posts exist in database
+  const allPosts = await Post.find({}).select('content userId desc createdAt').sort({ createdAt: -1 }).limit(10);
+  console.log('Database posts (latest 10):');
+  allPosts.forEach((post, i) => {
+    console.log(`  ${i+1}. Content: "${post.content}" | UserId: ${post.userId} | Desc: "${post.desc?.substring(0, 50)}..." | Created: ${post.createdAt}`);
+  });
+
+  console.log('Searching for posts with filter:', queryFilter);
+
   // ✅ For first page only (page = 0), return latest 5 posts
   if (page === 0) {
-    const latestFive = await Post.find({ userId: currentUser.id })
+    const latestFive = await Post.find(queryFilter)
       .sort({ createdAt: -1 })
       .limit(5)
+      .populate('userId', 'username profilePicture') // populate user info for display
       .populate({
         path: 'comments',
         model: 'Comment',
@@ -1140,15 +1147,20 @@ const getLatestFivePosts = async (userId, page = 0) => {
       })
       .exec();
 
+    console.log('getLatestFivePosts - Found posts:', latestFive.length);
+    latestFive.forEach((post, i) => {
+      console.log(`  Found ${i+1}. Content: "${post.content}" | Desc: "${post.desc?.substring(0, 50)}..."`);
+    });
     return latestFive;
   }
 
   // For other pages (optional)
   const resultsPerPage = 30;
-  return await Post.find({ userId: currentUser.id })
+  return await Post.find(queryFilter)
     .sort({ createdAt: -1 })
     .skip(page * resultsPerPage)
     .limit(resultsPerPage)
+    .populate('userId', 'username profilePicture') // populate user info for display
     .populate({
       path: 'comments',
       model: 'Comment',
@@ -1160,7 +1172,6 @@ const getLatestFivePosts = async (userId, page = 0) => {
     })
     .exec();
 };
-
 
 
     /**
@@ -1599,8 +1610,192 @@ const getLatestFivePosts = async (userId, page = 0) => {
     });
 
 
+    // Get article content by articleId
+    router.get('/article/:articleId', verifyToken, async (req, res) => {
+        logger.info('Article request', { articleId: req.params.articleId });
+        try {
+            const articleId = parseInt(req.params.articleId);
+            
+            // First try to find article in database
+            let article = await Article.findOne({ articleId: articleId });
+            
+            // If not found in database, check sample articles
+            if (!article) {
+                const sampleArticle = sampleArticles.find(a => a.articleId === articleId);
+                if (sampleArticle) {
+                    // Optionally save to database for future use
+                    article = new Article(sampleArticle);
+                    await article.save();
+                    logger.info('Saved sample article to database', { articleId });
+                } else {
+                    return res.status(404).json({ error: 'Article not found' });
+                }
+            }
+            
+            return res.status(200).json(article);
+        } catch (err) {
+            logger.error('Error fetching article', { error: err.message });
+            return res.status(500).json({ error: err.message });
+        }
+    });
+
+    // Get post with article content
+    router.get('/:postId/with-article', verifyToken, async (req, res) => {
+        logger.info('Post with article request', { postId: req.params.postId });
+        try {
+            const post = await Post.findById(req.params.postId);
+            if (!post) {
+                return res.status(404).json({ error: 'Post not found' });
+            }
+            
+            let article = null;
+            if (post.articleId) {
+                // Try to find article in database first
+                article = await Article.findOne({ articleId: post.articleId });
+                
+                // If not found, check sample articles
+                if (!article) {
+                    const sampleArticle = sampleArticles.find(a => a.articleId === post.articleId);
+                    if (sampleArticle) {
+                        article = new Article(sampleArticle);
+                        await article.save();
+                        logger.info('Saved sample article to database', { articleId: post.articleId });
+                    }
+                }
+            }
+            
+            return res.status(200).json({
+                post: post,
+                article: article
+            });
+        } catch (err) {
+            logger.error('Error fetching post with article', { error: err.message });
+            return res.status(500).json({ error: err.message });
+        }
+    });
+
     // delete a comment
     // delete a post
+
+    // Get article content by articleId - Updated to use CSV data
+    router.get('/article/:articleId', verifyToken, async (req, res) => {
+        logger.info('Article requested', { articleId: req.params.articleId });
+        try {
+            const articleId = parseInt(req.params.articleId);
+            
+            // First try to find in database
+            let article = await Article.findOne({ articleId: articleId });
+            
+            // If not found in database, check CSV data
+            if (!article) {
+                const { getArticleById } = require('../utils/articlesData');
+                const csvArticle = getArticleById(articleId);
+                if (csvArticle) {
+                    // Convert CSV article to database format and optionally save
+                    article = {
+                        articleId: csvArticle.id,
+                        title: csvArticle.title,
+                        body: csvArticle.body,
+                        topic: csvArticle.topic,
+                        strength: csvArticle.strength,
+                        stance: csvArticle.stance
+                    };
+                    
+                    // Save to database for future use
+                    try {
+                        const newArticle = new Article(article);
+                        await newArticle.save();
+                        logger.info('Saved CSV article to database', { articleId });
+                    } catch (saveErr) {
+                        logger.warn('Could not save article to database', { articleId, error: saveErr.message });
+                    }
+                }
+            }
+            
+            // Fallback to sample articles (for testing)
+            if (!article) {
+                const sampleArticle = sampleArticles.find(a => a.articleId === articleId);
+                if (sampleArticle) {
+                    article = sampleArticle;
+                }
+            }
+            
+            if (article) {
+                return res.status(200).json(article);
+            } else {
+                res.status(404).json({ error: "Article not found" });
+            }
+            
+        } catch (err) {
+            logger.error('Error fetching article', { error: err.message });
+            res.status(500).json({ error: "Failed to fetch article" });
+        }
+    });
+
+    // Initialize articles from CSV into database (development helper)
+    router.post('/init-csv-articles', async (req, res) => {
+        try {
+            const { articlesData } = require('../utils/articlesData');
+            
+            // Check if articles already exist
+            const existingCount = await Article.countDocuments();
+            if (existingCount > 50) { // Allow some existing articles but not too many
+                return res.status(200).json({ message: "Articles already initialized", count: existingCount });
+            }
+            
+            // Clear existing articles first
+            await Article.deleteMany({});
+            
+            // Convert CSV articles to database format
+            const articlesToInsert = articlesData.map(article => ({
+                articleId: article.id,
+                title: article.title,
+                body: article.body,
+                topic: article.topic,
+                strength: article.strength,
+                stance: article.stance
+            }));
+            
+            // Insert articles in batches to avoid memory issues
+            const batchSize = 50;
+            let insertedCount = 0;
+            
+            for (let i = 0; i < articlesToInsert.length; i += batchSize) {
+                const batch = articlesToInsert.slice(i, i + batchSize);
+                const inserted = await Article.insertMany(batch);
+                insertedCount += inserted.length;
+            }
+            
+            res.status(200).json({ 
+                message: "CSV articles initialized successfully", 
+                count: insertedCount,
+                topics: [...new Set(articlesToInsert.map(a => a.topic))]
+            });
+            
+        } catch (err) {
+            logger.error('Error initializing CSV articles', { error: err.message });
+            res.status(500).json({ error: "Failed to initialize CSV articles", details: err.message });
+        }
+    });
+    
+    // Initialize sample articles in database (development helper - legacy)
+    router.post('/init-sample-articles', async (req, res) => {
+        try {
+            // Check if articles already exist
+            const existingCount = await Article.countDocuments();
+            if (existingCount > 0) {
+                return res.status(200).json({ message: "Articles already initialized", count: existingCount });
+            }
+            
+            // Insert sample articles
+            const inserted = await Article.insertMany(sampleArticles);
+            res.status(200).json({ message: "Sample articles initialized", count: inserted.length });
+            
+        } catch (err) {
+            logger.error('Error initializing articles', { error: err.message });
+            res.status(500).json({ error: "Failed to initialize articles" });
+        }
+    });
 
     module.exports = router;
 }

@@ -49,6 +49,7 @@ const [socket, setSocket] = useState(null)
 const [open, setOpen] = React.useState(false);
     const [nextDialogOpen, setNextDialogOpen] = useState(false);
     const [nextSelectedOption, setNextSelectedOption] = useState('option1');
+    const [currentTopic, setCurrentTopic] = useState(null); // Track the current topic for filtering posts
 //const [hasReadArticle, setHasReadArticle] = useState(false);
  
 let postCallCount = 0; 
@@ -122,7 +123,15 @@ const handleFeedAction = async (e) => {
   };
 
     const handleOpenNextDialog = () => {
-        setNextSelectedOption('option1');
+        // Map current topic back to option value to show correct selection in dialog
+        const topicToOptionMapping = {
+            'assisted death': 'option1',
+            'abortion': 'option2', 
+            'gun control': 'option3',
+            'other': 'option4'
+        };
+        const currentOption = topicToOptionMapping[currentTopic] || 'option1';
+        setNextSelectedOption(currentOption);
         setNextDialogOpen(true);
     }
 
@@ -135,26 +144,28 @@ const handleFeedAction = async (e) => {
     }
 
     const handleNextConfirm = async () => {
-            // Map options to topics for initial-data creation
+            // Map options to topics for initial-data creation - Updated to match new categories
             const topicMapping = {
-                option1: 'abortion',
-                option2: 'vaccines',
-                option3: 'climate',
-                option4: 'immigration'
+                option1: 'assisted death',    // Assisted Death
+                option2: 'abortion',          // Abortion  
+                option3: 'gun control',       // Gun Control
+                option4: 'other'              // Other
             };
             const topic = topicMapping[nextSelectedOption] || 'abortion';
+            console.log('handleNextConfirm - Selected option:', nextSelectedOption, 'Mapped topic:', topic);
+            setCurrentTopic(topic); // Store the selected topic for filtering
             setNextDialogOpen(false);
             try {
                 const token = localStorage.getItem('token');
                 // Call server to create initial training data for this user/topic
                 await axios.post(`/posts/${user._id}/createInitialData`, { topic, pool: user.pool, userId: user._id }, { headers: { 'auth-token': token } });
-                // After creation, reset index and fetch posts (page 0)
+                // After creation, reset index and fetch posts (page 0) with the new topic
                 setIndex(0);
-                await fetchPosts(selectedValue, 0);
+                await fetchPostsWithTopic(selectedValue, 0, topic); // Pass topic directly instead of relying on state
             } catch (err) {
                 console.error('Error creating initial data:', err);
                 // still attempt to fetch posts so UI can recover
-                await fetchPosts(selectedValue, 0);
+                await fetchPostsWithTopic(selectedValue, 0, topic); // Pass topic directly
             }
     }
   
@@ -294,9 +305,9 @@ const filterLoadedPosts = async () => {
     
 }
 
-const fetchPosts = async (selectedValue, pageArg) => {
+const fetchPostsWithTopic = async (selectedValue, pageArg, topicParam) => {
     setProgress(30);
-    console.log("fetchpost")
+    console.log("fetchPostsWithTopic with topic:", topicParam)
     const chek = username ?  true : false;
 if(chek == true) {
     console.log(preProfile);
@@ -334,7 +345,24 @@ if (preProfile === " ") {
     console.log(whPosts);
     const token = localStorage.getItem('token');
     const page = (typeof pageArg !== 'undefined' && pageArg !== null) ? pageArg : index;
-    const res = username ?  await axios.get("/posts/profile/" + username+`?page=${page}`, {headers: { 'auth-token': token, 'userId': user._id }}) : await axios.get(whPosts + user._id+`?page=${page}`, {headers: { 'auth-token': token, 'userId': user._id }});
+    
+    // Build URL with topic parameter if topicParam is set
+    let url;
+    if (username) {
+        url = `/posts/profile/${username}?page=${page}`;
+    } else {
+        url = `${whPosts}${user._id}?page=${page}`;
+        // Add topic parameter for timeline endpoints (when topicParam is set)
+        console.log('URL building - topicParam:', topicParam, 'selectedValue:', selectedValue, 'condition met:', (topicParam && (selectedValue === 0)));
+        if (topicParam && (selectedValue === 0)) { // Only for timeline feed (selectedValue === 0)
+            url += `&topic=${encodeURIComponent(topicParam)}`;
+            console.log('Added topic to URL:', url);
+        }
+    }
+    
+    console.log('fetchPostsWithTopic - topicParam:', topicParam, 'selectedValue:', selectedValue, 'url:', url);
+    
+    const res = await axios.get(url, {headers: { 'auth-token': token, 'userId': user._id }});
     console.log(res.data);
     console.log("fetch posts");
     if(res.data.length){
@@ -343,25 +371,21 @@ if (preProfile === " ") {
         if (Array.isArray(res.data)) {
             setPosts(res.data)
         }
-        //setPosts((prevItems) => [...prevItems, ...res.data
-            //.sort((p1,p2) => {return new Date(p2.createdAt) - new Date(p1.createdAt);})
-        //]); 
         res.data.length%20 > 0 ? setHasMore(false) : setHasMore(true);
-        //setIndex((index) => index + 1);
         increment(index, 0);
         setProgress(100);
     } else {
         setHasMore(false);
         setProgress(100);
-        //setPosts([]);
-        //setIndex((index) => 0);
-        //increment(index, -index);
     }
 
-    //setPreFilter(whPosts);
     console.log(whPosts);
-    //setPosts(res.data.sort((p1,p2) => {return new Date(p2.createdAt) - new Date(p1.createdAt);})); 
 }
+};
+
+const fetchPosts = async (selectedValue, pageArg) => {
+    console.log('fetchPosts called with currentTopic:', currentTopic, 'selectedValue:', selectedValue);
+    return fetchPostsWithTopic(selectedValue, pageArg, currentTopic);
 };
 
 function updateViewdPosts( post) {
@@ -406,7 +430,22 @@ const fetchMoreData = async () => {
     }
 
     const token = localStorage.getItem('token');
-    const res = username ?  await axios.get("/posts/profile/" + username+`?page=${index}`, {headers: { 'auth-token': token }}): await axios.get(whPosts + user._id+`?page=${index}`, {headers: { 'auth-token': token }});
+    
+    // Build URL with topic parameter if currentTopic is set
+    let url;
+    if (username) {
+        url = `/posts/profile/${username}?page=${index}`;
+    } else {
+        url = `${whPosts}${user._id}?page=${index}`;
+        // Add topic parameter for timeline endpoints (when currentTopic is set)
+        console.log('fetchMoreData URL building - currentTopic:', currentTopic, 'selectedValue:', selectedValue, 'condition met:', (currentTopic && (selectedValue === 0)));
+        if (currentTopic && (selectedValue === 0)) { // Only for timeline feed (selectedValue === 0)
+            url += `&topic=${encodeURIComponent(currentTopic)}`;
+            console.log('fetchMoreData - Added topic to URL:', url);
+        }
+    }
+    
+    const res = await axios.get(url, {headers: { 'auth-token': token }});
     //console.log(res.data);
     
     if(res.data.length > 0){
@@ -503,7 +542,22 @@ if (preProfile === " ") {
     console.log(preFilter);
     console.log(whPosts);
     const token = localStorage.getItem('token');
-    const res = username ?  await axios.get("/posts/profile/" + username+`?page=${0}`, {headers: { 'auth-token': token }}) : await axios.get(whPosts + user._id+`?page=${0}`, {headers: { 'auth-token': token }});
+    
+    // Build URL with topic parameter if currentTopic is set
+    let url;
+    if (username) {
+        url = `/posts/profile/${username}?page=${0}`;
+    } else {
+        url = `${whPosts}${user._id}?page=${0}`;
+        // Add topic parameter for timeline endpoints (when currentTopic is set)
+        console.log('refreshed URL building - currentTopic:', currentTopic, 'selectedValue:', selectedValue, 'condition met:', (currentTopic && (selectedValue === 0)));
+        if (currentTopic && (selectedValue === 0)) { // Only for timeline feed (selectedValue === 0)
+            url += `&topic=${encodeURIComponent(currentTopic)}`;
+            console.log('refreshed - Added topic to URL:', url);
+        }
+    }
+    
+    const res = await axios.get(url, {headers: { 'auth-token': token }});
     console.log(res.data);
     console.log("fetch posts");
     if(res.data.length){
@@ -562,10 +616,11 @@ return (
                         <FormControl component="fieldset" style={{marginTop: 8}}>
                             <FormLabel component="legend">Pages</FormLabel>
                             <RadioGroup value={nextSelectedOption} onChange={handleNextOptionChange}>
-                                <FormControlLabel value="option1" control={<Radio />} label="Page 1" />
-                                <FormControlLabel value="option2" control={<Radio />} label="Page 2" />
-                                <FormControlLabel value="option3" control={<Radio />} label="Page 3" />
-                                <FormControlLabel value="option4" control={<Radio />} label="Page 4" />
+                                <FormControlLabel value="option1" control={<Radio />} label="Assisted death" />
+                                <FormControlLabel value="option2" control={<Radio />} label="Abortion" />
+                                <FormControlLabel value="option3" control={<Radio />} label="Gun control" />
+                                <FormControlLabel value="option4" control={<Radio />} label="Other" />
+
                             </RadioGroup>
                         </FormControl>
                     </DialogContent>

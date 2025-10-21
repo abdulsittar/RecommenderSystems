@@ -419,5 +419,5 @@ app.use((req, res, next) => {
 
 console.log(process.env.MONGO_URI);
 app.listen(port, () => console.log(`Server started on port ${port} and ${nodeSiteUrl} and ${nodeSiteUrl}`));
-server.listen(8080, () => console.log(`Server started on port ${port} and ${nodeSiteUrl}`));
+server.listen(8081, () => console.log(`Server started on port ${port} and ${nodeSiteUrl}`));
 

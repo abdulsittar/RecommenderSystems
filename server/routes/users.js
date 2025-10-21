@@ -749,19 +749,17 @@ router.get('/:id/getUserActions', verifyToken, async (req, res) => {
 
             if (readCount > 0 && maxTreatment == 2) {
                 const response = { "showAlert": "third", "commentcount": String(commentCount), "postLikeCount": String(likeCount) }
-                res.status(200).json(response);
+                return res.status(200).json(response);
 
-            }
-
-            if (readCount > 0) {
+            } else if (readCount > 0) {
                 const response = { "showAlert": "fifth" }
-                res.status(200).json(response);
+                return res.status(200).json(response);
 
             }
 
         } else {
             const response = { "showAlert": "fifth" }
-            res.status(200).json(response);
+            return res.status(200).json(response);
 
         }
 

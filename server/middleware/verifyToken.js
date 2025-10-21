@@ -6,11 +6,11 @@ module.exports = function(req, res, next) {
     
     var token = null
     if (req.method === 'PUT') {
-        token = req.body["headers"]["auth-token"]
+        token = req.headers['auth-token']
 
     }else if (req.method === 'POST') {
-        console.log(req);
-        token = req.body["headers"]["auth-token"]
+        console.log('POST request headers:', req.headers['auth-token']);
+        token = req.headers['auth-token']
 
     }else if (req.method === 'GET') {
         console.log(req.headers['auth-token']);

@@ -10,6 +10,7 @@ var ObjectId = require('mongodb').ObjectID;
 const sanitizeHtml = require('sanitize-html');
 const logger = require('../logs/logger');
 const path = require('path');
+const { getArticlesByTopic, getArticleById } = require('../utils/articlesData');
 
 const verifyToken = require('../middleware/verifyToken');
 
@@ -509,5 +510,182 @@ router.get('/not_relevant_9',  async (req, res) => {
 
 
 
+
+// New dynamic routes for serving article content
+router.get('/article/:articleId', async (req, res) => {
+    logger.info('Dynamic article request', { articleId: req.params.articleId });
+    try {
+        const articleId = parseInt(req.params.articleId);
+        const article = getArticleById(articleId);
+        
+        if (!article) {
+            return res.status(404).send('<h1>Article Not Found</h1><p>The requested article could not be found.</p>');
+        }
+        
+        // Generate HTML for the article
+        const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${article.title}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f5f5f5;
+        }
+        .article-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .article-header {
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .article-title {
+            color: #333;
+            margin: 0 0 15px 0;
+            font-size: 2em;
+            line-height: 1.2;
+        }
+        .article-meta {
+            color: #666;
+            font-size: 0.9em;
+            display: flex;
+            gap: 20px;
+        }
+        .meta-item {
+            background: #f0f0f0;
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+        .article-content {
+            color: #444;
+        }
+        .article-content h2 {
+            color: #2c3e50;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        .article-content h3 {
+            color: #34495e;
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+        .article-content p {
+            margin-bottom: 15px;
+        }
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #3498db;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .back-button:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <a href="javascript:history.back()" class="back-button">← Back</a>
+    
+    <div class="article-container">
+        <div class="article-header">
+            <h1 class="article-title">${article.title}</h1>
+            <div class="article-meta">
+                <span class="meta-item">Topic: ${article.topic}</span>
+                ${article.stance ? `<span class="meta-item">Stance: ${article.stance}</span>` : ''}
+                ${article.strength ? `<span class="meta-item">Strength: ${article.strength}</span>` : ''}
+            </div>
+        </div>
+        
+        <div class="article-content">
+            ${article.body}
+        </div>
+    </div>
+</body>
+</html>`;
+        
+        res.send(html);
+        
+    } catch (err) {
+        logger.error('Error serving dynamic article', { error: err.message });
+        res.status(500).send('<h1>Server Error</h1><p>Unable to load the article.</p>');
+    }
+});
+
+// Route for serving articles by topic (for the old pattern URLs)
+router.get('/abortion_:number', async (req, res) => {
+    logger.info('Topic-based article request', { topic: 'abortion', number: req.params.number });
+    try {
+        const articles = getArticlesByTopic('abortion');
+        const articleIndex = parseInt(req.params.number) - 1;
+        
+        if (articleIndex < 0 || articleIndex >= articles.length) {
+            return res.status(404).send('<h1>Article Not Found</h1><p>The requested article could not be found.</p>');
+        }
+        
+        const article = articles[articleIndex];
+        
+        // Redirect to the article by ID for consistency
+        res.redirect(`/news/article/${article.id}`);
+        
+    } catch (err) {
+        logger.error('Error serving topic-based article', { error: err.message });
+        res.status(500).send('<h1>Server Error</h1><p>Unable to load the article.</p>');
+    }
+});
+
+// Similar routes for other topics
+router.get('/gun-control_:number', async (req, res) => {
+    logger.info('Topic-based article request', { topic: 'gun control', number: req.params.number });
+    try {
+        const articles = getArticlesByTopic('gun control');
+        const articleIndex = parseInt(req.params.number) - 1;
+        
+        if (articleIndex < 0 || articleIndex >= articles.length) {
+            return res.status(404).send('<h1>Article Not Found</h1><p>The requested article could not be found.</p>');
+        }
+        
+        const article = articles[articleIndex];
+        res.redirect(`/news/article/${article.id}`);
+        
+    } catch (err) {
+        logger.error('Error serving topic-based article', { error: err.message });
+        res.status(500).send('<h1>Server Error</h1><p>Unable to load the article.</p>');
+    }
+});
+
+router.get('/assisted-death_:number', async (req, res) => {
+    logger.info('Topic-based article request', { topic: 'assisted death', number: req.params.number });
+    try {
+        const articles = getArticlesByTopic('assisted death');
+        const articleIndex = parseInt(req.params.number) - 1;
+        
+        if (articleIndex < 0 || articleIndex >= articles.length) {
+            return res.status(404).send('<h1>Article Not Found</h1><p>The requested article could not be found.</p>');
+        }
+        
+        const article = articles[articleIndex];
+        res.redirect(`/news/article/${article.id}`);
+        
+    } catch (err) {
+        logger.error('Error serving topic-based article', { error: err.message });
+        res.status(500).send('<h1>Server Error</h1><p>Unable to load the article.</p>');
+    }
+});
 
     module.exports = router;

@@ -1,88 +1,73 @@
 // utils/posts.js
 
-// ===============================
-// 🔹 HARDCODED DATASET
-// ===============================
-const postsData = [
-  // === Abortion ===
-  { id: 1, title: "Hospital tells family brain-dead Georgia woman must carry fetus due to abortion ban", topic: "abortion", strength: null, stance: null },
-  { id: 8, title: "Balancing Perspectives on Abortion Rights", topic: "abortion", strength: 1, stance: "Pro-choice" },
-  { id: 9, title: "Medical and Legal Experts Discuss the Complex Landscape of Abortion Access", topic: "abortion", strength: 1, stance: "Pro-choice" },
-  { id: 10, title: "A Balanced View on Abortion: Respecting Personal Choice", topic: "abortion", strength: 1, stance: "Pro-choice" },
-  { id: 11, title: "Navigating the Complexities of Abortion Legislation", topic: "abortion", strength: 1, stance: "Pro-choice" },
-  { id: 12, title: "Abortion Rights: A Complex Issue", topic: "abortion", strength: 1, stance: "Pro-choice" },
-  { id: 13, title: "Shaping the Conversation on Abortion Access", topic: "abortion", strength: 2, stance: "Pro-choice" },
-  { id: 14, title: "New Study Highlights Importance of Access to Comprehensive Reproductive Healthcare", topic: "abortion", strength: 2, stance: "Pro-choice" },
-  { id: 15, title: "Navigating Abortion Rights with Considered Support for Choice", topic: "abortion", strength: 2, stance: "Pro-choice" },
-  { id: 16, title: "Public Discourse on Abortion Access Intensifies", topic: "abortion", strength: 2, stance: "Pro-choice" },
-  { id: 17, title: "Women's Rights and Reproductive Freedom", topic: "abortion", strength: 2, stance: "Pro-choice" },
-  
-  
-  { id: 2, title: "Hospital tells family brain-dead Georgia woman must carry fetus due to abortion ban", topic: "abortion", strength: null, stance: null },
-  { id: 3, title: "Balancing Perspectives on Abortion Rights", topic: "abortion", strength: 1, stance: "Pro-choice" },
-  { id: 4, title: "Medical and Legal Experts Discuss the Complex Landscape of Abortion Access", topic: "abortion", strength: 1, stance: "Pro-choice" },
-  { id: 5, title: "A Balanced View on Abortion: Respecting Personal Choice", topic: "abortion", strength: 1, stance: "Pro-choice" },
-   // ... (continue with IDs 18–211 following your provided dataset)
-  // Due to size, only partial listing here; your implementation should copy the full dataset verbatim.
-  // I can generate the entire ready-to-use file with all 211 entries if you want.
-];
+const { loadArticlesFromCSV, convertArticlesToPosts } = require('./csvParser');
 
 // ===============================
-// 🔹 TOPIC-BASED WEB LINKS
+// 🔹 DYNAMIC DATASET FROM CSV
 // ===============================
-const webLinks = {
-  "abortion": [
-    "https://socialapp2.ijs.si/news/abortion_1",
-    "https://socialapp2.ijs.si/news/abortion_2",
-    "https://socialapp2.ijs.si/news/abortion_3",
-    "https://socialapp2.ijs.si/news/abortion_4",
-    "https://socialapp2.ijs.si/news/abortion_5",
-    "https://socialapp2.ijs.si/news/abortion_1",
-    "https://socialapp2.ijs.si/news/abortion_2",
-    "https://socialapp2.ijs.si/news/abortion_3",
-    "https://socialapp2.ijs.si/news/abortion_4",
-    "https://socialapp2.ijs.si/news/abortion_5",
-    "https://socialapp2.ijs.si/news/abortion_1",
-    "https://socialapp2.ijs.si/news/abortion_2",
-    "https://socialapp2.ijs.si/news/abortion_3",
-    "https://socialapp2.ijs.si/news/abortion_4",
-    "https://socialapp2.ijs.si/news/abortion_5",
-  ],
-  "gun control": [
-    "https://socialapp2.ijs.si/news/gun-control_1",
-    "https://socialapp2.ijs.si/news/gun-control_2",
-    "https://socialapp2.ijs.si/news/gun-control_3",
-    "https://socialapp2.ijs.si/news/gun-control_4",
-    "https://socialapp2.ijs.si/news/gun-control_5",
-    "https://socialapp2.ijs.si/news/gun-control_1",
-    "https://socialapp2.ijs.si/news/gun-control_2",
-    "https://socialapp2.ijs.si/news/gun-control_3",
-    "https://socialapp2.ijs.si/news/gun-control_4",
-    "https://socialapp2.ijs.si/news/gun-control_5",
-    "https://socialapp2.ijs.si/news/gun-control_1",
-    "https://socialapp2.ijs.si/news/gun-control_2",
-    "https://socialapp2.ijs.si/news/gun-control_3",
-    "https://socialapp2.ijs.si/news/gun-control_4",
-    "https://socialapp2.ijs.si/news/gun-control_5",
-  ],
-  "assisted death": [
-    "https://socialapp2.ijs.si/news/assisted-death_1",
-    "https://socialapp2.ijs.si/news/assisted-death_2",
-    "https://socialapp2.ijs.si/news/assisted-death_3",
-    "https://socialapp2.ijs.si/news/assisted-death_4",
-    "https://socialapp2.ijs.si/news/assisted-death_5",
-    "https://socialapp2.ijs.si/news/assisted-death_1",
-    "https://socialapp2.ijs.si/news/assisted-death_2",
-    "https://socialapp2.ijs.si/news/assisted-death_3",
-    "https://socialapp2.ijs.si/news/assisted-death_4",
-    "https://socialapp2.ijs.si/news/assisted-death_5",
-    "https://socialapp2.ijs.si/news/assisted-death_1",
-    "https://socialapp2.ijs.si/news/assisted-death_2",
-    "https://socialapp2.ijs.si/news/assisted-death_3",
-    "https://socialapp2.ijs.si/news/assisted-death_4",
-    "https://socialapp2.ijs.si/news/assisted-death_5",
-  ]
+let postsData = []; // Will be populated from CSV
+
+// Load CSV data on module initialization
+const initializePostsData = async () => {
+  try {
+    const articles = await loadArticlesFromCSV();
+    postsData = convertArticlesToPosts(articles);
+    console.log(`Initialized ${postsData.length} posts from CSV data`);
+  } catch (error) {
+    console.error('Failed to initialize posts data from CSV:', error);
+    // Fallback to minimal hardcoded data if CSV loading fails
+    postsData = [
+      { id: 1, articleId: 1, title: "Hospital tells family brain-dead Georgia woman must carry fetus due to abortion ban", topic: "abortion", strength: null, stance: null },
+      { id: 8, articleId: 8, title: "Balancing Perspectives on Abortion Rights", topic: "abortion", strength: 1, stance: "Pro-choice" },
+      { id: 9, articleId: 9, title: "Medical and Legal Experts Discuss the Complex Landscape of Abortion Access", topic: "abortion", strength: 1, stance: "Pro-choice" },
+      { id: 10, articleId: 10, title: "A Balanced View on Abortion: Respecting Personal Choice", topic: "abortion", strength: 1, stance: "Pro-choice" },
+      { id: 11, articleId: 11, title: "Navigating the Complexities of Abortion Legislation", topic: "abortion", strength: 1, stance: "Pro-choice" }
+    ];
+    console.log('Using fallback hardcoded posts data');
+  }
 };
+
+// Initialize data immediately
+initializePostsData();
+
+// ===============================
+// 🔹 DYNAMIC TOPIC-BASED WEB LINKS
+// ===============================
+// Generate web links dynamically based on available articles
+const getWebLinksForTopic = (topic) => {
+  const { getArticlesByTopic } = require('./articlesData');
+  const articles = getArticlesByTopic(topic);
+  
+  // Create links to our dynamic article routes
+  return articles.slice(0, 15).map(article => 
+    `https://socialapp2.ijs.si/news/article/${article.id}`
+  );
+};
+
+// Pre-generate common topic links for performance
+const webLinks = {
+  "abortion": [],
+  "gun control": [],
+  "assisted death": []
+};
+
+// Initialize web links
+const initializeWebLinks = () => {
+  try {
+    Object.keys(webLinks).forEach(topic => {
+      webLinks[topic] = getWebLinksForTopic(topic);
+    });
+  } catch (error) {
+    console.error('Failed to initialize web links:', error);
+    // Fallback to basic structure if initialization fails
+    webLinks["abortion"] = ["https://socialapp2.ijs.si/news/abortion_1"];
+    webLinks["gun control"] = ["https://socialapp2.ijs.si/news/gun-control_1"];
+    webLinks["assisted death"] = ["https://socialapp2.ijs.si/news/assisted-death_1"];
+  }
+};
+
+// Initialize links after a short delay to ensure articles are loaded
+setTimeout(initializeWebLinks, 1000);
 
 // ===============================
 // 🔹 HELPER FUNCTIONS
@@ -95,10 +80,22 @@ function getRandomSample(array, n) {
 
 // Get 5 initial posts by topic
 function getInitialPostsByTopic(topic) {
-  const filtered = postsData.filter(
+  let filtered = postsData.filter(
     (p) => p.topic.toLowerCase() === topic.toLowerCase()
   );
-  return getRandomSample(filtered, 5);
+  
+  // If no posts found for topic (e.g., "other"), fall back to random mix from all topics
+  if (filtered.length === 0) {
+    console.log(`No posts found for topic "${topic}", using mixed content`);
+    filtered = getRandomSample(postsData, 5); // Get random mix
+  }
+  
+  // Ensure all posts have articleId (fallback to id if not set)
+  const withArticleIds = filtered.map(post => ({
+    ...post,
+    articleId: post.articleId || post.id
+  }));
+  return getRandomSample(withArticleIds, 5);
 }
 
 // Get posts by topic and page (deterministic pagination)
