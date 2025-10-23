@@ -238,23 +238,82 @@ router.post('/register/:uniqId',  async (req, res) => {
  */
 
 // LOGIN
-router.post('/login', async (req, res) => {
+router.post('/login/:uniqId?', async (req, res) => {
 try {
     logger.info('Data received', { data: req.body });
-    const user = await User.findOne({username: req.body.username});
+    
+    // Get unique ID from URL parameter or request body
+    const uniqueId = req.params.uniqId || req.body.uniqueId;
+    const inputUsername = req.body.username;
+    
+    console.log(`Login attempt for uniqueId: ${uniqueId}, username: ${inputUsername}`);
+    
+    let user;
+    
+    // If we have a unique ID from URL, find user by that ID
+    if (uniqueId) {
+        console.log(`Looking up user by unique ID: ${uniqueId}`);
+        const idStorage = await IDStorage.findOne({yourID: uniqueId});
+        if (idStorage) {
+            user = await User.findOne({uniqueId: idStorage._id}).populate('uniqueId');
+            console.log(`Found user by unique ID: ${user ? user.username : 'none'}`);
+        }
+    }
+    
+    // If not found by unique ID and we have a username, try username
+    if (!user && inputUsername) {
+        console.log(`Looking up user by username: ${inputUsername}`);
+        user = await User.findOne({username: inputUsername}).populate('uniqueId');
+        
+        // If not found by username, try to find by unique ID using username field
+        if (!user) {
+            console.log(`User not found by username, trying unique ID: ${inputUsername}`);
+            const idStorage = await IDStorage.findOne({yourID: inputUsername});
+            if (idStorage) {
+                user = await User.findOne({uniqueId: idStorage._id}).populate('uniqueId');
+                console.log(`Found user by unique ID: ${user ? user.username : 'none'}`);
+            }
+        }
+    }
+    
     if (!user) {
+        console.log(`User not found by any method. uniqueId: ${uniqueId}, username: ${inputUsername}`);
         res.status(404).json("user not found");
         return
     }
 
-     console.log(req.body.password);
-    console.log(user.password);
-    const inputPassword = req.body.password.trim()
+    console.log(`User found: ${user.username}`);
+    console.log(`Input password: ${req.body.password}`);
+    console.log(`Stored password hash: ${user.password}`);
+    const inputPassword = req.body.password.trim();
     
-    const validPassword = await bcrypt.compare(inputPassword, user.password);
-    if (!validPassword){
+    // Get the complete unique ID from the populated field
+    let completeUniqueId;
+    if (user.uniqueId && user.uniqueId.yourID) {
+        completeUniqueId = user.uniqueId.yourID;
+    } else {
+        // Fallback to the ObjectId string if yourID field doesn't exist
+        completeUniqueId = user.uniqueId._id.toString();
+    }
+    
+    console.log(`Complete Unique ID: ${completeUniqueId}`);
+    console.log(`First 10 characters: ${completeUniqueId.substring(0, 10)}`);
+    
+    // Check if password matches first 10 characters of unique ID
+    const expectedPassword = completeUniqueId.substring(0, 10);
+    
+    // First check if the input password matches the first 10 characters of unique ID
+    if (inputPassword === expectedPassword) {
+        console.log("Password matches first 10 characters of unique ID - Login successful");
+    } else {
+        // Fallback to bcrypt comparison for existing hashed passwords
+        const validPassword = await bcrypt.compare(inputPassword, user.password);
+        if (!validPassword){
+            console.log("Password doesn't match unique ID first 10 chars or hashed password");
             res.status(404).json("wrong password");
-        return
+            return
+        }
+        console.log("Password matches hashed password - Login successful");
     }
 
     const token = jwt.sign({ _id: user._id }, `${process.env.JWT_SECRET}`);
@@ -333,7 +392,6 @@ logger.error('Error saving data', { error: err.message });
 }
 })
 
-
 function requireUserId(req, res, next) { 
     console.log(req.params.userId);
     console.log(req.body);
@@ -355,4 +413,22 @@ function requireUserId(req, res, next) {
     }
     }
 
-module.exports = router;
+// Debug route to list all users (remove in production)
+router.get('/debug/users', async (req, res) => {
+    try {
+        const users = await User.find({}).populate('uniqueId').select('username username_second uniqueId createdAt');
+        res.status(200).json({
+            count: users.length,
+            users: users.map(user => ({
+                username: user.username,
+                username_second: user.username_second,
+                uniqueId: user.uniqueId ? user.uniqueId.yourID : null,
+                created: user.createdAt
+            }))
+        });
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+module.exports = router;module.exports = router;

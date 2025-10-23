@@ -58,7 +58,12 @@ function Login({ classes }) {
 	//}
 	
 	try {
-		const loginResponse = await loginCall({ username: username, password: password }, dispatch);
+		// Send login request with unique ID from URL and password
+		const loginResponse = await loginCall({ 
+			username: username, 
+			password: password,
+			uniqueId: userId  // Add the unique ID from URL
+		}, dispatch);
 		
 		// Check if user needs to complete weekly survey
 		if (loginResponse && loginResponse.needsWeeklySurvey) {
@@ -78,7 +83,9 @@ function Login({ classes }) {
   const getUser = async (uniqId) => {
 	const token = localStorage.getItem('token');
 	try {
-		const res = await axios.post(`/users/getUser/${uniqId}`,{ headers: { 'auth-token': token }}); 
+		const res = await axios.post(`/users/getUser/${uniqId}`, {}, { 
+			headers: { 'auth-token': token }
+		}); 
 		console.log(res.data.login);
 		console.log(res.data.user);
 	
