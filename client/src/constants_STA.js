@@ -158,7 +158,7 @@ export const WEEKLY_INTRO = "These questions will be asked each week during your
 // Q4: Attitude assessment (example format - would be customized for specific topics)
 export const WEEKLY_POLITICAL_ISSUE_INTRO = "Please rate your attitudes toward the following political issues:";
 
-export const WEEKLY_POLITICAL_ISSUE_QUESTION = "On a scale from 0 to 100, how warm or favorable do you feel toward [specific political issue]?";
+export const WEEKLY_POLITICAL_ISSUE_QUESTION = "On a scale from 0 to 100, how warm or favorable do you feel toward legal access to abortion?";
 export const WEEKLY_POLITICAL_ISSUE_SCALE = "0 = Very unfavorable, 50 = Neutral, 100 = Very favorable";
 
 export const WEEKLY_POLITICAL_OUTGROUP_INTRO = "Please rate political opponents on the following traits:";

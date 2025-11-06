@@ -88,13 +88,19 @@ const [webViewUrl, setWebViewUrl] = useState('');
   const [user, setUser] = useState({});
   const [text, setText] = useState('');
   
-  const [webLink, setWebLink] = useState(post.webLinks);
+  // Use articleId to construct the correct article URL, fallback to webLinks for old posts
+  const [webLink, setWebLink] = useState(
+    post.articleId 
+      ? `/news/article/${post.articleId}` 
+      : post.webLinks
+  );
   const [inputValue, setInputValue] = useState("");
   const linkify = linkifyit();
   
   const [isVisible, setIsVisible] = useState(true);
   const ref = useRef(null);
   const desc = useRef();
+  const toastIdRef = useRef(null);
   const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)"});
   const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)"});
   const extractUrls = require("extract-urls");
@@ -363,17 +369,43 @@ const submitHandler2 = async (e) => {
     //if(!isDisliked){
       const token = localStorage.getItem('token');
       try {
-        const p = await axios.put("/posts/" + post._id + "/like", { userId: currentUser._id, headers: { 'auth-token': token } });
+        const p = await axios.put("/posts/" + post._id + "/like", { userId: currentUser._id }, { headers: { 'auth-token': token } });
         console.log("likeHandler");
         console.log(p);
 
-        //console.log(p.data.likes.length);
-        //if(p.data.likes.length > 0){
-        const vl = Number(like) + p.data.likes
-        if(vl < 0){setLike(0);}else{setLike(vl);}
-
-        const vl2 = Number(dislike) + p.data.dislikes
-        if(vl2 < 0){setDislike(0);}else{setDislike(vl2);}
+        // Binary behavior: only 0 or 1 allowed
+        // If clicking when like is 1, it goes to 0
+        // If dislike is 1 and clicking like, both go to 0
+        let newLike = 0;
+        let newDislike = 0;
+        
+        if (p.data.likes === 1) {
+          // We just added a like
+          newLike = 1;
+          newDislike = 0; // Ensure dislike is 0
+        } else if (p.data.likes === -1) {
+          // We just removed a like
+          newLike = 0;
+          newDislike = Number(dislike); // Keep dislike as is
+        }
+        
+        // If there's a dislike change (removed when liking)
+        if (p.data.dislikes === -1) {
+          newDislike = 0;
+        }
+        
+        setLike(newLike);
+        setDislike(newDislike);
+        
+        // Update the toast content if it's open
+        // Force re-render by using the new values directly in a new component instance
+        if (toastIdRef.current) {
+          setTimeout(() => {
+            toast.update(toastIdRef.current, {
+              render: () => <WebViewContent likeCount={newLike} dislikeCount={newDislike} />
+            });
+          }, 100);
+        }
 
         //}else{
         //  setLike(0);
@@ -405,15 +437,43 @@ const submitHandler2 = async (e) => {
     //if(!isLiked){
       const token = localStorage.getItem('token');
     try {
-      const p = await axios.put("/posts/" + post._id + "/dislike", { userId: currentUser._id, headers: { 'auth-token': token } });
+      const p = await axios.put("/posts/" + post._id + "/dislike", { userId: currentUser._id }, { headers: { 'auth-token': token } });
       console.log("dislike Handler");
         console.log(p);
-      //if(p.data.likes.length > 0){
-        const vl = Number(like) + p.data.likes
-        if(vl < 0){setLike(0);}else{setLike(vl);}
-
-        const vl2 = Number(dislike) + p.data.dislikes
-        if(vl2 < 0){setDislike(0);}else{setDislike(vl2);}
+      
+        // Binary behavior: only 0 or 1 allowed
+        // If clicking when dislike is 1, it goes to 0
+        // If like is 1 and clicking dislike, both go to 0
+        let newLike = 0;
+        let newDislike = 0;
+        
+        if (p.data.dislikes === 1) {
+          // We just added a dislike
+          newDislike = 1;
+          newLike = 0; // Ensure like is 0
+        } else if (p.data.dislikes === -1) {
+          // We just removed a dislike
+          newDislike = 0;
+          newLike = Number(like); // Keep like as is
+        }
+        
+        // If there's a like change (removed when disliking)
+        if (p.data.likes === -1) {
+          newLike = 0;
+        }
+        
+        setLike(newLike);
+        setDislike(newDislike);
+        
+        // Update the toast content if it's open
+        // Force re-render by using the new values directly in a new component instance
+        if (toastIdRef.current) {
+          setTimeout(() => {
+            toast.update(toastIdRef.current, {
+              render: () => <WebViewContent likeCount={newLike} dislikeCount={newDislike} />
+            });
+          }, 100);
+        }
 
       //}else{
       //  setLike(0);
@@ -447,25 +507,12 @@ const submitHandler2 = async (e) => {
   }*/
   };
 
-  const toggleWebView = async () => {
-    setHasReadArticle(true);
-    
-    console.log("🟢 toggleWebView called - Adding green bar!");
-    
-    try {
-        const token = localStorage.getItem('token');
-        const lc = await axios.post("/posts/" + currentUser._id + "/track-view", {postId: post._id, userId: currentUser._id, headers: { 'auth-token': token }});
-        console.log("Viewpost updated successfully.");
-        
-    } catch (error) {
-        console.error("Error updating view post:", error);
-
-    }
-    
-    toast.info(
-      <div style={{
+  // Create a component that will re-render with state changes
+  // Accept props to force re-render with new values
+  const WebViewContent = ({ likeCount = like, dislikeCount = dislike }) => (
+    <div style={{
           width: '1000px',
-          maxWidth: '95vw', // This ensures it fits on smaller screens
+          maxWidth: '95vw',
           height: '1000px',
           maxHeight: '90vh',
           backgroundColor: 'white',
@@ -484,45 +531,161 @@ const submitHandler2 = async (e) => {
             height: '8px', 
             backgroundColor: '#4CAF50',
             borderRadius: '10px 10px 0 0',
-            marginBottom: '15px',
+            marginBottom: '0px',
             position: 'absolute',
             top: '0',
             left: '0',
             zIndex: '9999'
           }}></div>
           
-          <div style={{ padding: '15px', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ padding: '15px 15px 15px 15px', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
               <iframe 
                   src={webLink} 
                   title="WebView"
+                  sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                   style={{
                       width: '100%',
                       height: '2000px',
                       border: 'none',
                       borderRadius: '8px',
                   }}
+                  onLoad={(e) => {
+                    try {
+                      const iframeDoc = e.target.contentDocument || e.target.contentWindow.document;
+                      const backButton = iframeDoc.querySelector('button[aria-label*="Close"], button[title*="Close"], .back-button');
+                      if (backButton) {
+                        backButton.addEventListener('click', (event) => {
+                          event.preventDefault();
+                          event.stopPropagation();
+                          toast.dismiss();
+                        });
+                      }
+                    } catch (err) {
+                      console.log('Cannot access iframe content due to CORS');
+                    }
+                  }}
               />
+              
+              {/* Like/Dislike buttons at the bottom */}
+              <div style={{ 
+                width: '100%', 
+                display: 'flex', 
+                justifyContent: 'center', 
+                alignItems: 'center',
+                gap: '30px',
+                padding: '20px 15px',
+                backgroundColor: '#f9f9f9',
+                borderTop: '2px solid #e0e0e0',
+                position: 'sticky',
+                bottom: '0',
+                zIndex: '9998',
+                boxShadow: '0 -2px 10px rgba(0,0,0,0.05)'
+              }}>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    likeHandler();
+                  }}
+                  style={{ 
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    padding: '12px 24px',
+                    backgroundColor: 'white',
+                    color: '#555',
+                    border: '2px solid #ddd',
+                    borderRadius: '25px',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    transition: 'all 0.3s ease',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                    minWidth: '120px',
+                    justifyContent: 'center'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+                  }}
+                >
+                  <img 
+                    src={`${PF}clike.png`} 
+                    alt="Like" 
+                    style={{ 
+                      width: '24px', 
+                      height: '24px'
+                    }} 
+                  />
+                  <span>{likeCount}</span>
+                </button>
+                
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    dislikeHandler();
+                  }}
+                  style={{ 
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    padding: '12px 24px',
+                    backgroundColor: 'white',
+                    color: '#555',
+                    border: '2px solid #ddd',
+                    borderRadius: '25px',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    transition: 'all 0.3s ease',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                    minWidth: '120px',
+                    justifyContent: 'center'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+                  }}
+                >
+                  <img 
+                    src={`${PF}cdislike.png`} 
+                    alt="Dislike" 
+                    style={{ 
+                      width: '24px', 
+                      height: '24px'
+                    }} 
+                  />
+                  <span>{dislikeCount}</span>
+                </button>
+              </div>
           </div>
-          
-          <button 
-              onClick={() => toast.dismiss()} 
-              style={{
-                  position: 'absolute',
-                  top: '0px',
-                  right: '45px',
-                  padding: '8px 16px',
-                  backgroundColor: '#ff4d4f',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '5px',
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                  zIndex: '10000'
-              }}
-          >
-              Zatvori
-          </button>
-      </div>,
+      </div>
+  );
+
+  const toggleWebView = async () => {
+    setHasReadArticle(true);
+    
+    console.log("🟢 toggleWebView called - Adding green bar!");
+    
+    try {
+        const token = localStorage.getItem('token');
+        const lc = await axios.post("/posts/" + currentUser._id + "/track-view", {postId: post._id, userId: currentUser._id, headers: { 'auth-token': token }});
+        console.log("Viewpost updated successfully.");
+        
+    } catch (error) {
+        console.error("Error updating view post:", error);
+
+    }
+    
+    const id = toast.info(
+      <WebViewContent />,
       {
           className: "custom-toast",
           position: "top-center",
@@ -538,6 +701,8 @@ const submitHandler2 = async (e) => {
           }
       }
   );
+  
+  toastIdRef.current = id;
 };
 
 
@@ -585,26 +750,42 @@ const submitHandler2 = async (e) => {
                 {/* Green bar at the top of the webview */}
                 <div style={{ 
                   width: '100%', 
-                  height: '4px', 
+                  height: '8px', 
                   backgroundColor: '#4CAF50',
                   borderRadius: '10px 10px 0 0',
-                  marginBottom: '15px'
+                  marginBottom: '0px'
                 }}></div>
                 
-                <div style={{ padding: '15px', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{ padding: '15px 15px 15px 15px', width: '100%', height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
                     <iframe 
                         src={webLink} 
                         title="WebView"
+                        sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                         style={{
                             width: '100%', 
                             height: '100%', 
                             border: 'none', 
                             borderRadius: '8px',
                         }}
+                        onLoad={(e) => {
+                          try {
+                            const iframeDoc = e.target.contentDocument || e.target.contentWindow.document;
+                            const backButton = iframeDoc.querySelector('button[aria-label*="Close"], button[title*="Close"], .back-button');
+                            if (backButton) {
+                              backButton.addEventListener('click', (event) => {
+                                event.preventDefault();
+                                event.stopPropagation();
+                                toast.dismiss();
+                              });
+                            }
+                          } catch (err) {
+                            console.log('Cannot access iframe content due to CORS');
+                          }
+                        }}
                     />
                 </div>
 
-                <button 
+                {/*<button 
                     onClick={() => toast.dismiss()} 
                     style={{
                         position: 'absolute',
@@ -621,7 +802,7 @@ const submitHandler2 = async (e) => {
                     }}
                 >
                     Zatvori
-                </button>
+                </button>*/}
             </div>
         </div>,
         {
@@ -682,10 +863,10 @@ const submitHandler2 = async (e) => {
           {/* Green bar at the top of the webview */}
           <div style={{ 
             width: '100%', 
-            height: '4px', 
+            height: '8px', 
             backgroundColor: '#4CAF50',
             borderRadius: '10px 10px 0 0',
-            marginBottom: '10px'
+            marginBottom: '0px'
           }}></div>
           
           <div style={{
@@ -693,10 +874,11 @@ const submitHandler2 = async (e) => {
               height: '100%',
               overflow: 'auto',
               position: 'relative',
-              padding: '15px',
+              padding: '15px 15px 15px 15px',
               boxSizing: 'border-box'
           }}>
               <iframe src={webLink} title="WebView"
+                  sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                   style={{
                       width: '100%',
                       height: '100%',
@@ -704,10 +886,25 @@ const submitHandler2 = async (e) => {
                       borderRadius: '8px',
                       display:'block'
                   }}
+                  onLoad={(e) => {
+                    try {
+                      const iframeDoc = e.target.contentDocument || e.target.contentWindow.document;
+                      const backButton = iframeDoc.querySelector('button[aria-label*="Close"], button[title*="Close"], .back-button');
+                      if (backButton) {
+                        backButton.addEventListener('click', (event) => {
+                          event.preventDefault();
+                          event.stopPropagation();
+                          toast.dismiss();
+                        });
+                      }
+                    } catch (err) {
+                      console.log('Cannot access iframe content due to CORS');
+                    }
+                  }}
               />
           </div>
           
-          <button 
+          {/*<button 
               onClick={() => toast.dismiss()} 
               style={{
                   position: 'absolute',
@@ -724,7 +921,7 @@ const submitHandler2 = async (e) => {
               }}
           >
               Zatvori
-          </button>
+          </button>*/}
       </div>,
       {
           position: "top-center",
@@ -830,16 +1027,7 @@ const triangleOverlayStyle = {
         <div className={classes.postTop} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
         
           <div className={classes.postTopLeft} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
-            <Link  style={{textDecoration: 'none', color: COLORS.textColor, background: repost>0 ? "#F5F5F5" : "#ffffff"}} >
-              <img src={user.profilePicture ? PF + user.profilePicture : PF + 'person/noAvatar.png'} alt="" className={classes.postProfileImg} />
-            </Link>
-            <Link style={{textDecoration: 'none', color: COLORS.textColor, cursor:'default', background: repost>0 ? "#F5F5F5" : "#ffffff"}} >
-            <span className={classes.postUsername}>
-              {user.username}
-            </span>
-            </Link>
-            <span className={classes.postDate} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>{format(post.createdAt, 'sr')}</span>
-            {<span className={classes.postDate} style={{margin: '0px 0px 0px 20px',}}>{"group= "+ post.userGroup +" | round# "+ post.treatment+" | post label= "+ post.content+" | ranking= "+post.rank+" | ukraine score= "+post.ukraine+" | disinfo score= "+post.disinfo}</span>}
+            {/* Removed user profile and metadata for news-style layout */}
           </div>
           
           { /*(repost < 1)?
@@ -856,13 +1044,61 @@ const triangleOverlayStyle = {
         <Linkify componentDecorator={(decoratedHref, decoratedText, key) => (<a target="blank" rel="noopener noreferrer" href={decoratedHref} key={key} > {decoratedText} </a>)}>
           <div className={classes.postText}  style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
             {/*!isDetail && post?.desc.length > 0? */}
-              <div className={classes.content}  style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }} dangerouslySetInnerHTML={{ __html: post?.desc }}> 
-              
-                  {/*<Link to={{pathname:`/postdetail/${user.username}`, state:{myObj: currentPost}}}></Link>*/}
+              {/* News-style headline (big bold text) */}
+              {!isDetail && (
+                <div style={{ 
+                  background: repost>0 ? "#F5F5F5" : "#ffffff",
+                  marginBottom: '12px'
+                }}>
+                  <h2 style={{ 
+                    fontSize: '22px', 
+                    fontWeight: 'bold', 
+                    margin: '0 0 8px 0',
+                    letterSpacing: '0.5px',
+                    lineHeight: '1.3',
+                    color: '#000'
+                  }}>
+                    {/* Use title field if available, otherwise fallback to desc */}
+                    {post?.title || (post?.desc ? post.desc.replace(/<[^>]*>/g, '') : '')}
+                  </h2>
                 </div>
+              )}
+              
+              {/* Preview text - first sentence (non-bold text) - only show if title exists */}
+              {!isDetail && post?.title && post?.desc && (
+                <div style={{ 
+                  fontSize: '15px', 
+                  color: '#555',
+                  marginBottom: '12px',
+                  lineHeight: '1.6',
+                  background: repost>0 ? "#F5F5F5" : "#ffffff"
+                }}>
+                  {post.desc.replace(/<[^>]*>/g, '')}
+                </div>
+              )}
+              
+              {/* Full content for detail view */}
+              {isDetail && (
+                <div className={classes.content}  style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }} dangerouslySetInnerHTML={{ __html: post?.desc }}></div>
+              )}
+              
             {!isDetail && !["pro ukraine", "pro russia", "mixed", "neutral", "neutral", "neutral"].includes(post.content) && (<button 
                 onClick={toggleWebView} 
-                style={{ display: 'inline-block', verticalAlign: 'middle', padding: '0px 20px', margin: '0px 20px'}}>
+                style={{ 
+                  display: 'inline-block', 
+                  verticalAlign: 'middle', 
+                  padding: '10px 24px', 
+                  margin: '8px 0',
+                  backgroundColor: '#1976d2',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px'
+                }}>
                 Read full article
             </button>)}
             {/*}:
@@ -880,51 +1116,6 @@ const triangleOverlayStyle = {
           
           
         </div>
-        <div className={classes.postBottom} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
-          <div className={classes.postBottomLeft} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
-            <img src={`${PF}clike.png`} alt="" className={classes.likeIcon} onClick={likeHandler} />
-            <span className={classes.postLikeCounter}>{like}</span>
-                  
-            <img src={`${PF}cdislike.png`} alt="" className={classes.likeIcon} onClick={dislikeHandler} />
-            <span className={classes.postDislikeCounter}>{dislike}</span>
-            <form class = "form">
-            <SendIcon className={classes.sendButton2} style={{ display:"flex", margin:"0px 20px"}} type="submit" onClick={submitHandler2}/>
-            </form>
-          </div>
-          <div className={classes.postBottomRight} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
-          <Link style={{textDecoration: 'none', color: COLORS.textColor}} to={{pathname:`/postdetail/${user.username}`, state:{myObj: currentPost}}}> <div className={classes.postCommentText} >{comments.length} {"Komentara"}</div></Link>
-          </div>
-        </div>
-        {isDetail && (
-        <div ref={ref} className={classes.commentsWrapper}  style={{ display: isVisible ? "block" : "none", background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
-        <hr className={classes.shareHr} />
-        
-          <div className={classes.txtnButtonRight} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
-            <CardHeader
-              avatar={<Avatar className={classes.smallAvatar} src={currentUser.profilePicture? PF + currentUser.profilePicture: PF + "person/noAvatar.png"} style={{ background: repost>0 ? "#ffffff" : "#ffffff" }} />}
-              title={<InputEmoji className={classes.shareInput} style={{ fontSize: "15", height: "40px", background: repost>0 ? "#ffffff" : "#ffffff" }} shouldReturn={true} value={inputValue}  onChange={handleChange}  onEnter={onEnterSubmitHandler} placeholder={Write_something} />}
-              className={classes.cardHeader} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}/>
-
-            <form class = "form">
-              <SendIcon className={classes.sendButton2} style={{ display:"flex", margin:"0px 20px"}} type="submit" onClick={submitHandler}/>
-            </form>
-            </div>
-            <div className={classes.commentTop} style={{ background: repost>0 ? "#F5F5F5" : "#ffffff" }}>
-            {comments.slice(0).reverse().map((item, i) => {
-              console.log(i);
-              console.log(item._id);
-                      //return <CommentSA key={item._id} post={post} comment={item} isDetail={false}/>
-              if(isDetail===false && i < 1) {
-                  return <CommentSA key={item._id} post={post} comment={item} isDetail={false}/>
-
-              } else if(isDetail === true) {
-                  return <CommentSA key={item._id} post={post} comment={item} isDetail={false}/>
-                  
-              }
-              })
-            }
-        </div>
-        </div>)}
       </div>
     </div>
     </InView>

@@ -339,32 +339,37 @@ try {
         console.log(`Current Time: ${now.toISOString()}`);
         console.log(`Last Login: ${lastLogin ? new Date(lastLogin).toISOString() : 'Never (using createdAt)'}`);
         console.log(`Days Since Last Login: ${daysSinceLastLogin} days`);
+        console.log(`Current Topic: ${user.currentTopic || 'Not set'}`);
         console.log(`Threshold: 7 days`);
         console.log(`Has Been 7+ Days: ${daysSinceLastLogin >= 7 ? 'YES ✓' : 'NO ✗'}`);
         
         // Check if it's been 7+ days since last login
         if (daysSinceLastLogin >= 7) {
-            console.log('\n>>> 7+ days detected - Checking weekly survey status...');
+            console.log('\n>>> 7+ days detected - Checking weekly survey status for current topic...');
             
-            // Calculate start of current week (Sunday)
-            const startOfWeek = new Date();
-            startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-            startOfWeek.setHours(0, 0, 0, 0);
-            
-            console.log(`Start of Current Week: ${startOfWeek.toISOString()}`);
-            
-            // Check if user has submitted weekly survey this week
-            const weeklyResponse = await WeeklyResponse.findOne({
+            // Check if user has submitted weekly survey for their CURRENT topic
+            // (regardless of when - topic-specific check)
+            const topicWeeklyResponse = await WeeklyResponse.findOne({
                 userId: user._id,
-                createdAt: { $gte: startOfWeek }
-            });
+                topic: user.currentTopic
+            }).sort({ createdAt: -1 }); // Get the most recent one for this topic
             
-            needsWeeklySurvey = !weeklyResponse; // true if no response found for this week
+            if (topicWeeklyResponse) {
+                // Check if it's been 7+ days since last survey for this topic
+                const daysSinceLastSurvey = Math.floor((now - new Date(topicWeeklyResponse.createdAt)) / (1000 * 60 * 60 * 24));
+                console.log(`Last survey for topic "${user.currentTopic}": ${topicWeeklyResponse.createdAt.toISOString()}`);
+                console.log(`Days since last survey for this topic: ${daysSinceLastSurvey} days`);
+                
+                needsWeeklySurvey = daysSinceLastSurvey >= 7;
+            } else {
+                // No survey for this topic yet
+                console.log(`No weekly survey found for topic: ${user.currentTopic}`);
+                needsWeeklySurvey = true;
+            }
             
-            console.log(`Weekly Survey Completed This Week: ${!!weeklyResponse ? 'YES ✓' : 'NO ✗'}`);
             console.log(`Will Show Weekly Survey: ${needsWeeklySurvey ? 'YES ✓' : 'NO ✗'}`);
         } else {
-            console.log(`\n>>> Less than 7 days - No weekly survey needed`);
+            console.log(`\n>>> Less than 7 days since last login - No weekly survey needed`);
             console.log(`User needs to wait ${7 - daysSinceLastLogin} more day(s)`);
         }
         

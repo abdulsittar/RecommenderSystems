@@ -804,4 +804,64 @@ router.put('/:id/read', verifyToken, async (req, res) => {
     }
 })
 
+// Submit weekly response
+router.post('/weeklyResponse', verifyToken, async (req, res) => {
+    const WeeklyResponse = require('../models/WeeklyResponse');
+    
+    logger.info('Weekly response data received', { data: req.body });
+    try {
+        const user = await User.findById(req.body.userId);
+        
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        const newWeeklyResponse = new WeeklyResponse({
+            uniqueId: user.uniqueId,
+            userId: req.body.userId,
+            topic: req.body.topic,
+            weekNumber: req.body.weekNumber || 1,
+            topicAttitude: req.body.topicAttitude !== undefined ? req.body.topicAttitude : 5,
+            topicInterest: req.body.topicInterest !== undefined ? req.body.topicInterest : 5,
+            topicKnowledge: req.body.topicKnowledge !== undefined ? req.body.topicKnowledge : 5
+        });
+        
+        const savedResponse = await newWeeklyResponse.save();
+        console.log('Weekly response saved:', savedResponse);
+        res.status(200).json({ success: true, responseId: savedResponse._id });
+        
+    } catch (err) {
+        logger.error('Error saving weekly response', { error: err.message });
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// Update user's current topic
+router.put('/:id/updateTopic', verifyToken, async (req, res) => {
+    logger.info('Update topic data received', { data: req.body });
+    try {
+        const user = await User.findById(req.params.id);
+        
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        await user.updateOne({
+            $set: {
+                currentTopic: req.body.topic,
+                lastTopicChangeDate: new Date()
+            }
+        });
+        
+        console.log(`User ${user.username} topic updated to: ${req.body.topic}`);
+        res.status(200).json({ success: true, topic: req.body.topic });
+        
+    } catch (err) {
+        logger.error('Error updating user topic', { error: err.message });
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
 module.exports = router;

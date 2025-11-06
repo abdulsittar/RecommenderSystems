@@ -27,6 +27,7 @@ import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
+import { Slider, Box, Typography } from '@material-ui/core';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -51,6 +52,14 @@ const [open, setOpen] = React.useState(false);
     const [nextSelectedOption, setNextSelectedOption] = useState('option1');
     const [currentTopic, setCurrentTopic] = useState(null); // Track the current topic for filtering posts
 //const [hasReadArticle, setHasReadArticle] = useState(false);
+
+// Weekly survey modal state
+const [weeklySurveyOpen, setWeeklySurveyOpen] = useState(false);
+const [weeklyData, setWeeklyData] = useState({
+    topicAttitude: 5,
+    topicInterest: 5,
+    topicKnowledge: 5
+});
  
 let postCallCount = 0; 
 let maxCalls = 5; 
@@ -153,10 +162,43 @@ const handleFeedAction = async (e) => {
             };
             const topic = topicMapping[nextSelectedOption] || 'abortion';
             console.log('handleNextConfirm - Selected option:', nextSelectedOption, 'Mapped topic:', topic);
+            
+            // Check if this is first topic selection OR topic changed
+            const isFirstTopic = !currentTopic;
+            const topicChanged = currentTopic && currentTopic !== topic;
+            
             setCurrentTopic(topic); // Store the selected topic for filtering
             setNextDialogOpen(false);
+            
+            // Scroll to top of page when changing topic
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // If topic changed (not first time), show weekly survey
+            if (topicChanged) {
+                console.log('Topic changed from', currentTopic, 'to', topic, '- showing weekly survey');
+                // Set flag and show weekly survey modal
+                localStorage.setItem('showWeeklySurvey', 'true');
+                localStorage.setItem('weeklySurveyReason', 'topicChange');
+                localStorage.setItem('pendingTopic', topic); // Store the new topic
+                setWeeklySurveyOpen(true);
+                return; // Don't fetch posts yet - will fetch after survey
+            }
+            
+            // If this is first topic selection and flag is set, show weekly survey
+            if (isFirstTopic && localStorage.getItem('showWeeklySurvey') === 'true') {
+                console.log('First topic selection - showing weekly survey before loading content');
+                localStorage.setItem('pendingTopic', topic);
+                setWeeklySurveyOpen(true);
+                return; // Don't fetch posts yet - will fetch after survey
+            }
+            
             try {
                 const token = localStorage.getItem('token');
+                // Update user's current topic
+                await axios.put(`/users/${user._id}/updateTopic`, {
+                    topic: topic
+                }, { headers: { 'auth-token': token } });
+                
                 // Call server to create initial training data for this user/topic
                 await axios.post(`/posts/${user._id}/createInitialData`, { topic, pool: user.pool, userId: user._id }, { headers: { 'auth-token': token } });
                 // After creation, reset index and fetch posts (page 0) with the new topic
@@ -168,6 +210,67 @@ const handleFeedAction = async (e) => {
                 await fetchPostsWithTopic(selectedValue, 0, topic); // Pass topic directly
             }
     }
+
+    // Weekly survey handlers
+    const handleWeeklySurveySliderChange = (field, value) => {
+        setWeeklyData(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
+
+    const handleWeeklySurveySubmit = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const weeklySurveyReason = localStorage.getItem('weeklySurveyReason');
+            const pendingTopic = localStorage.getItem('pendingTopic') || currentTopic;
+            
+            // Calculate current week number
+            const now = new Date();
+            const weekNumber = Math.floor((now.getTime() - new Date('2024-01-01').getTime()) / (7 * 24 * 60 * 60 * 1000));
+
+            // Submit weekly survey with topic
+            const response = await axios.post('/users/weeklyResponse', {
+                ...weeklyData,
+                userId: user._id,
+                topic: pendingTopic,
+                weekNumber: weekNumber
+            }, { headers: { 'auth-token': token } });
+
+            if (response.status === 200) {
+                console.log('Weekly survey submitted successfully');
+                
+                // Update user's current topic and lastTopicChangeDate
+                await axios.put(`/users/${user._id}/updateTopic`, {
+                    topic: pendingTopic
+                }, { headers: { 'auth-token': token } });
+                
+                setWeeklySurveyOpen(false);
+                
+                // Clear flags
+                localStorage.removeItem('weeklySurveyReason');
+                localStorage.removeItem('pendingTopic');
+                
+                // After survey submission, create initial data and fetch posts
+                // (for both first time and topic change scenarios)
+                try {
+                    await axios.post(`/posts/${user._id}/createInitialData`, { 
+                        topic: pendingTopic, 
+                        pool: user.pool, 
+                        userId: user._id 
+                    }, { headers: { 'auth-token': token } });
+                    setIndex(0);
+                    await fetchPostsWithTopic(selectedValue, 0, pendingTopic);
+                } catch (err) {
+                    console.error('Error creating initial data after survey:', err);
+                    await fetchPostsWithTopic(selectedValue, 0, pendingTopic);
+                }
+            }
+        } catch (error) {
+            console.error('Error submitting weekly survey:', error);
+            alert('There was an error submitting your survey. Please try again.');
+        }
+    };
   
 
 const [windowSize, setWindowSize] = useState(getWindowSize());
@@ -191,6 +294,40 @@ useEffect(() => {
 useEffect(() => {
     console.log('Posts updated: ', posts);
 }, [posts]);
+
+// Initialize current topic from user's saved topic
+useEffect(() => {
+    if (user && currentUser.currentTopic && !currentTopic) {
+        console.log('Loading user current topic:', currentUser.currentTopic);
+        setCurrentTopic(currentUser.currentTopic);
+    }
+}, [currentUser]);
+
+// Check if user needs to select a topic (first time) or complete weekly survey
+useEffect(() => {
+    const showWeeklySurvey = localStorage.getItem('showWeeklySurvey');
+    const weeklySurveyReason = localStorage.getItem('weeklySurveyReason');
+    
+    // Priority 1: If user doesn't have a current topic, show topic selection dialog FIRST
+    if (user && !currentUser.currentTopic && !currentTopic) {
+        console.log('User has no currentTopic set - showing topic selection dialog');
+        // Clear the weekly survey flag - it will be triggered AFTER topic selection
+        localStorage.removeItem('showWeeklySurvey');
+        setTimeout(() => {
+            setNextDialogOpen(true);
+        }, 500);
+    }
+    // Priority 2: If user has a topic AND flag is set, show weekly survey
+    else if (showWeeklySurvey === 'true' && (currentUser.currentTopic || currentTopic)) {
+        console.log('Weekly survey should be shown. Reason:', weeklySurveyReason);
+        // Show weekly survey modal after a brief delay
+        setTimeout(() => {
+            setWeeklySurveyOpen(true);
+        }, 1000);
+        // Clear the flag so it doesn't show again on refresh
+        localStorage.removeItem('showWeeklySurvey');
+    }
+}, [currentUser, currentTopic]);
 
 useEffect(() => {
 
@@ -371,6 +508,13 @@ if (preProfile === " ") {
         if (Array.isArray(res.data)) {
             setPosts(res.data)
         }
+        
+        // If currentTopic is not set and we got posts, infer the topic from the first post
+        if (!currentTopic && res.data.length > 0 && res.data[0].content) {
+            console.log('Inferring topic from first post:', res.data[0].content);
+            setCurrentTopic(res.data[0].content);
+        }
+        
         res.data.length%20 > 0 ? setHasMore(false) : setHasMore(true);
         increment(index, 0);
         setProgress(100);
@@ -583,9 +727,39 @@ if (preProfile === " ") {
     console.log(whPosts);
 }}
 
+    // Handler to get more posts on the same topic
+    const handleGetMorePosts = () => {
+        if (currentTopic) {
+            // Increment page and fetch more posts with the same topic
+            const nextPage = index + 1;
+            setIndex(nextPage);
+            fetchPostsWithTopic(selectedValue, nextPage, currentTopic);
+        }
+    };
+
 return (
     <div className={classes.feed}>
     <LoadingBar   color="#f11946"   progress={progress}   onLoaderFinished={() => setProgress(0)} />
+        
+        {/* Top Navigation Buttons */}
+        <div style={{display: 'flex', justifyContent: 'center', gap: '16px', marginBottom: 20, marginTop: 10}}>
+            <Button 
+                variant="contained" 
+                color="primary" 
+                onClick={handleGetMorePosts}
+                disabled={!currentTopic}
+            >
+                Get More Posts on This Topic
+            </Button>
+            <Button 
+                variant="contained" 
+                color="secondary" 
+                onClick={handleOpenNextDialog}
+            >
+                Change Topic
+            </Button>
+        </div>
+        
         <InfiniteScroll dataLength={posts.length} next={fetchMoreData} hasMore={hasMore} loader={<Loader />}>
         <div className={classes.feedWrapper} style={{"width": (!isMobileDevice && !isTabletDevice) && (windowSize.innerWidth-10)+"px"}}>
             {( !username || username === user.username) }
@@ -602,19 +776,33 @@ return (
 
         </div>
         </InfiniteScroll>
-                <div style={{display: 'flex', justifyContent: 'center', marginTop: 12}}>
-                    <Button variant="contained" color="primary" onClick={handleOpenNextDialog}>
-                        Next Page
-                    </Button>
-                </div>
+        
+        {/* Bottom Navigation Buttons */}
+        <div style={{display: 'flex', justifyContent: 'center', gap: '16px', marginTop: 20}}>
+            <Button 
+                variant="contained" 
+                color="primary" 
+                onClick={handleGetMorePosts}
+                disabled={!currentTopic}
+            >
+                Get More Posts on This Topic
+            </Button>
+            <Button 
+                variant="contained" 
+                color="secondary" 
+                onClick={handleOpenNextDialog}
+            >
+                Change Topic
+            </Button>
+        </div>
                 <Dialog open={nextDialogOpen} onClose={handleNextDialogClose} aria-labelledby="next-dialog-title">
-                    <DialogTitle id="next-dialog-title">Select Next Page</DialogTitle>
+                    <DialogTitle id="next-dialog-title">Change Topic</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            Choose one of the options below to load the corresponding page.
+                            Choose a topic to see posts about that subject.
                         </DialogContentText>
                         <FormControl component="fieldset" style={{marginTop: 8}}>
-                            <FormLabel component="legend">Pages</FormLabel>
+                            <FormLabel component="legend">Topics</FormLabel>
                             <RadioGroup value={nextSelectedOption} onChange={handleNextOptionChange}>
                                 <FormControlLabel value="option1" control={<Radio />} label="Assisted death" />
                                 <FormControlLabel value="option2" control={<Radio />} label="Abortion" />
@@ -629,6 +817,94 @@ return (
                         <Button onClick={handleNextConfirm} color="primary">Confirm</Button>
                     </DialogActions>
                 </Dialog>
+
+        {/* Weekly Survey Modal */}
+        <Dialog 
+            open={weeklySurveyOpen} 
+            onClose={() => {}} 
+            aria-labelledby="weekly-survey-title"
+            maxWidth="md"
+            fullWidth
+            disableEscapeKeyDown
+        >
+            <DialogTitle id="weekly-survey-title">Topic Survey - {currentTopic || 'Loading...'}</DialogTitle>
+            <DialogContent>
+                <Typography variant="body1" style={{marginBottom: 24}}>
+                    Please answer these brief questions about your attitudes toward <strong>{currentTopic || 'this topic'}</strong>.
+                </Typography>
+
+                {/* Question 1: Attitude toward the topic */}
+                <Typography variant="body1" style={{marginBottom: 8, fontWeight: 500}}>
+                    1. What is your attitude toward {currentTopic || 'this topic'}?
+                </Typography>
+                <Typography variant="caption" style={{fontStyle: 'italic', color: '#666', marginBottom: 16, display: 'block'}}>
+                    0 = Very negative, 10 = Very positive
+                </Typography>
+                <Box style={{margin: '16px 0 32px 0'}}>
+                    <Slider
+                        value={weeklyData.topicAttitude}
+                        onChange={(e, value) => handleWeeklySurveySliderChange('topicAttitude', value)}
+                        min={0}
+                        max={10}
+                        valueLabelDisplay="on"
+                        marks={[
+                            { value: 0, label: '0' },
+                            { value: 5, label: '5 (Neutral)' },
+                            { value: 10, label: '10' }
+                        ]}
+                    />
+                </Box>
+
+                {/* Question 2: Interest in learning more */}
+                <Typography variant="body1" style={{marginBottom: 8, fontWeight: 500}}>
+                    2. How interested are you in learning more about {currentTopic || 'this topic'}?
+                </Typography>
+                <Typography variant="caption" style={{fontStyle: 'italic', color: '#666', marginBottom: 16, display: 'block'}}>
+                    0 = Not interested, 10 = Very interested
+                </Typography>
+                <Box style={{margin: '16px 0 32px 0'}}>
+                    <Slider
+                        value={weeklyData.topicInterest}
+                        onChange={(e, value) => handleWeeklySurveySliderChange('topicInterest', value)}
+                        min={0}
+                        max={10}
+                        valueLabelDisplay="on"
+                        marks={[
+                            { value: 0, label: '0' },
+                            { value: 5, label: '5 (Neutral)' },
+                            { value: 10, label: '10' }
+                        ]}
+                    />
+                </Box>
+
+                {/* Question 3: Confidence in knowledge */}
+                <Typography variant="body1" style={{marginBottom: 8, fontWeight: 500}}>
+                    3. How confident are you in your knowledge about {currentTopic || 'this topic'}?
+                </Typography>
+                <Typography variant="caption" style={{fontStyle: 'italic', color: '#666', marginBottom: 16, display: 'block'}}>
+                    0 = Not confident, 10 = Very confident
+                </Typography>
+                <Box style={{margin: '16px 0 32px 0'}}>
+                    <Slider
+                        value={weeklyData.topicKnowledge}
+                        onChange={(e, value) => handleWeeklySurveySliderChange('topicKnowledge', value)}
+                        min={0}
+                        max={10}
+                        valueLabelDisplay="on"
+                        marks={[
+                            { value: 0, label: '0' },
+                            { value: 5, label: '5 (Neutral)' },
+                            { value: 10, label: '10' }
+                        ]}
+                    />
+                </Box>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleWeeklySurveySubmit} color="primary" variant="contained">
+                    Submit Survey
+                </Button>
+            </DialogActions>
+        </Dialog>
         
         {/*<React.Fragment>
       <Dialog

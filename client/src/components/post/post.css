@@ -45,3 +45,13 @@
     }
 }
 
+/* Hide back button in iframe - inject into iframe if possible */
+iframe {
+    pointer-events: auto;
+}
+
+/* Add style to hide buttons that might be back buttons */
+.hide-back-button {
+    display: none !important;
+}
+

@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+import { loginCall } from '../../apiCalls';
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { withStyles } from '@material-ui/core/styles';
@@ -39,6 +40,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import Slider from '@material-ui/core/Slider';
+import Box from '@material-ui/core/Box';
 
 import {
   // New constants for three-stage survey
@@ -140,7 +143,9 @@ function Register({classes}) {
   // Form data state
   const [consentAnswers, setConsentAnswers] = useState({});
   const [demographicsData, setDemographicsData] = useState({});
-  const [weeklyData, setWeeklyData] = useState({});
+  const [weeklyData, setWeeklyData] = useState({
+    politicalIssue: 50 // Default to neutral (50)
+  });
   
   // UI state
   const [isButtonDisabled, setButtonDisabled] = useState(false);
@@ -173,10 +178,36 @@ function Register({classes}) {
       const res = await axios.post(`/presurvey/isSubmitted/${uniqId}`);
       const data = res.data;
 
-      // If user already exists (has completed registration before), redirect to login
+      // If user already exists (has completed registration before), auto-login instead of redirecting to login page
       if (data.login === true) {
-        toast.info('Welcome back! Please log in.');
-        history.push(`/login/${uniqId}`);
+        toast.info('Welcome back!');
+        console.log('User already exists, auto-logging in...');
+        
+        // Auto-login using the unique ID and password (first 10 characters of unique ID)
+        const password = uniqId.substring(0, 10);
+        const username = data.user.username;
+        
+        try {
+          const loginResponse = await loginCall({ 
+            username: username, 
+            password: password,
+            uniqueId: uniqId
+          }, dispatch);
+          
+          // Check if user needs to complete weekly survey
+          if (loginResponse && loginResponse.needsWeeklySurvey) {
+            console.log('User needs to complete weekly survey, redirecting...');
+            history.push('/weekly-survey');
+          } else {
+            console.log('User does not need weekly survey, redirecting to home...');
+            history.push("/");
+          }
+        } catch (loginError) {
+          console.error('Auto-login failed:', loginError);
+          toast.error('Login failed. Please try again.');
+          // If auto-login fails, fall back to manual login page
+          history.push(`/login/${uniqId}`);
+        }
         return;
       }
       
@@ -346,10 +377,13 @@ function Register({classes}) {
         
         if (response.status === 200) {
           console.log('Demographics saved successfully:', response.data);
-          setCurrentStage('weekly');
+          // Skip weekly survey stage - go directly to user selection
+          setCurrentStage('userSelection');
           toast.success('Demographics information saved successfully!');
           // Scroll to top of page for next stage
           window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+          // Fetch user profiles for selection
+          fetchUserProfiles();
         } else {
           throw new Error('Failed to save demographics data');
         }
@@ -406,11 +440,36 @@ function Register({classes}) {
       const res = await axios.post(`/presurvey/isSubmitted/${uniqId}`);
       console.log('Presurvey response:', res.data);
       
-      // Check if user already exists and should login instead
+      // Check if user already exists and should auto-login instead
       if (res.data.login === true) {
-        console.log('User already exists, redirecting to login');
-        toast.info('User already registered. Please login instead.');
-        history.push(`/login/${uniqId}`);
+        console.log('User already exists, auto-logging in...');
+        toast.info('User already registered. Logging you in...');
+        
+        // Auto-login using the unique ID and password (first 10 characters of unique ID)
+        const password = uniqId.substring(0, 10);
+        const username = res.data.user.username;
+        
+        try {
+          const loginResponse = await loginCall({ 
+            username: username, 
+            password: password,
+            uniqueId: uniqId
+          }, dispatch);
+          
+          // Check if user needs to complete weekly survey
+          if (loginResponse && loginResponse.needsWeeklySurvey) {
+            console.log('User needs to complete weekly survey, redirecting...');
+            history.push('/weekly-survey');
+          } else {
+            console.log('User does not need weekly survey, redirecting to home...');
+            history.push("/");
+          }
+        } catch (loginError) {
+          console.error('Auto-login failed:', loginError);
+          toast.error('Login failed. Please try again.');
+          // If auto-login fails, fall back to manual login page
+          history.push(`/login/${uniqId}`);
+        }
         return;
       }
       
@@ -518,26 +577,16 @@ function Register({classes}) {
               const user = loginRes.data.user;
               console.log('Login successful, user created and logged in');
               
-              // Try to create initial data, but don't fail if it doesn't work
-              try {
-                console.log('Attempting to create initial data...');
-                const initialDataRes = await axios.post(`/posts/${user._id}/createInitialData`, { 
-                  topic: "abortion",
-                  pool: user.pool, 
-                  userId: user._id,
-                  headers: { 'auth-token': token }
-                });
- 
-                console.log('Initial data creation response:', initialDataRes.data);
-              } catch (initialDataError) {
-                console.warn('Initial data creation failed, but continuing anyway:', initialDataError);
-                // Don't fail the entire registration process for this
-              }
+              // Don't create initial data here - user will select topic in Feed first
+              // Topic selection → Weekly Survey → Initial data creation → Feed content
               
               toast.success('Account created successfully! Redirecting...');
               dispatch({ type: "LOGIN_SUCCESS", payload: user });
+              // Set flag to show weekly survey after first time topic selection
+              localStorage.setItem('showWeeklySurvey', 'true');
+              localStorage.setItem('weeklySurveyReason', 'firstTime');
               setTimeout(() => {
-                console.log('Redirecting to homepage...');
+                console.log('Redirecting to homepage. User will select topic, then see weekly survey...');
                 history.push('/');
               }, 2000);
             }
@@ -1127,9 +1176,29 @@ function Register({classes}) {
                     marginBottom: '24px'
                   }}>
                     <strong>Example Question:</strong><br />
-                    "{WEEKLY_POLITICAL_ISSUE_QUESTION.replace('[specific political issue]', 'legal access to abortion')}"<br />
+                    {WEEKLY_POLITICAL_ISSUE_QUESTION}<br />
                     <em>{WEEKLY_POLITICAL_ISSUE_SCALE}</em>
                   </Typography>
+                  
+                  {/* Interactive Slider */}
+                  <Box style={{ marginTop: '32px', marginBottom: '32px', padding: '0 32px' }}>
+                    <Typography variant="body1" gutterBottom style={{ fontWeight: 'bold', marginBottom: '16px' }}>
+                      Your Response:
+                    </Typography>
+                    <Slider
+                      value={weeklyData.politicalIssue}
+                      onChange={(e, value) => setWeeklyData({ ...weeklyData, politicalIssue: value })}
+                      min={0}
+                      max={100}
+                      valueLabelDisplay="on"
+                      marks={[
+                        { value: 0, label: '0 (Very unfavorable)' },
+                        { value: 50, label: '50 (Neutral)' },
+                        { value: 100, label: '100 (Very favorable)' }
+                      ]}
+                      style={{ marginTop: '40px', marginBottom: '50px' }}
+                    />
+                  </Box>
                 </Paper>
 
                 {/* Navigation Buttons */}

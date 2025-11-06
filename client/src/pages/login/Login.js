@@ -67,8 +67,11 @@ function Login({ classes }) {
 		
 		// Check if user needs to complete weekly survey
 		if (loginResponse && loginResponse.needsWeeklySurvey) {
-			console.log('User needs to complete weekly survey, redirecting...');
-			history.push('/weekly-survey'); // Redirect to weekly survey
+			console.log('User needs to complete weekly survey, setting flag...');
+			// Set flag to show weekly survey popup in feed
+			localStorage.setItem('showWeeklySurvey', 'true');
+			localStorage.setItem('weeklySurveyReason', 'weekPassed');
+			history.push("/"); // Redirect to home - survey will show as popup
 		} else {
 			console.log('User does not need weekly survey, redirecting to home...');
 			history.push("/"); // Redirect to home feed

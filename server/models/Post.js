@@ -13,6 +13,10 @@ reactorUser: {
 thumb:{
     type: String
 },
+title: {
+    type: String,
+    default: ""
+},
 desc: {
     type: String,
     required: true,

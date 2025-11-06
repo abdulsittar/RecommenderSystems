@@ -82,7 +82,26 @@ router.post('/demographics/:uniqId', async (req, res) => {
         });
         
         const demographicsData = await newDemographicsData.save();
-        res.status(200).json({ success: true, demographicsId: demographicsData._id });
+        console.log("Demographics data saved successfully:", demographicsData._id);
+        
+        // Also create a placeholder WeeklyResponse so user selection logic works
+        // (The actual weekly survey will be completed after topic selection in the Feed)
+        const placeholderWeeklyResponse = new WeeklyResponse({
+            "uniqueId": fid["_id"],
+            "weekNumber": 1,
+            "topicAttitude": 5,  // Default neutral values
+            "topicInterest": 5,
+            "topicKnowledge": 5
+        });
+        
+        const weeklyResponse = await placeholderWeeklyResponse.save();
+        console.log("Placeholder WeeklyResponse created:", weeklyResponse._id);
+        
+        res.status(200).json({ 
+            success: true, 
+            demographicsId: demographicsData._id,
+            weeklyId: weeklyResponse._id 
+        });
         
     } catch (err) {
         logger.error('Error saving demographics data', { error: err.message });
@@ -107,13 +126,9 @@ router.post('/weekly/:uniqId', async (req, res) => {
         const newWeeklyResponse = new WeeklyResponse({
             "uniqueId": fid["_id"],
             "weekNumber": req.body.weekNumber || 1,
-            "politicalIssueRating": req.body.politicalIssueRating || 50,
-            "openmindedRating": req.body.openmindedRating || 5,
-            "extremistRating": req.body.extremistRating || 5,
-            "moralRating": req.body.moralRating || 5,
-            "familyHappiness": req.body.familyHappiness || 5,
-            "friendHappiness": req.body.friendHappiness || 5,
-            "coworkerHappiness": req.body.coworkerHappiness || 5
+            "topicAttitude": req.body.topicAttitude !== undefined ? req.body.topicAttitude : 5,
+            "topicInterest": req.body.topicInterest !== undefined ? req.body.topicInterest : 5,
+            "topicKnowledge": req.body.topicKnowledge !== undefined ? req.body.topicKnowledge : 5
         });
         
         const weeklyResponse = await newWeeklyResponse.save();

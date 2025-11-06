@@ -91,6 +91,14 @@ relationship: {
 lastLoginDate: {
     type: Date,
 },
+currentTopic: {
+    type: String,
+    default: null
+},
+lastTopicChangeDate: {
+    type: Date,
+    default: null
+},
 },
 {timestamps: true}
 );

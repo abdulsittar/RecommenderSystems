@@ -420,6 +420,19 @@
                         throw new Error(`No training posts found for topic "${topic}"`);
                 }
 
+                // Helper function to extract first sentence from article body
+                const getFirstSentence = (htmlBody) => {
+                    if (!htmlBody) return '';
+                    // Remove HTML tags
+                    const textOnly = htmlBody.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+                    // Get first sentence (split by period, exclamation, or question mark)
+                    const sentences = textOnly.split(/[.!?]+/);
+                    return sentences[0] ? sentences[0].trim() + '.' : '';
+                };
+
+                // Fetch article details for each post to get the first sentence
+                const { getArticleById } = require('../utils/articlesData');
+
                 // Default scoring arrays - will be trimmed/padded to match trainPosts length
                 const defaultUkraine = [-1, -1, 1, 1, -1];
                 const defaultDisinfo = [-0.1, -0.1, 0.5, -0.1, 1];
@@ -427,15 +440,23 @@
                 const userGroup = 'pro-choice';
                 const treatmentValue = 0;
 
-                const combined = trainPosts.map((post, index) => ({
-                        post: post.title || post.text || post, // tolerate different shapes
-                        articleId: post.articleId || post.id, // link to article content
+                const combined = trainPosts.map((post, index) => {
+                    const articleId = post.articleId || post.id;
+                    const article = getArticleById(articleId);
+                    const firstSentence = article ? getFirstSentence(article.body) : '';
+                    const title = post.title || post.text || post;
+                    
+                    return {
+                        title: title,
+                        firstSentence: firstSentence,
+                        articleId: articleId,
                         rank: defaultRanks[index] || (index + 1),
                         ukraine: defaultUkraine[index] !== undefined ? defaultUkraine[index] : 0,
                         disinfo: defaultDisinfo[index] !== undefined ? defaultDisinfo[index] : 0,
                         webLinks: webLinksPosts[index] || null,
                         userGroup
-                }));
+                    };
+                });
 
                 // Persist posts (only the training posts)
                 const created = [];
@@ -444,7 +465,8 @@
                                 userId: new mongoose.Types.ObjectId(targetUserId),
                                 reactorUser: reactorUserId && mongoose.Types.ObjectId.isValid(reactorUserId) ? new mongoose.Types.ObjectId(reactorUserId) : null,
                                 pool: pool,
-                                desc: item.post,
+                                desc: item.firstSentence, // Store first sentence in desc
+                                title: item.title, // Store title separately
                                 articleId: item.articleId, // link to full article content
                                 rank: item.rank,
                                 ukraine: item.ukraine,
@@ -1122,10 +1144,10 @@ const getLatestFivePosts = async (userId, page = 0, topic = null) => {
   console.log('getLatestFivePosts - Topic filter:', topic, 'Query filter:', queryFilter);
 
   // Debug: Check what posts exist in database
-  const allPosts = await Post.find({}).select('content userId desc createdAt').sort({ createdAt: -1 }).limit(10);
+  const allPosts = await Post.find({}).select('content userId title desc createdAt').sort({ createdAt: -1 }).limit(10);
   console.log('Database posts (latest 10):');
   allPosts.forEach((post, i) => {
-    console.log(`  ${i+1}. Content: "${post.content}" | UserId: ${post.userId} | Desc: "${post.desc?.substring(0, 50)}..." | Created: ${post.createdAt}`);
+    console.log(`  ${i+1}. Content: "${post.content}" | UserId: ${post.userId} | Title: "${post.title?.substring(0, 50)}..." | Desc: "${post.desc?.substring(0, 50)}..." | Created: ${post.createdAt}`);
   });
 
   console.log('Searching for posts with filter:', queryFilter);
@@ -1149,7 +1171,7 @@ const getLatestFivePosts = async (userId, page = 0, topic = null) => {
 
     console.log('getLatestFivePosts - Found posts:', latestFive.length);
     latestFive.forEach((post, i) => {
-      console.log(`  Found ${i+1}. Content: "${post.content}" | Desc: "${post.desc?.substring(0, 50)}..."`);
+      console.log(`  Found ${i+1}. Content: "${post.content}" | Title: "${post.title?.substring(0, 50)}..." | Desc: "${post.desc?.substring(0, 50)}..."`);
     });
     return latestFive;
   }
@@ -1794,6 +1816,81 @@ const getLatestFivePosts = async (userId, page = 0, topic = null) => {
         } catch (err) {
             logger.error('Error initializing articles', { error: err.message });
             res.status(500).json({ error: "Failed to initialize articles" });
+        }
+    });
+
+    // Migrate existing posts to populate title and desc fields from articles
+    // Note: This is an admin endpoint and doesn't require authentication
+    router.post('/migrate-post-titles', async (req, res) => {
+        try {
+            const { getArticleById } = require('../utils/articlesData');
+            
+            // Helper function to extract first sentence from article body
+            const getFirstSentence = (htmlBody) => {
+                if (!htmlBody) return '';
+                // Remove HTML tags
+                const textOnly = htmlBody.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+                // Get first sentence (split by period, exclamation, or question mark)
+                const sentences = textOnly.split(/[.!?]+/);
+                return sentences[0] ? sentences[0].trim() + '.' : '';
+            };
+
+            // Find all posts that have articleId but no title
+            const postsToUpdate = await Post.find({ 
+                articleId: { $exists: true, $ne: null },
+                $or: [
+                    { title: { $exists: false } },
+                    { title: "" }
+                ]
+            });
+
+            console.log(`Found ${postsToUpdate.length} posts to migrate`);
+            
+            let updatedCount = 0;
+            let errorCount = 0;
+
+            for (const post of postsToUpdate) {
+                try {
+                    const article = getArticleById(post.articleId);
+                    
+                    if (article) {
+                        const firstSentence = getFirstSentence(article.body);
+                        
+                        // Update the post with title and first sentence
+                        await Post.updateOne(
+                            { _id: post._id },
+                            { 
+                                $set: {
+                                    title: article.title,
+                                    desc: firstSentence || post.desc // Keep old desc if we can't extract first sentence
+                                }
+                            }
+                        );
+                        updatedCount++;
+                        
+                        if (updatedCount % 10 === 0) {
+                            console.log(`Migrated ${updatedCount} posts...`);
+                        }
+                    } else {
+                        console.log(`Article not found for post ${post._id}, articleId: ${post.articleId}`);
+                        errorCount++;
+                    }
+                } catch (err) {
+                    console.error(`Error migrating post ${post._id}:`, err.message);
+                    errorCount++;
+                }
+            }
+
+            res.status(200).json({ 
+                message: "Post migration completed",
+                totalFound: postsToUpdate.length,
+                updated: updatedCount,
+                errors: errorCount
+            });
+            
+        } catch (err) {
+            logger.error('Error migrating posts', { error: err.message });
+            res.status(500).json({ error: "Failed to migrate posts", details: err.message });
         }
     });
 

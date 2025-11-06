@@ -163,7 +163,7 @@ function WeeklySurvey({ classes }) {
           {WEEKLY_POLITICAL_ISSUE_INTRO}
         </Typography>
         <Typography variant="body1" className={classes.question}>
-          {WEEKLY_POLITICAL_ISSUE_QUESTION.replace('[specific political issue]', 'current political issues')}
+          {WEEKLY_POLITICAL_ISSUE_QUESTION}
         </Typography>
         <Typography variant="caption" className={classes.scale}>
           {WEEKLY_POLITICAL_ISSUE_SCALE}

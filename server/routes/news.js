@@ -607,8 +607,6 @@ router.get('/article/:articleId', async (req, res) => {
             <h1 class="article-title">${article.title}</h1>
             <div class="article-meta">
                 <span class="meta-item">Topic: ${article.topic}</span>
-                ${article.stance ? `<span class="meta-item">Stance: ${article.stance}</span>` : ''}
-                ${article.strength ? `<span class="meta-item">Strength: ${article.strength}</span>` : ''}
             </div>
         </div>
         
