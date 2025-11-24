@@ -56,9 +56,19 @@ const [open, setOpen] = React.useState(false);
 // Weekly survey modal state
 const [weeklySurveyOpen, setWeeklySurveyOpen] = useState(false);
 const [weeklyData, setWeeklyData] = useState({
-    topicAttitude: 5,
-    topicInterest: 5,
-    topicKnowledge: 5
+    topicAttitude: 50,
+    oneSide_openminded: 5,
+    oneSide_moderate: 5,
+    oneSide_moral: 5,
+    oneSide_family: 5,
+    oneSide_friend: 5,
+    oneSide_coworker: 5,
+    otherSide_openminded: 5,
+    otherSide_moderate: 5,
+    otherSide_moral: 5,
+    otherSide_family: 5,
+    otherSide_friend: 5,
+    otherSide_coworker: 5
 });
  
 let postCallCount = 0; 
@@ -210,6 +220,20 @@ const handleFeedAction = async (e) => {
                 await fetchPostsWithTopic(selectedValue, 0, topic); // Pass topic directly
             }
     }
+
+    // Get topic-specific side labels
+    const getTopicSides = (topic) => {
+        const topicLower = (topic || '').toLowerCase();
+        if (topicLower.includes('abortion')) {
+            return { oneSide: 'pro-choice advocates', otherSide: 'pro-life advocates' };
+        } else if (topicLower.includes('gun')) {
+            return { oneSide: 'gun rights advocates', otherSide: 'gun control advocates' };
+        } else if (topicLower.includes('assisted death') || topicLower.includes('euthanasia')) {
+            return { oneSide: 'right-to-die advocates', otherSide: 'right-to-life advocates' };
+        } else {
+            return { oneSide: 'one side advocates', otherSide: 'other side advocates' };
+        }
+    };
 
     // Weekly survey handlers
     const handleWeeklySurveySliderChange = (field, value) => {
@@ -807,7 +831,6 @@ return (
                                 <FormControlLabel value="option1" control={<Radio />} label="Assisted death" />
                                 <FormControlLabel value="option2" control={<Radio />} label="Abortion" />
                                 <FormControlLabel value="option3" control={<Radio />} label="Gun control" />
-                                <FormControlLabel value="option4" control={<Radio />} label="Other" />
 
                             </RadioGroup>
                         </FormControl>
@@ -830,72 +853,264 @@ return (
             <DialogTitle id="weekly-survey-title">Topic Survey - {currentTopic || 'Loading...'}</DialogTitle>
             <DialogContent>
                 <Typography variant="body1" style={{marginBottom: 24}}>
-                    Please answer these brief questions about your attitudes toward <strong>{currentTopic || 'this topic'}</strong>.
+                    Please answer these questions about your attitudes toward <strong>{currentTopic || 'this topic'}</strong>.
                 </Typography>
 
-                {/* Question 1: Attitude toward the topic */}
+                {/* Question 1: Overall attitude (1-100 scale) */}
                 <Typography variant="body1" style={{marginBottom: 8, fontWeight: 500}}>
-                    1. What is your attitude toward {currentTopic || 'this topic'}?
+                    1. On a scale from 1 to 100, how warm or favorable do you feel toward {currentTopic || 'this topic'}?
                 </Typography>
                 <Typography variant="caption" style={{fontStyle: 'italic', color: '#666', marginBottom: 16, display: 'block'}}>
-                    0 = Very negative, 10 = Very positive
+                    1 = Very unfavorable, 50 = Neutral, 100 = Very favorable
                 </Typography>
                 <Box style={{margin: '16px 0 32px 0'}}>
                     <Slider
                         value={weeklyData.topicAttitude}
                         onChange={(e, value) => handleWeeklySurveySliderChange('topicAttitude', value)}
-                        min={0}
-                        max={10}
+                        min={1}
+                        max={100}
                         valueLabelDisplay="on"
                         marks={[
-                            { value: 0, label: '0' },
-                            { value: 5, label: '5 (Neutral)' },
-                            { value: 10, label: '10' }
+                            { value: 1, label: '1' },
+                            { value: 50, label: '50 (Neutral)' },
+                            { value: 100, label: '100' }
                         ]}
                     />
                 </Box>
 
-                {/* Question 2: Interest in learning more */}
+                {/* ONE SIDE Section */}
+                <Typography variant="h6" style={{marginTop: 32, marginBottom: 16, fontWeight: 600}}>
+                    Please rate {getTopicSides(currentTopic).oneSide} on the following traits:
+                </Typography>
+
+                {/* Q2: One Side - Openminded */}
                 <Typography variant="body1" style={{marginBottom: 8, fontWeight: 500}}>
-                    2. How interested are you in learning more about {currentTopic || 'this topic'}?
+                    2. How would you rate them on: Close-minded vs Open-minded
                 </Typography>
                 <Typography variant="caption" style={{fontStyle: 'italic', color: '#666', marginBottom: 16, display: 'block'}}>
-                    0 = Not interested, 10 = Very interested
+                    1 = Close-minded, 10 = Open-minded
                 </Typography>
                 <Box style={{margin: '16px 0 32px 0'}}>
                     <Slider
-                        value={weeklyData.topicInterest}
-                        onChange={(e, value) => handleWeeklySurveySliderChange('topicInterest', value)}
-                        min={0}
+                        value={weeklyData.oneSide_openminded}
+                        onChange={(e, value) => handleWeeklySurveySliderChange('oneSide_openminded', value)}
+                        min={1}
                         max={10}
                         valueLabelDisplay="on"
-                        marks={[
-                            { value: 0, label: '0' },
-                            { value: 5, label: '5 (Neutral)' },
-                            { value: 10, label: '10' }
-                        ]}
+                        marks={[{ value: 1, label: '1' }, { value: 5, label: '5' }, { value: 10, label: '10' }]}
                     />
                 </Box>
 
-                {/* Question 3: Confidence in knowledge */}
+                {/* Q3: One Side - Moderate */}
                 <Typography variant="body1" style={{marginBottom: 8, fontWeight: 500}}>
-                    3. How confident are you in your knowledge about {currentTopic || 'this topic'}?
+                    3. How would you rate them on: Extreme vs Moderate
                 </Typography>
                 <Typography variant="caption" style={{fontStyle: 'italic', color: '#666', marginBottom: 16, display: 'block'}}>
-                    0 = Not confident, 10 = Very confident
+                    1 = Extreme, 10 = Moderate
                 </Typography>
                 <Box style={{margin: '16px 0 32px 0'}}>
                     <Slider
-                        value={weeklyData.topicKnowledge}
-                        onChange={(e, value) => handleWeeklySurveySliderChange('topicKnowledge', value)}
-                        min={0}
+                        value={weeklyData.oneSide_moderate}
+                        onChange={(e, value) => handleWeeklySurveySliderChange('oneSide_moderate', value)}
+                        min={1}
                         max={10}
                         valueLabelDisplay="on"
-                        marks={[
-                            { value: 0, label: '0' },
-                            { value: 5, label: '5 (Neutral)' },
-                            { value: 10, label: '10' }
-                        ]}
+                        marks={[{ value: 1, label: '1' }, { value: 5, label: '5' }, { value: 10, label: '10' }]}
+                    />
+                </Box>
+
+                {/* Q4: One Side - Moral */}
+                <Typography variant="body1" style={{marginBottom: 8, fontWeight: 500}}>
+                    4. How would you rate them on: Immoral vs Moral
+                </Typography>
+                <Typography variant="caption" style={{fontStyle: 'italic', color: '#666', marginBottom: 16, display: 'block'}}>
+                    1 = Immoral, 10 = Moral
+                </Typography>
+                <Box style={{margin: '16px 0 32px 0'}}>
+                    <Slider
+                        value={weeklyData.oneSide_moral}
+                        onChange={(e, value) => handleWeeklySurveySliderChange('oneSide_moral', value)}
+                        min={1}
+                        max={10}
+                        valueLabelDisplay="on"
+                        marks={[{ value: 1, label: '1' }, { value: 5, label: '5' }, { value: 10, label: '10' }]}
+                    />
+                </Box>
+
+                {/* One Side - Social Distance */}
+                <Typography variant="body2" style={{marginTop: 24, marginBottom: 16, fontWeight: 500}}>
+                    How happy would you feel if {getTopicSides(currentTopic).oneSide.replace('advocates', 'an advocate')} was your:
+                </Typography>
+
+                {/* Q5: One Side - Family */}
+                <Typography variant="body1" style={{marginBottom: 8, fontWeight: 500}}>
+                    5. Immediate family member?
+                </Typography>
+                <Typography variant="caption" style={{fontStyle: 'italic', color: '#666', marginBottom: 16, display: 'block'}}>
+                    1 = Very unhappy, 10 = Very happy
+                </Typography>
+                <Box style={{margin: '16px 0 32px 0'}}>
+                    <Slider
+                        value={weeklyData.oneSide_family}
+                        onChange={(e, value) => handleWeeklySurveySliderChange('oneSide_family', value)}
+                        min={1}
+                        max={10}
+                        valueLabelDisplay="on"
+                        marks={[{ value: 1, label: '1' }, { value: 5, label: '5' }, { value: 10, label: '10' }]}
+                    />
+                </Box>
+
+                {/* Q6: One Side - Friend */}
+                <Typography variant="body1" style={{marginBottom: 8, fontWeight: 500}}>
+                    6. Close friend?
+                </Typography>
+                <Typography variant="caption" style={{fontStyle: 'italic', color: '#666', marginBottom: 16, display: 'block'}}>
+                    1 = Very unhappy, 10 = Very happy
+                </Typography>
+                <Box style={{margin: '16px 0 32px 0'}}>
+                    <Slider
+                        value={weeklyData.oneSide_friend}
+                        onChange={(e, value) => handleWeeklySurveySliderChange('oneSide_friend', value)}
+                        min={1}
+                        max={10}
+                        valueLabelDisplay="on"
+                        marks={[{ value: 1, label: '1' }, { value: 5, label: '5' }, { value: 10, label: '10' }]}
+                    />
+                </Box>
+
+                {/* Q7: One Side - Coworker */}
+                <Typography variant="body1" style={{marginBottom: 8, fontWeight: 500}}>
+                    7. Coworker?
+                </Typography>
+                <Typography variant="caption" style={{fontStyle: 'italic', color: '#666', marginBottom: 16, display: 'block'}}>
+                    1 = Very unhappy, 10 = Very happy
+                </Typography>
+                <Box style={{margin: '16px 0 32px 0'}}>
+                    <Slider
+                        value={weeklyData.oneSide_coworker}
+                        onChange={(e, value) => handleWeeklySurveySliderChange('oneSide_coworker', value)}
+                        min={1}
+                        max={10}
+                        valueLabelDisplay="on"
+                        marks={[{ value: 1, label: '1' }, { value: 5, label: '5' }, { value: 10, label: '10' }]}
+                    />
+                </Box>
+
+                {/* OTHER SIDE Section */}
+                <Typography variant="h6" style={{marginTop: 32, marginBottom: 16, fontWeight: 600}}>
+                    Please rate {getTopicSides(currentTopic).otherSide} on the following traits:
+                </Typography>
+
+                {/* Q8: Other Side - Openminded */}
+                <Typography variant="body1" style={{marginBottom: 8, fontWeight: 500}}>
+                    8. How would you rate them on: Close-minded vs Open-minded
+                </Typography>
+                <Typography variant="caption" style={{fontStyle: 'italic', color: '#666', marginBottom: 16, display: 'block'}}>
+                    1 = Close-minded, 10 = Open-minded
+                </Typography>
+                <Box style={{margin: '16px 0 32px 0'}}>
+                    <Slider
+                        value={weeklyData.otherSide_openminded}
+                        onChange={(e, value) => handleWeeklySurveySliderChange('otherSide_openminded', value)}
+                        min={1}
+                        max={10}
+                        valueLabelDisplay="on"
+                        marks={[{ value: 1, label: '1' }, { value: 5, label: '5' }, { value: 10, label: '10' }]}
+                    />
+                </Box>
+
+                {/* Q9: Other Side - Moderate */}
+                <Typography variant="body1" style={{marginBottom: 8, fontWeight: 500}}>
+                    9. How would you rate them on: Extreme vs Moderate
+                </Typography>
+                <Typography variant="caption" style={{fontStyle: 'italic', color: '#666', marginBottom: 16, display: 'block'}}>
+                    1 = Extreme, 10 = Moderate
+                </Typography>
+                <Box style={{margin: '16px 0 32px 0'}}>
+                    <Slider
+                        value={weeklyData.otherSide_moderate}
+                        onChange={(e, value) => handleWeeklySurveySliderChange('otherSide_moderate', value)}
+                        min={1}
+                        max={10}
+                        valueLabelDisplay="on"
+                        marks={[{ value: 1, label: '1' }, { value: 5, label: '5' }, { value: 10, label: '10' }]}
+                    />
+                </Box>
+
+                {/* Q10: Other Side - Moral */}
+                <Typography variant="body1" style={{marginBottom: 8, fontWeight: 500}}>
+                    10. How would you rate them on: Immoral vs Moral
+                </Typography>
+                <Typography variant="caption" style={{fontStyle: 'italic', color: '#666', marginBottom: 16, display: 'block'}}>
+                    1 = Immoral, 10 = Moral
+                </Typography>
+                <Box style={{margin: '16px 0 32px 0'}}>
+                    <Slider
+                        value={weeklyData.otherSide_moral}
+                        onChange={(e, value) => handleWeeklySurveySliderChange('otherSide_moral', value)}
+                        min={1}
+                        max={10}
+                        valueLabelDisplay="on"
+                        marks={[{ value: 1, label: '1' }, { value: 5, label: '5' }, { value: 10, label: '10' }]}
+                    />
+                </Box>
+
+                {/* Other Side - Social Distance */}
+                <Typography variant="body2" style={{marginTop: 24, marginBottom: 16, fontWeight: 500}}>
+                    How happy would you feel if {getTopicSides(currentTopic).otherSide.replace('advocates', 'an advocate')} was your:
+                </Typography>
+
+                {/* Q11: Other Side - Family */}
+                <Typography variant="body1" style={{marginBottom: 8, fontWeight: 500}}>
+                    11. Immediate family member?
+                </Typography>
+                <Typography variant="caption" style={{fontStyle: 'italic', color: '#666', marginBottom: 16, display: 'block'}}>
+                    1 = Very unhappy, 10 = Very happy
+                </Typography>
+                <Box style={{margin: '16px 0 32px 0'}}>
+                    <Slider
+                        value={weeklyData.otherSide_family}
+                        onChange={(e, value) => handleWeeklySurveySliderChange('otherSide_family', value)}
+                        min={1}
+                        max={10}
+                        valueLabelDisplay="on"
+                        marks={[{ value: 1, label: '1' }, { value: 5, label: '5' }, { value: 10, label: '10' }]}
+                    />
+                </Box>
+
+                {/* Q12: Other Side - Friend */}
+                <Typography variant="body1" style={{marginBottom: 8, fontWeight: 500}}>
+                    12. Close friend?
+                </Typography>
+                <Typography variant="caption" style={{fontStyle: 'italic', color: '#666', marginBottom: 16, display: 'block'}}>
+                    1 = Very unhappy, 10 = Very happy
+                </Typography>
+                <Box style={{margin: '16px 0 32px 0'}}>
+                    <Slider
+                        value={weeklyData.otherSide_friend}
+                        onChange={(e, value) => handleWeeklySurveySliderChange('otherSide_friend', value)}
+                        min={1}
+                        max={10}
+                        valueLabelDisplay="on"
+                        marks={[{ value: 1, label: '1' }, { value: 5, label: '5' }, { value: 10, label: '10' }]}
+                    />
+                </Box>
+
+                {/* Q13: Other Side - Coworker */}
+                <Typography variant="body1" style={{marginBottom: 8, fontWeight: 500}}>
+                    13. Coworker?
+                </Typography>
+                <Typography variant="caption" style={{fontStyle: 'italic', color: '#666', marginBottom: 16, display: 'block'}}>
+                    1 = Very unhappy, 10 = Very happy
+                </Typography>
+                <Box style={{margin: '16px 0 32px 0'}}>
+                    <Slider
+                        value={weeklyData.otherSide_coworker}
+                        onChange={(e, value) => handleWeeklySurveySliderChange('otherSide_coworker', value)}
+                        min={1}
+                        max={10}
+                        valueLabelDisplay="on"
+                        marks={[{ value: 1, label: '1' }, { value: 5, label: '5' }, { value: 10, label: '10' }]}
                     />
                 </Box>
             </DialogContent>

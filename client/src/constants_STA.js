@@ -81,18 +81,17 @@ export const DEMO_GENDER_QUESTION = "What is your gender?";
 export const DEMO_GENDER_OPTIONS = [
   "Male", 
   "Female", 
-  "Non-binary", 
-  "Prefer not to say"
+  "Prefer not to say",
+  "Other"
 ];
 
-export const DEMO_EDUCATION_QUESTION = "What is your highest level of education?";
+export const DEMO_EDUCATION_QUESTION = "What is your highest completed level of education?";
 export const DEMO_EDUCATION_OPTIONS = [
-  "No formal education",
-  "High school diploma",
-  "Some college",
+  "Elementary school",
+  "High School",
   "Bachelor's degree",
   "Master's degree",
-  "Doctorate",
+  "PhD",
   "Other"
 ];
 
@@ -102,7 +101,7 @@ export const DEMO_EMPLOYMENT_OPTIONS = [
   "Employed part-time",
   "Self-employed",
   "Unemployed",
-  "Student",
+  "Studying",
   "Retired",
   "Other"
 ];
@@ -110,13 +109,25 @@ export const DEMO_EMPLOYMENT_OPTIONS = [
 // Q2: Civil engagement
 export const CIVIL_ENGAGEMENT_INTRO = "Please answer the following questions about your civic engagement:";
 
-export const CIVIL_VOTED_QUESTION = "Have you ever voted in a local, national, or European election?";
-export const CIVIL_VOTED_OPTIONS = ["Yes", "No"];
+export const CIVIL_VOTED_QUESTION = "How regularly do you vote?";
+export const CIVIL_VOTED_OPTIONS = [
+  { value: "1", label: "1 (Never)" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" },
+  { value: "5", label: "5 (Always)" }
+];
 
-export const CIVIL_ACTIVITIES_QUESTION = "In the past 12 months, have you participated in any political activities (e.g., signing a petition, attending a protest, volunteering for a campaign)?";
-export const CIVIL_ACTIVITIES_OPTIONS = ["Yes", "No"];
+export const CIVIL_ACTIVITIES_QUESTION = "How often do you participate in any political activity outside voting (e.g., signing a petition, attending a protest, volunteering for a campaign)?";
+export const CIVIL_ACTIVITIES_OPTIONS = [
+  { value: "1", label: "1 (Never)" },
+  { value: "2", label: "2" },
+  { value: "3", label: "3" },
+  { value: "4", label: "4" },
+  { value: "5", label: "5 (Any time you can)" }
+];
 
-export const CIVIL_MEMBER_QUESTION = "Are you currently a member of a political party or political organization?";
+export const CIVIL_MEMBER_QUESTION = "Are you a member of any political party or political organization?";
 export const CIVIL_MEMBER_OPTIONS = ["Yes", "No"];
 
 // Q3: News consumption
@@ -131,57 +142,84 @@ export const NEWS_FREQUENCY_OPTIONS = [
   "Never"
 ];
 
-export const NEWS_SOURCE_QUESTION = "What is your primary source of news?";
+export const NEWS_FREQUENCY2_QUESTION = "How regularly do you read/watch political related content?";
+export const NEWS_FREQUENCY2_OPTIONS = [
+  "Several times a day",
+  "Once a day",
+  "A few times a week",
+  "Rarely",
+  "Never"
+];
+
+export const NEWS_SOURCE_QUESTION = "What are your primary sources of news consumption? (select all that apply)";
 export const NEWS_SOURCE_OPTIONS = [
   "Television",
   "Newspapers",
+  "Radio",
   "Online news websites",
   "Social media",
-  "Radio",
   "Other"
 ];
 
-export const NEWS_TIME_QUESTION = "On average, how much time do you spend consuming news per day?";
-export const NEWS_TIME_OPTIONS = [
-  "Less than 30 minutes",
-  "30–60 minutes",
-  "1–2 hours",
-  "More than 2 hours"
-];
+
 
 // ===================================================================
-// STAGE 3: WEEKLY QUESTIONS (Recurring)
+// STAGE 3: WEEKLY QUESTIONS (Recurring - Topic-Based)
 // ===================================================================
 
-export const WEEKLY_INTRO = "These questions will be asked each week during your participation to assess your attitudes on current political topics.";
+export const WEEKLY_INTRO = "Please answer the following questions about your current topic.";
 
-// Q4: Attitude assessment (example format - would be customized for specific topics)
-export const WEEKLY_POLITICAL_ISSUE_INTRO = "Please rate your attitudes toward the following political issues:";
+// Q1: Overall attitude toward the topic (1-100 scale)
+export const WEEKLY_ATTITUDE_QUESTION = "On a scale from 1 to 100, how warm or favorable do you feel toward";
+export const WEEKLY_ATTITUDE_SCALE = "1 = Very unfavorable, 50 = Neutral, 100 = Very favorable";
 
-export const WEEKLY_POLITICAL_ISSUE_QUESTION = "On a scale from 0 to 100, how warm or favorable do you feel toward legal access to abortion?";
-export const WEEKLY_POLITICAL_ISSUE_SCALE = "0 = Very unfavorable, 50 = Neutral, 100 = Very favorable";
+// Section heading for "one side" advocates
+export const WEEKLY_ONE_SIDE_INTRO = "Please rate advocates of ONE SIDE on the following traits:";
 
-export const WEEKLY_POLITICAL_OUTGROUP_INTRO = "Please rate political opponents on the following traits:";
+// Q2-Q7: Perception of ONE SIDE advocates
+export const WEEKLY_ONE_SIDE_OPENMINDED_QUESTION = "How would you rate them on: Close-minded vs Open-minded";
+export const WEEKLY_ONE_SIDE_OPENMINDED_SCALE = "1 = Close-minded, 10 = Open-minded";
 
-export const WEEKLY_OPENMINDED_QUESTION = "How would you rate political opponents on: Close-minded vs Open-minded";
-export const WEEKLY_OPENMINDED_SCALE = "0 = Close-minded, 10 = Open-minded";
+export const WEEKLY_ONE_SIDE_MODERATE_QUESTION = "How would you rate them on: Extreme vs Moderate";
+export const WEEKLY_ONE_SIDE_MODERATE_SCALE = "1 = Extreme, 10 = Moderate";
 
-export const WEEKLY_EXTREMIST_QUESTION = "How would you rate political opponents on: Moderate vs Extremist";  
-export const WEEKLY_EXTREMIST_SCALE = "0 = Moderate, 10 = Extremist";
+export const WEEKLY_ONE_SIDE_MORAL_QUESTION = "How would you rate them on: Immoral vs Moral";
+export const WEEKLY_ONE_SIDE_MORAL_SCALE = "1 = Immoral, 10 = Moral";
 
-export const WEEKLY_MORAL_QUESTION = "How would you rate political opponents on: Immoral vs Moral";
-export const WEEKLY_MORAL_SCALE = "0 = Immoral, 10 = Moral";
+export const WEEKLY_ONE_SIDE_SOCIAL_INTRO = "How happy would you feel if an advocate of this side was your:";
 
-export const WEEKLY_SOCIAL_DISTANCE_INTRO = "How happy would you feel if a person from the political out-group was your:";
+export const WEEKLY_ONE_SIDE_FAMILY_QUESTION = "Immediate family member?";
+export const WEEKLY_ONE_SIDE_FAMILY_SCALE = "1 = Very unhappy, 10 = Very happy";
 
-export const WEEKLY_FAMILY_QUESTION = "Immediate family member?";
-export const WEEKLY_FAMILY_SCALE = "0 = Very unhappy, 10 = Very happy";
+export const WEEKLY_ONE_SIDE_FRIEND_QUESTION = "Close friend?";
+export const WEEKLY_ONE_SIDE_FRIEND_SCALE = "1 = Very unhappy, 10 = Very happy";
 
-export const WEEKLY_FRIEND_QUESTION = "Close friend?";
-export const WEEKLY_FRIEND_SCALE = "0 = Very unhappy, 10 = Very happy";
+export const WEEKLY_ONE_SIDE_COWORKER_QUESTION = "Coworker?";
+export const WEEKLY_ONE_SIDE_COWORKER_SCALE = "1 = Very unhappy, 10 = Very happy";
 
-export const WEEKLY_COWORKER_QUESTION = "Coworker?";
-export const WEEKLY_COWORKER_SCALE = "0 = Very unhappy, 10 = Very happy";
+// Section heading for "other side" advocates
+export const WEEKLY_OTHER_SIDE_INTRO = "Please rate advocates of the OTHER SIDE on the following traits:";
+
+// Q8-Q13: Perception of OTHER SIDE advocates
+export const WEEKLY_OTHER_SIDE_OPENMINDED_QUESTION = "How would you rate them on: Close-minded vs Open-minded";
+export const WEEKLY_OTHER_SIDE_OPENMINDED_SCALE = "1 = Close-minded, 10 = Open-minded";
+
+export const WEEKLY_OTHER_SIDE_MODERATE_QUESTION = "How would you rate them on: Extreme vs Moderate";
+export const WEEKLY_OTHER_SIDE_MODERATE_SCALE = "1 = Extreme, 10 = Moderate";
+
+export const WEEKLY_OTHER_SIDE_MORAL_QUESTION = "How would you rate them on: Immoral vs Moral";
+export const WEEKLY_OTHER_SIDE_MORAL_SCALE = "1 = Immoral, 10 = Moral";
+
+export const WEEKLY_OTHER_SIDE_SOCIAL_INTRO = "How happy would you feel if an advocate of this side was your:";
+
+export const WEEKLY_OTHER_SIDE_FAMILY_QUESTION = "Immediate family member?";
+export const WEEKLY_OTHER_SIDE_FAMILY_SCALE = "1 = Very unhappy, 10 = Very happy";
+
+export const WEEKLY_OTHER_SIDE_FRIEND_QUESTION = "Close friend?";
+export const WEEKLY_OTHER_SIDE_FRIEND_SCALE = "1 = Very unhappy, 10 = Very happy";
+
+export const WEEKLY_OTHER_SIDE_COWORKER_QUESTION = "Coworker?";
+export const WEEKLY_OTHER_SIDE_COWORKER_SCALE = "1 = Very unhappy, 10 = Very happy";
 
 // ===================================================================
 // SHARED UI ELEMENTS

@@ -92,28 +92,20 @@ import {
   NEWS_CONSUMPTION_INTRO,
   NEWS_FREQUENCY_QUESTION,
   NEWS_FREQUENCY_OPTIONS,
+  NEWS_FREQUENCY2_QUESTION,
   NEWS_SOURCE_QUESTION,
   NEWS_SOURCE_OPTIONS,
-  NEWS_TIME_QUESTION,
-  NEWS_TIME_OPTIONS,
-  // Weekly questions
-  WEEKLY_INTRO,
-  WEEKLY_POLITICAL_ISSUE_INTRO,
-  WEEKLY_POLITICAL_ISSUE_QUESTION,
-  WEEKLY_POLITICAL_ISSUE_SCALE,
   BTN_NEXT,
   BTN_PREVIOUS,
   BTN_SUBMIT,
   BTN_CONTINUE,
   PROGRESS_CONSENT,
   PROGRESS_DEMOGRAPHICS,
-  PROGRESS_WEEKLY,
   ERROR_REQUIRED_FIELD,
   ERROR_INVALID_AGE,
   ERROR_NETWORK,
   SUCCESS_CONSENT,
   SUCCESS_DEMOGRAPHICS,
-  SUCCESS_WEEKLY,
   // Legacy constants
   followers,
   followings,
@@ -142,7 +134,9 @@ function Register({classes}) {
   
   // Form data state
   const [consentAnswers, setConsentAnswers] = useState({});
-  const [demographicsData, setDemographicsData] = useState({});
+  const [demographicsData, setDemographicsData] = useState({
+    newsSource: [] // Initialize as empty array for multi-select
+  });
   const [weeklyData, setWeeklyData] = useState({
     politicalIssue: 50 // Default to neutral (50)
   });
@@ -349,10 +343,16 @@ function Register({classes}) {
     const requiredFields = [
       'age', 'gender', 'education', 'employment',
       'voted', 'politicalActivities', 'partyMember',
-      'newsFrequency', 'newsSource', 'newsTime'
+      'newsFrequency', 'newsFrequency2'
     ];
     
     const missingFields = requiredFields.filter(field => !demographicsData[field]);
+    
+    // Check that at least one news source is selected
+    if (!demographicsData.newsSource || demographicsData.newsSource.length === 0) {
+      alert('Please select at least one news source');
+      return;
+    }
     
     if (missingFields.length === 0) {
       try {
@@ -368,8 +368,8 @@ function Register({classes}) {
           politicalActivities: demographicsData.politicalActivities,
           politicalMember: demographicsData.partyMember,
           newsFrequency: demographicsData.newsFrequency,
-          newsSource: demographicsData.newsSource,
-          newsTime: demographicsData.newsTime
+          newsFrequency2: demographicsData.newsFrequency2,
+          newsSource: demographicsData.newsSource
         };
         
         // Make API call to save demographics data
@@ -991,9 +991,9 @@ function Register({classes}) {
                       {CIVIL_VOTED_OPTIONS.map((option, index) => (
                         <FormControlLabel
                           key={index}
-                          value={option}
+                          value={option.value}
                           control={<Radio />}
-                          label={option}
+                          label={option.label}
                           style={{ marginBottom: '8px' }}
                         />
                       ))}
@@ -1012,9 +1012,9 @@ function Register({classes}) {
                       {CIVIL_ACTIVITIES_OPTIONS.map((option, index) => (
                         <FormControlLabel
                           key={index}
-                          value={option}
+                          value={option.value}
                           control={<Radio />}
-                          label={option}
+                          label={option.label}
                           style={{ marginBottom: '8px' }}
                         />
                       ))}
@@ -1070,16 +1070,16 @@ function Register({classes}) {
                     </RadioGroup>
                   </FormControl>
 
-                  {/* News Source */}
+                  {/* News Frequency 2 - Political Content */}
                   <FormControl component="fieldset" style={{ width: '100%', marginBottom: '24px' }}>
                     <FormLabel component="legend" style={{ marginBottom: '12px', fontSize: '16px' }}>
-                      {NEWS_SOURCE_QUESTION} *
+                      {NEWS_FREQUENCY2_QUESTION} *
                     </FormLabel>
                     <RadioGroup
-                      value={demographicsData.newsSource || ''}
-                      onChange={(e) => setDemographicsData({...demographicsData, newsSource: e.target.value})}
+                      value={demographicsData.newsFrequency2 || ''}
+                      onChange={(e) => setDemographicsData({...demographicsData, newsFrequency2: e.target.value})}
                     >
-                      {NEWS_SOURCE_OPTIONS.map((option, index) => (
+                      {NEWS_FREQUENCY_OPTIONS.map((option, index) => (
                         <FormControlLabel
                           key={index}
                           value={option}
@@ -1091,26 +1091,34 @@ function Register({classes}) {
                     </RadioGroup>
                   </FormControl>
 
-                  {/* News Time */}
+                  {/* News Source - Multi-select */}
                   <FormControl component="fieldset" style={{ width: '100%', marginBottom: '24px' }}>
                     <FormLabel component="legend" style={{ marginBottom: '12px', fontSize: '16px' }}>
-                      {NEWS_TIME_QUESTION} *
+                      {NEWS_SOURCE_QUESTION} * (Select all that apply)
                     </FormLabel>
-                    <RadioGroup
-                      value={demographicsData.newsTime || ''}
-                      onChange={(e) => setDemographicsData({...demographicsData, newsTime: e.target.value})}
-                    >
-                      {NEWS_TIME_OPTIONS.map((option, index) => (
+                    <div>
+                      {NEWS_SOURCE_OPTIONS.map((option, index) => (
                         <FormControlLabel
                           key={index}
-                          value={option}
-                          control={<Radio />}
+                          control={
+                            <Checkbox
+                              checked={(demographicsData.newsSource || []).includes(option)}
+                              onChange={(e) => {
+                                const currentSources = demographicsData.newsSource || [];
+                                const newSources = e.target.checked
+                                  ? [...currentSources, option]
+                                  : currentSources.filter(s => s !== option);
+                                setDemographicsData({...demographicsData, newsSource: newSources});
+                              }}
+                            />
+                          }
                           label={option}
-                          style={{ marginBottom: '8px' }}
+                          style={{ marginBottom: '8px', display: 'block' }}
                         />
                       ))}
-                    </RadioGroup>
+                    </div>
                   </FormControl>
+
                 </Paper>
 
                 {/* Navigation Buttons */}
@@ -1144,40 +1152,17 @@ function Register({classes}) {
             {currentStage === 'weekly' && (
               <div style={{ maxWidth: '800px', margin: '0 auto' }}>
                 <Typography variant="h4" gutterBottom align="center" style={{ marginBottom: '32px' }}>
-                  {WEEKLY_INTRO}
+                  Weekly Survey (Moved to Feed)
                 </Typography>
                 
                 <Paper elevation={2} style={{ padding: '32px', marginBottom: '24px' }}>
                   <Typography variant="h5" gutterBottom style={{ marginBottom: '24px', color: '#1976d2' }}>
-                    {WEEKLY_POLITICAL_ISSUE_INTRO}
+                    Note: Weekly surveys are now completed in the main feed
                   </Typography>
                   
                   <Typography variant="body1" paragraph style={{ fontSize: '16px', lineHeight: '1.6' }}>
-                    <strong>Note:</strong> This section would contain weekly assessment questions about specific political topics.
-                    The questions would be dynamically generated based on current political issues and would include:
-                  </Typography>
-                  
-                  <ul style={{ marginLeft: '20px', marginBottom: '24px' }}>
-                    <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
-                      Attitude toward specific political issues (0-100 scale)
-                    </li>
-                    <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
-                      Rating of political opponents on various traits (0-10 scales)
-                    </li>
-                    <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
-                      Social distance measures (comfort with political out-group members)
-                    </li>
-                  </ul>
-                  
-                  <Typography variant="body2" style={{ 
-                    padding: '16px',
-                    backgroundColor: '#e3f2fd',
-                    borderRadius: '4px',
-                    marginBottom: '24px'
-                  }}>
-                    <strong>Example Question:</strong><br />
-                    {WEEKLY_POLITICAL_ISSUE_QUESTION}<br />
-                    <em>{WEEKLY_POLITICAL_ISSUE_SCALE}</em>
+                    <strong>Note:</strong> This section is no longer used. Weekly surveys are now topic-based and 
+                    are presented as popups in the main feed after topic selection or topic changes.
                   </Typography>
                   
                   {/* Interactive Slider */}

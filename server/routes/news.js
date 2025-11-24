@@ -597,6 +597,63 @@ router.get('/article/:articleId', async (req, res) => {
         .back-button:hover {
             background: #2980b9;
         }
+        .agreement-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px solid #e0e0e0;
+        }
+        .agreement-question {
+            font-size: 1.1em;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .slider-container {
+            margin: 20px 0;
+        }
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(to right, #e74c3c 0%, #f39c12 50%, #27ae60 100%);
+            outline: none;
+            -webkit-appearance: none;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #3498db;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        .slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #3498db;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.85em;
+            color: #666;
+        }
+        .slider-value {
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #3498db;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -613,7 +670,80 @@ router.get('/article/:articleId', async (req, res) => {
         <div class="article-content">
             ${article.body}
         </div>
+        
+        <div class="agreement-section">
+            <div class="agreement-question">
+                To what extent do you agree with the perspective presented in this article?
+            </div>
+            <div class="slider-container">
+                <input type="range" min="0" max="10" value="5" class="slider" id="agreementSlider">
+                <div class="slider-labels">
+                    <span>0 - Strongly Disagree</span>
+                    <span>5 - Neutral</span>
+                    <span>10 - Strongly Agree</span>
+                </div>
+                <div class="slider-value">
+                    Current Rating: <span id="sliderValue">5</span>
+                </div>
+            </div>
+        </div>
     </div>
+    
+    <script>
+        // Track time spent on article
+        let articleOpenTime = Date.now();
+        const MINIMUM_READ_TIME = 30000; // 30 seconds in milliseconds
+        
+        const slider = document.getElementById('agreementSlider');
+        const sliderValue = document.getElementById('sliderValue');
+        
+        slider.addEventListener('input', function() {
+            sliderValue.textContent = this.value;
+        });
+        
+        // Store the agreement value for later retrieval by parent frame
+        slider.addEventListener('change', function() {
+            const agreementValue = this.value;
+            // This can be accessed by the parent iframe through postMessage
+            if (window.parent) {
+                window.parent.postMessage({
+                    type: 'articleAgreement',
+                    value: agreementValue,
+                    articleId: ${article.id}
+                }, '*');
+            }
+        });
+        
+        // Prevent closing before minimum read time
+        window.addEventListener('beforeunload', function(e) {
+            const timeSpent = Date.now() - articleOpenTime;
+            if (timeSpent < MINIMUM_READ_TIME) {
+                e.preventDefault();
+                e.returnValue = 'Please read the article for at least 30 seconds before closing.';
+                return e.returnValue;
+            }
+        });
+        
+        // Also handle back button clicks - communicate with parent frame
+        const backButton = document.querySelector('.back-button');
+        if (backButton && !backButton.dataset.listenerAttached) {
+            backButton.dataset.listenerAttached = 'true';
+            backButton.addEventListener('click', function handleBackClick(e) {
+                e.preventDefault();
+                e.stopImmediatePropagation(); // Prevent other handlers
+                const timeSpent = Date.now() - articleOpenTime;
+                // Notify parent frame about back button click and time spent
+                if (window.parent) {
+                    window.parent.postMessage({
+                        type: 'articleBackButtonClicked',
+                        articleId: ${article.id},
+                        timeSpent: timeSpent,
+                        minimumReadTime: MINIMUM_READ_TIME
+                    }, '*');
+                }
+            }, { once: false }); // Keep listener active for multiple clicks
+        }
+    </script>
 </body>
 </html>`;
         

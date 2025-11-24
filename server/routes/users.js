@@ -821,9 +821,19 @@ router.post('/weeklyResponse', verifyToken, async (req, res) => {
             userId: req.body.userId,
             topic: req.body.topic,
             weekNumber: req.body.weekNumber || 1,
-            topicAttitude: req.body.topicAttitude !== undefined ? req.body.topicAttitude : 5,
-            topicInterest: req.body.topicInterest !== undefined ? req.body.topicInterest : 5,
-            topicKnowledge: req.body.topicKnowledge !== undefined ? req.body.topicKnowledge : 5
+            topicAttitude: req.body.topicAttitude !== undefined ? req.body.topicAttitude : 50,
+            oneSide_openminded: req.body.oneSide_openminded !== undefined ? req.body.oneSide_openminded : 5,
+            oneSide_moderate: req.body.oneSide_moderate !== undefined ? req.body.oneSide_moderate : 5,
+            oneSide_moral: req.body.oneSide_moral !== undefined ? req.body.oneSide_moral : 5,
+            oneSide_family: req.body.oneSide_family !== undefined ? req.body.oneSide_family : 5,
+            oneSide_friend: req.body.oneSide_friend !== undefined ? req.body.oneSide_friend : 5,
+            oneSide_coworker: req.body.oneSide_coworker !== undefined ? req.body.oneSide_coworker : 5,
+            otherSide_openminded: req.body.otherSide_openminded !== undefined ? req.body.otherSide_openminded : 5,
+            otherSide_moderate: req.body.otherSide_moderate !== undefined ? req.body.otherSide_moderate : 5,
+            otherSide_moral: req.body.otherSide_moral !== undefined ? req.body.otherSide_moral : 5,
+            otherSide_family: req.body.otherSide_family !== undefined ? req.body.otherSide_family : 5,
+            otherSide_friend: req.body.otherSide_friend !== undefined ? req.body.otherSide_friend : 5,
+            otherSide_coworker: req.body.otherSide_coworker !== undefined ? req.body.otherSide_coworker : 5
         });
         
         const savedResponse = await newWeeklyResponse.save();

@@ -77,8 +77,8 @@ router.post('/demographics/:uniqId', async (req, res) => {
             "politicalActivities": req.body.politicalActivities || "",
             "politicalMember": req.body.politicalMember || "",
             "newsFrequency": req.body.newsFrequency || "",
-            "newsSource": req.body.newsSource || "",
-            "newsTime": req.body.newsTime || ""
+            "newsFrequency2": req.body.newsFrequency2 || "",
+            "newsSource": req.body.newsSource || []
         });
         
         const demographicsData = await newDemographicsData.save();
@@ -89,9 +89,19 @@ router.post('/demographics/:uniqId', async (req, res) => {
         const placeholderWeeklyResponse = new WeeklyResponse({
             "uniqueId": fid["_id"],
             "weekNumber": 1,
-            "topicAttitude": 5,  // Default neutral values
-            "topicInterest": 5,
-            "topicKnowledge": 5
+            "topicAttitude": 50,  // Default neutral values
+            "oneSide_openminded": 5,
+            "oneSide_moderate": 5,
+            "oneSide_moral": 5,
+            "oneSide_family": 5,
+            "oneSide_friend": 5,
+            "oneSide_coworker": 5,
+            "otherSide_openminded": 5,
+            "otherSide_moderate": 5,
+            "otherSide_moral": 5,
+            "otherSide_family": 5,
+            "otherSide_friend": 5,
+            "otherSide_coworker": 5
         });
         
         const weeklyResponse = await placeholderWeeklyResponse.save();

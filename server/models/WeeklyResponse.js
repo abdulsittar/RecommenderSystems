@@ -22,28 +22,97 @@ const WeeklyResponseSchema = new mongoose.Schema({
         default: 1,
         min: 1
     },
-    // Topic-specific questions (3 questions, 0-10 scale)
-    // Q1: Attitude toward the topic (0 = Very negative, 10 = Very positive)
+    // Q1: Overall attitude toward the topic (1-100 scale)
     topicAttitude: {
         type: Number,
         required: false,
-        min: 0,
+        min: 1,
+        max: 100,
+        default: 50
+    },
+    // Q2-Q4: Perception of ONE SIDE advocates
+    oneSide_openminded: {
+        type: Number,
+        required: false,
+        min: 1,
         max: 10,
         default: 5
     },
-    // Q2: Interest in learning more about this topic (0 = Not interested, 10 = Very interested)
-    topicInterest: {
+    oneSide_moderate: {
         type: Number,
         required: false,
-        min: 0,
+        min: 1,
         max: 10,
         default: 5
     },
-    // Q3: Confidence in your knowledge about this topic (0 = Not confident, 10 = Very confident)
-    topicKnowledge: {
+    oneSide_moral: {
         type: Number,
         required: false,
-        min: 0,
+        min: 1,
+        max: 10,
+        default: 5
+    },
+    oneSide_family: {
+        type: Number,
+        required: false,
+        min: 1,
+        max: 10,
+        default: 5
+    },
+    oneSide_friend: {
+        type: Number,
+        required: false,
+        min: 1,
+        max: 10,
+        default: 5
+    },
+    oneSide_coworker: {
+        type: Number,
+        required: false,
+        min: 1,
+        max: 10,
+        default: 5
+    },
+    // Q5-Q7: Perception of OTHER SIDE advocates
+    otherSide_openminded: {
+        type: Number,
+        required: false,
+        min: 1,
+        max: 10,
+        default: 5
+    },
+    otherSide_moderate: {
+        type: Number,
+        required: false,
+        min: 1,
+        max: 10,
+        default: 5
+    },
+    otherSide_moral: {
+        type: Number,
+        required: false,
+        min: 1,
+        max: 10,
+        default: 5
+    },
+    otherSide_family: {
+        type: Number,
+        required: false,
+        min: 1,
+        max: 10,
+        default: 5
+    },
+    otherSide_friend: {
+        type: Number,
+        required: false,
+        min: 1,
+        max: 10,
+        default: 5
+    },
+    otherSide_coworker: {
+        type: Number,
+        required: false,
+        min: 1,
         max: 10,
         default: 5
     }

@@ -15,28 +15,28 @@ const DemographicsDataSchema = new mongoose.Schema({
     gender: { 
         type: String, 
         required: false,
-        enum: ['Male', 'Female', 'Non-binary', 'Prefer not to say', '']
+        enum: ['Male', 'Female', 'Prefer not to say', 'Other', '']
     },
     education: { 
         type: String, 
         required: false,
-        enum: ['No formal education', 'High school diploma', 'Some college', 'Bachelor\'s degree', 'Master\'s degree', 'Doctorate', 'Other', '']
+        enum: ['Elementary school', 'High School', 'Bachelor\'s degree', 'Master\'s degree', 'PhD', 'Other', '']
     },
     employment: { 
         type: String, 
         required: false,
-        enum: ['Employed full-time', 'Employed part-time', 'Self-employed', 'Unemployed', 'Student', 'Retired', 'Other', '']
+        enum: ['Employed full-time', 'Employed part-time', 'Self-employed', 'Unemployed', 'Studying', 'Retired', 'Other', '']
     },
     // Q2: Civil engagement
     hasVoted: { 
         type: String, 
         required: false,
-        enum: ['Yes', 'No', '']
+        enum: ['1', '2', '3', '4', '5', '']
     },
     politicalActivities: { 
         type: String, 
         required: false,
-        enum: ['Yes', 'No', '']
+        enum: ['1', '2', '3', '4', '5', '']
     },
     politicalMember: { 
         type: String, 
@@ -49,15 +49,15 @@ const DemographicsDataSchema = new mongoose.Schema({
         required: false,
         enum: ['Several times a day', 'Once a day', 'A few times a week', 'Rarely', 'Never', '']
     },
-    newsSource: { 
+    newsFrequency2: { 
         type: String, 
         required: false,
-        enum: ['Television', 'Newspapers', 'Online news websites', 'Social media', 'Radio', 'Other', '']
+        enum: ['Several times a day', 'Once a day', 'A few times a week', 'Rarely', 'Never', '']
     },
-    newsTime: { 
-        type: String, 
+    newsSource: { 
+        type: [String], 
         required: false,
-        enum: ['Less than 30 minutes', '30–60 minutes', '1–2 hours', 'More than 2 hours', '']
+        default: []
     }
 }, {
     timestamps: true

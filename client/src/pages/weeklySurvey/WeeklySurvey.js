@@ -18,24 +18,37 @@ import {
 } from '@material-ui/core';
 import {
   WEEKLY_INTRO,
-  WEEKLY_POLITICAL_ISSUE_INTRO,
-  WEEKLY_POLITICAL_ISSUE_QUESTION,
-  WEEKLY_POLITICAL_ISSUE_SCALE,
-  WEEKLY_POLITICAL_OUTGROUP_INTRO,
-  WEEKLY_OPENMINDED_QUESTION,
-  WEEKLY_OPENMINDED_SCALE,
-  WEEKLY_EXTREMIST_QUESTION,
-  WEEKLY_EXTREMIST_SCALE,
-  WEEKLY_MORAL_QUESTION,
-  WEEKLY_MORAL_SCALE,
-  WEEKLY_SOCIAL_DISTANCE_INTRO,
-  WEEKLY_FAMILY_QUESTION,
-  WEEKLY_FAMILY_SCALE,
-  WEEKLY_FRIEND_QUESTION,
-  WEEKLY_FRIEND_SCALE,
-  WEEKLY_COWORKER_QUESTION,
-  WEEKLY_COWORKER_SCALE,
-  SUCCESS_WEEKLY
+  WEEKLY_ATTITUDE_QUESTION,
+  WEEKLY_ATTITUDE_SCALE,
+  WEEKLY_ONE_SIDE_INTRO,
+  WEEKLY_ONE_SIDE_OPENMINDED_QUESTION,
+  WEEKLY_ONE_SIDE_OPENMINDED_SCALE,
+  WEEKLY_ONE_SIDE_MODERATE_QUESTION,
+  WEEKLY_ONE_SIDE_MODERATE_SCALE,
+  WEEKLY_ONE_SIDE_MORAL_QUESTION,
+  WEEKLY_ONE_SIDE_MORAL_SCALE,
+  WEEKLY_ONE_SIDE_SOCIAL_INTRO,
+  WEEKLY_ONE_SIDE_FAMILY_QUESTION,
+  WEEKLY_ONE_SIDE_FAMILY_SCALE,
+  WEEKLY_ONE_SIDE_FRIEND_QUESTION,
+  WEEKLY_ONE_SIDE_FRIEND_SCALE,
+  WEEKLY_ONE_SIDE_COWORKER_QUESTION,
+  WEEKLY_ONE_SIDE_COWORKER_SCALE,
+  WEEKLY_OTHER_SIDE_INTRO,
+  WEEKLY_OTHER_SIDE_OPENMINDED_QUESTION,
+  WEEKLY_OTHER_SIDE_OPENMINDED_SCALE,
+  WEEKLY_OTHER_SIDE_MODERATE_QUESTION,
+  WEEKLY_OTHER_SIDE_MODERATE_SCALE,
+  WEEKLY_OTHER_SIDE_MORAL_QUESTION,
+  WEEKLY_OTHER_SIDE_MORAL_SCALE,
+  WEEKLY_OTHER_SIDE_SOCIAL_INTRO,
+  WEEKLY_OTHER_SIDE_FAMILY_QUESTION,
+  WEEKLY_OTHER_SIDE_FAMILY_SCALE,
+  WEEKLY_OTHER_SIDE_FRIEND_QUESTION,
+  WEEKLY_OTHER_SIDE_FRIEND_SCALE,
+  WEEKLY_OTHER_SIDE_COWORKER_QUESTION,
+  WEEKLY_OTHER_SIDE_COWORKER_SCALE,
+  SUCCESS_DEMOGRAPHICS
 } from '../../constants_STA';
 
 const styles = (theme) => ({
@@ -137,7 +150,7 @@ function WeeklySurvey({ classes }) {
       <Container maxWidth="md" className={classes.container}>
         <Paper className={classes.paper}>
           <Typography variant="h4" className={classes.successMessage}>
-            {SUCCESS_WEEKLY}
+            Survey completed successfully!
           </Typography>
           <Typography variant="body1" align="center" style={{ marginTop: 16 }}>
             Redirecting you to the main feed...
@@ -160,13 +173,13 @@ function WeeklySurvey({ classes }) {
 
         {/* Political Issue Rating */}
         <Typography variant="h6" className={classes.subtitle}>
-          {WEEKLY_POLITICAL_ISSUE_INTRO}
+          Overall Attitude
         </Typography>
         <Typography variant="body1" className={classes.question}>
-          {WEEKLY_POLITICAL_ISSUE_QUESTION}
+          {WEEKLY_ATTITUDE_QUESTION} this topic?
         </Typography>
         <Typography variant="caption" className={classes.scale}>
-          {WEEKLY_POLITICAL_ISSUE_SCALE}
+          {WEEKLY_ATTITUDE_SCALE}
         </Typography>
         <Box className={classes.slider}>
           <Slider
@@ -183,17 +196,17 @@ function WeeklySurvey({ classes }) {
           />
         </Box>
 
-        {/* Political Outgroup Ratings */}
+        {/* ONE SIDE Ratings */}
         <Typography variant="h6" className={classes.subtitle}>
-          {WEEKLY_POLITICAL_OUTGROUP_INTRO}
+          {WEEKLY_ONE_SIDE_INTRO}
         </Typography>
 
         {/* Open-minded vs Close-minded */}
         <Typography variant="body1" className={classes.question}>
-          {WEEKLY_OPENMINDED_QUESTION}
+          {WEEKLY_ONE_SIDE_OPENMINDED_QUESTION}
         </Typography>
         <Typography variant="caption" className={classes.scale}>
-          {WEEKLY_OPENMINDED_SCALE}
+          {WEEKLY_ONE_SIDE_OPENMINDED_SCALE}
         </Typography>
         <Box className={classes.slider}>
           <Slider
@@ -211,10 +224,10 @@ function WeeklySurvey({ classes }) {
 
         {/* Moderate vs Extremist */}
         <Typography variant="body1" className={classes.question}>
-          {WEEKLY_EXTREMIST_QUESTION}
+          {WEEKLY_ONE_SIDE_MODERATE_QUESTION}
         </Typography>
         <Typography variant="caption" className={classes.scale}>
-          {WEEKLY_EXTREMIST_SCALE}
+          {WEEKLY_ONE_SIDE_MODERATE_SCALE}
         </Typography>
         <Box className={classes.slider}>
           <Slider
@@ -232,10 +245,10 @@ function WeeklySurvey({ classes }) {
 
         {/* Immoral vs Moral */}
         <Typography variant="body1" className={classes.question}>
-          {WEEKLY_MORAL_QUESTION}
+          {WEEKLY_ONE_SIDE_MORAL_QUESTION}
         </Typography>
         <Typography variant="caption" className={classes.scale}>
-          {WEEKLY_MORAL_SCALE}
+          {WEEKLY_ONE_SIDE_MORAL_SCALE}
         </Typography>
         <Box className={classes.slider}>
           <Slider
@@ -253,15 +266,15 @@ function WeeklySurvey({ classes }) {
 
         {/* Social Distance */}
         <Typography variant="h6" className={classes.subtitle}>
-          {WEEKLY_SOCIAL_DISTANCE_INTRO}
+          {WEEKLY_ONE_SIDE_SOCIAL_INTRO}
         </Typography>
 
         {/* Family */}
         <Typography variant="body1" className={classes.question}>
-          {WEEKLY_FAMILY_QUESTION}
+          {WEEKLY_ONE_SIDE_FAMILY_QUESTION}
         </Typography>
         <Typography variant="caption" className={classes.scale}>
-          {WEEKLY_FAMILY_SCALE}
+          {WEEKLY_ONE_SIDE_FAMILY_SCALE}
         </Typography>
         <Box className={classes.slider}>
           <Slider
@@ -279,10 +292,10 @@ function WeeklySurvey({ classes }) {
 
         {/* Friend */}
         <Typography variant="body1" className={classes.question}>
-          {WEEKLY_FRIEND_QUESTION}
+          {WEEKLY_ONE_SIDE_FRIEND_QUESTION}
         </Typography>
         <Typography variant="caption" className={classes.scale}>
-          {WEEKLY_FRIEND_SCALE}
+          {WEEKLY_ONE_SIDE_FRIEND_SCALE}
         </Typography>
         <Box className={classes.slider}>
           <Slider
@@ -300,10 +313,10 @@ function WeeklySurvey({ classes }) {
 
         {/* Coworker */}
         <Typography variant="body1" className={classes.question}>
-          {WEEKLY_COWORKER_QUESTION}
+          {WEEKLY_ONE_SIDE_COWORKER_QUESTION}
         </Typography>
         <Typography variant="caption" className={classes.scale}>
-          {WEEKLY_COWORKER_SCALE}
+          {WEEKLY_ONE_SIDE_COWORKER_SCALE}
         </Typography>
         <Box className={classes.slider}>
           <Slider
