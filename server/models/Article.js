@@ -25,6 +25,13 @@ const ArticleSchema = new mongoose.Schema({
     stance: {
         type: String,
         default: null
+    },
+    perspectiveScore: {
+        type: Number,
+        min: -1,
+        max: 1,
+        default: 0,
+        required: false
     }
 }, 
 {timestamps: true}

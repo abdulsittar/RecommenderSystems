@@ -5,6 +5,7 @@ import Share from '../share/Share'
 import axios from "axios"
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
+import { UpdateUser } from "../../context/AuthActions";
 import { withStyles } from '@material-ui/core/styles';
 import {styles} from './feedStyle';
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -43,7 +44,7 @@ const [preFilter, setPreFilter] = useState(-1);
 const [progress, setProgress] = useState(0);
 const [preProfile, setPreProfile] = useState(" ");
 const [viewedPosts, setViewedPosts] = useState([]);
-const { user: currentUser } = useContext(AuthContext);
+const { user: currentUser, dispatch } = useContext(AuthContext);
 const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
 const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
 const [socket, setSocket] = useState(null)
@@ -198,6 +199,7 @@ const handleFeedAction = async (e) => {
             if (isFirstTopic && localStorage.getItem('showWeeklySurvey') === 'true') {
                 console.log('First topic selection - showing weekly survey before loading content');
                 localStorage.setItem('pendingTopic', topic);
+                localStorage.setItem('weeklySurveyReason', 'firstTime'); // Set reason for first time
                 setWeeklySurveyOpen(true);
                 return; // Don't fetch posts yet - will fetch after survey
             }
@@ -262,12 +264,27 @@ const handleFeedAction = async (e) => {
             }, { headers: { 'auth-token': token } });
 
             if (response.status === 200) {
-                console.log('Weekly survey submitted successfully');
+                console.log('Weekly survey submitted successfully', response.data);
                 
                 // Update user's current topic and lastTopicChangeDate
                 await axios.put(`/users/${user._id}/updateTopic`, {
                     topic: pendingTopic
                 }, { headers: { 'auth-token': token } });
+                
+                // Fetch updated user data to get the new stance score and overton window
+                const userResponse = await axios.get(`/users?userId=${user._id}`, { 
+                    headers: { 'auth-token': token } 
+                });
+                
+                // Update the user in context with new control group data
+                if (userResponse.data) {
+                    dispatch(UpdateUser(userResponse.data));
+                    console.log('User updated with new survey data:', {
+                        stanceScore: userResponse.data.stanceScore,
+                        overtonWindow: userResponse.data.overtonWindow,
+                        currentTopic: userResponse.data.currentTopic
+                    });
+                }
                 
                 setWeeklySurveyOpen(false);
                 
@@ -335,8 +352,8 @@ useEffect(() => {
     // Priority 1: If user doesn't have a current topic, show topic selection dialog FIRST
     if (user && !currentUser.currentTopic && !currentTopic) {
         console.log('User has no currentTopic set - showing topic selection dialog');
-        // Clear the weekly survey flag - it will be triggered AFTER topic selection
-        localStorage.removeItem('showWeeklySurvey');
+        // DON'T clear the weekly survey flag - keep it for after topic selection
+        // localStorage.removeItem('showWeeklySurvey'); // REMOVED - let it persist
         setTimeout(() => {
             setNextDialogOpen(true);
         }, 500);
@@ -754,6 +771,9 @@ if (preProfile === " ") {
     // Handler to get more posts on the same topic
     const handleGetMorePosts = () => {
         if (currentTopic) {
+            // Scroll to top of page
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
             // Increment page and fetch more posts with the same topic
             const nextPage = index + 1;
             setIndex(nextPage);
@@ -764,6 +784,32 @@ if (preProfile === " ") {
 return (
     <div className={classes.feed}>
     <LoadingBar   color="#f11946"   progress={progress}   onLoaderFinished={() => setProgress(0)} />
+        
+        {/* Debug Control Group Display - Always visible during testing */}
+        {currentUser && (
+            <div style={{
+                position: 'fixed',
+                top: 70,
+                right: 10,
+                padding: '12px',
+                backgroundColor: 'rgba(0,0,0,0.85)',
+                color: 'white',
+                borderRadius: '8px',
+                zIndex: 9999,
+                fontSize: '12px',
+                fontFamily: 'monospace',
+                boxShadow: '0 4px 6px rgba(0,0,0,0.3)',
+                minWidth: '200px'
+            }}>
+                <div style={{fontWeight: 'bold', marginBottom: '8px', fontSize: '14px', borderBottom: '1px solid #666', paddingBottom: '6px'}}>
+                    🔬 Debug Info
+                </div>
+                <div><strong>Control Group:</strong> {currentUser.controlGroup || 'None'}</div>
+                <div><strong>Stance:</strong> {currentUser.stanceScore?.toFixed(2) || 'N/A'}</div>
+                <div><strong>Window:</strong> [{currentUser.overtonWindow?.min?.toFixed(1)}, {currentUser.overtonWindow?.max?.toFixed(1)}]</div>
+                <div><strong>Topic:</strong> {currentUser.currentTopic || 'None'}</div>
+            </div>
+        )}
         
         {/* Top Navigation Buttons */}
         <div style={{display: 'flex', justifyContent: 'center', gap: '16px', marginBottom: 20, marginTop: 10}}>

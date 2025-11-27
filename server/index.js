@@ -45,6 +45,7 @@ const breakingHTMLRoute = require('./routes/breaking.js');
 const uncensoredHTMLRoute = require('./routes/info.js');
 const presurRoute = require('./routes/presurvey.js');
 const postsurRoute = require('./routes/postsurvey.js');
+const analyticsRoute = require('./routes/analytics.js');
 const path = require('path');
 const fs = require('fs');
 const Grid = require('gridfs-stream');
@@ -323,6 +324,7 @@ app.use('/idstorage', storageRoute);
 app.use('/news', newsHTMLRoute);
 app.use('/breaking', breakingHTMLRoute);
 app.use('/info', uncensoredHTMLRoute);
+app.use('/analytics', analyticsRoute);
 
 app._router.stack.forEach(function (r) {
   if (r.route && r.route.path) {

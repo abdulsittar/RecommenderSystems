@@ -1128,11 +1128,31 @@
   }
     });
 
-// Get posts filtered by topic - Updated to show all posts, not just user's posts
+const recommendationService = require('../services/recommendationService');
+
+// Get posts filtered by topic - Updated to use recommendation service
 const getLatestFivePosts = async (userId, page = 0, topic = null) => {
   const currentUser = await User.findById(userId);
   if (!currentUser) return [];
 
+  // ✅ If user has control group and stance score, use recommendation service
+  if (currentUser.controlGroup && currentUser.stanceScore !== undefined && currentUser.stanceScore !== null) {
+    logger.info('Using recommendation service', { 
+      userId, 
+      controlGroup: currentUser.controlGroup, 
+      topic 
+    });
+    
+    const limit = page === 0 ? 5 : 30;
+    return await recommendationService.getRecommendedPosts(
+      userId,
+      topic || currentUser.currentTopic,
+      page,
+      limit
+    );
+  }
+
+  // ✅ Default behavior for users without control groups (backward compatible)
   // Build query filter - show all posts, not just user's posts
   let queryFilter = {};
   
@@ -1141,6 +1161,7 @@ const getLatestFivePosts = async (userId, page = 0, topic = null) => {
     queryFilter.content = topic;
   }
 
+  console.log('Using default time-based recommendations', { userId, topic });
   console.log('getLatestFivePosts - Topic filter:', topic, 'Query filter:', queryFilter);
 
   // Debug: Check what posts exist in database

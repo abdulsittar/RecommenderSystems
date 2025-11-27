@@ -99,6 +99,40 @@ lastTopicChangeDate: {
     type: Date,
     default: null
 },
+controlGroup: {
+    type: String,
+    enum: ['control', 'edge', 'center', null],
+    default: null
+},
+stanceScore: {
+    type: Number,
+    min: -1,
+    max: 1,
+    default: 0
+},
+overtonWindow: {
+    min: { type: Number, default: -0.5 },
+    max: { type: Number, default: 0.5 }
+},
+latestSurveyResults: {
+    topicAttitude: { type: Number, default: 50 },
+    oneSide_openminded: { type: Number, default: 5 },
+    oneSide_moderate: { type: Number, default: 5 },
+    oneSide_moral: { type: Number, default: 5 },
+    oneSide_family: { type: Number, default: 5 },
+    oneSide_friend: { type: Number, default: 5 },
+    oneSide_coworker: { type: Number, default: 5 },
+    otherSide_openminded: { type: Number, default: 5 },
+    otherSide_moderate: { type: Number, default: 5 },
+    otherSide_moral: { type: Number, default: 5 },
+    otherSide_family: { type: Number, default: 5 },
+    otherSide_friend: { type: Number, default: 5 },
+    otherSide_coworker: { type: Number, default: 5 }
+},
+controlGroupAssignedAt: {
+    type: Date,
+    default: null
+}
 },
 {timestamps: true}
 );

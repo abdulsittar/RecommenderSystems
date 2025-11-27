@@ -11,9 +11,9 @@ const ConsentResponseSchema = new mongoose.Schema({
         required: true,
         validate: {
             validator: function(v) {
-                return v.length === 6; // We have 6 consent questions
+                return v.length === 8; // We have 8 consent questions
             },
-            message: 'consentAnswers must contain exactly 6 boolean values'
+            message: 'consentAnswers must contain exactly 8 boolean values'
         }
     },
     agreedToParticipate: {

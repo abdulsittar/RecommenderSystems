@@ -20,3 +20,8 @@ export const LoginStart = (userCredentials) => ({
     type: "UNFOLLOW",
     payload: userId,
   });
+
+  export const UpdateUser = (user) => ({
+    type: "UPDATE_USER",
+    payload: user,
+  });

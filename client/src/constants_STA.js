@@ -41,12 +41,14 @@ export const CONSENT_DATA_SHARING = "The results of this study may be shared wit
 
 // Consent checklist questions
 export const CONSENT_QUESTIONS = [
-  "I am 18 years of age or older",
-  "I have read and understood all the information about this study",
-  "I agree to participate in this study and to the use of data obtained from it",
-  "I retain the right to withdraw this consent without giving reasons",
-  "I retain the right to stop participating in the study at any time if I wish",
-  "I understand that my data will be processed by partner institution Jožef Stefan Institute (JSI) as a third party"
+  "I have read all sections in this information sheet.",
+  "I understand who to contact if I have questions about the project.",
+  "I do not reside in a country that might prosecute me for engaging with political news media or for participating in a user study.",
+  "I understand my participation is voluntary, and I can withdraw at any time.",
+  "I understand my real name and contact information will not be a part of any publications and outputs.",
+  "I understand my personal data will be kept securely and available only to authorised personnel.",
+  "I understand that anonymised research data will be archived and may be used by third parties.",
+  "I assign the copyright I hold to the content generated in this activity to the University of Primorska."
 ];
 
 // Consent form buttons

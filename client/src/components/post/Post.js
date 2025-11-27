@@ -1215,6 +1215,28 @@ const triangleOverlayStyle = {
           
           
         </div>
+        
+        {/* Debug Post Metadata Overlay */}
+        {/* Post metadata debug info - always visible during testing */}
+        <div style={{
+            padding: '10px',
+            backgroundColor: 'rgba(255, 255, 0, 0.15)',
+            border: '1px solid #ffcc00',
+            borderRadius: '4px',
+            fontSize: '11px',
+            marginTop: '10px',
+            fontFamily: 'monospace'
+        }}>
+            <div><strong>Article ID:</strong> {post.articleId || 'N/A'}</div>
+            <div><strong>Perspective Score:</strong> {post.perspectiveScore?.toFixed(2) || 'N/A'}</div>
+            <div><strong>Stance:</strong> {post.stance || 'N/A'}</div>
+            <div><strong>Strength:</strong> {post.strength || 'N/A'}</div>
+            <div><strong>Topic:</strong> {post.content || 'N/A'}</div>
+            <div style={{ fontSize: '10px', marginTop: '4px', fontStyle: 'italic', color: '#666' }}>
+                📊 Post metadata (always visible for testing)
+            </div>
+        </div>
+        
       </div>
     </div>
     </InView>

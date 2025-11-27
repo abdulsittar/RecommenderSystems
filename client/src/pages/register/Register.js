@@ -129,16 +129,13 @@ function Register({classes}) {
   const {user, isFetching, error, dispatch} = useContext(AuthContext);
   
   // Core survey state
-  const [currentStage, setCurrentStage] = useState('consent'); // 'consent', 'demographics', 'weekly', 'userSelection'
+  const [currentStage, setCurrentStage] = useState('consent'); // 'consent', 'demographics'
   const [uniqId, setUniqId] = useState('');
   
   // Form data state
   const [consentAnswers, setConsentAnswers] = useState({});
   const [demographicsData, setDemographicsData] = useState({
     newsSource: [] // Initialize as empty array for multi-select
-  });
-  const [weeklyData, setWeeklyData] = useState({
-    politicalIssue: 50 // Default to neutral (50)
   });
   
   // UI state
@@ -153,9 +150,10 @@ function Register({classes}) {
   const [password, setPassword] = useState("");
   const [proPic, setProPic] = useState("");
   
-  // User selection state (for the 4 profile options)
-  const [selectedUserOption, setSelectedUserOption] = useState("");
-  const [userProfiles, setUserProfiles] = useState([]);
+  // Consent dialog state
+  const [showConsentDialog, setShowConsentDialog] = useState(false);
+  
+  // User selection removed - auto-registration after survey completion
   
   const initialized = useRef(false);
 
@@ -377,13 +375,11 @@ function Register({classes}) {
         
         if (response.status === 200) {
           console.log('Demographics saved successfully:', response.data);
-          // Skip weekly survey stage - go directly to user selection
-          setCurrentStage('userSelection');
-          toast.success('Demographics information saved successfully!');
-          // Scroll to top of page for next stage
+          toast.success('Survey completed! Creating your account...');
+          // Scroll to top of page
           window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-          // Fetch user profiles for selection
-          fetchUserProfiles();
+          // Automatically create user account and login
+          await autoCreateAndLogin();
         } else {
           throw new Error('Failed to save demographics data');
         }
@@ -398,56 +394,23 @@ function Register({classes}) {
     }
   };
 
-  const handleWeeklySubmit = async () => {
+  // Weekly survey removed from registration flow - now appears as popup in home page
+  
+  const autoCreateAndLogin = async () => {
     try {
-      setButtonDisabled(true);
-      
-      // Make API call to save weekly data
-      const response = await axios.post(`/presurvey/weekly/${uniqId}`, {
-        ...weeklyData,
-        weekNumber: 1 // This is the initial weekly survey
-      });
-      
-      if (response.status === 200) {
-        console.log('Weekly data saved successfully:', response.data);
-        toast.success('Survey completed successfully!');
-        
-        // Scroll to top of page for next stage
-        window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-        
-        // After survey completion, move to user selection
-        setTimeout(() => {
-          setCurrentStage('userSelection');
-          // Fetch user profiles
-          fetchUserProfiles();
-        }, 1500); // Small delay to show the success message
-      } else {
-        throw new Error('Failed to save weekly data');
-      }
-    } catch (error) {
-      console.error('Error saving weekly data:', error);
-      toast.error('Error submitting survey. Please try again.');
-    } finally {
-      setButtonDisabled(false);
-    }
-  };
-
-  const fetchUserProfiles = async () => {
-    try {
-      console.log('Fetching user profiles for uniqId:', uniqId);
-      
-      // Use the presurvey endpoint to get real user profiles like the original system
-      const res = await axios.post(`/presurvey/isSubmitted/${uniqId}`);
-      console.log('Presurvey response:', res.data);
+      console.log('Auto-creating user account for uniqId:', uniqId);
       
       // Check if user already exists and should auto-login instead
-      if (res.data.login === true) {
+      const checkRes = await axios.post(`/presurvey/isSubmitted/${uniqId}`);
+      console.log('Checking if user exists:', checkRes.data);
+      
+      if (checkRes.data.login === true) {
         console.log('User already exists, auto-logging in...');
-        toast.info('User already registered. Logging you in...');
+        toast.info('Logging you in...');
         
-        // Auto-login using the unique ID and password (first 10 characters of unique ID)
+        // Auto-login using the unique ID and password
         const password = uniqId.substring(0, 10);
-        const username = res.data.user.username;
+        const username = checkRes.data.user.username;
         
         try {
           const loginResponse = await loginCall({ 
@@ -461,145 +424,73 @@ function Register({classes}) {
             console.log('User needs to complete weekly survey, redirecting...');
             history.push('/weekly-survey');
           } else {
-            console.log('User does not need weekly survey, redirecting to home...');
+            console.log('Redirecting to home...');
             history.push("/");
           }
         } catch (loginError) {
           console.error('Auto-login failed:', loginError);
           toast.error('Login failed. Please try again.');
-          // If auto-login fails, fall back to manual login page
           history.push(`/login/${uniqId}`);
         }
         return;
       }
       
-      // Check if we have user profiles for selection
-      if (res.data.users && res.data.users.length > 0) {
-        console.log('Raw users from server:', res.data.users);
-        
-        // Extract users from the response format similar to backup
-        const profiles = res.data.users.map(userObj => {
-          // Handle different possible formats from aggregation
-          const user = userObj.user || userObj; // Handle both {user: {...}} and direct {...} formats
-          console.log('Processing user:', user);
-          
-          return {
-            _id: user._id || user.username,
-            username: user.username,
-            username_second: user.username_second,
-            profilePicture: user.profilePicture,
-            available: user.available,
-            version: user.version
-          };
-        }).filter(profile => profile.username); // Filter out any malformed profiles
-        
-        console.log('Setting real user profiles:', profiles);
-        setUserProfiles(profiles.slice(0, 4)); // Limit to 4 users like original
-      } else {
-        // Use fallback mock data if no real users available
-        console.log('No real user profiles available, using fallback');
-        const fallbackProfiles = [
-          { _id: "temp1", username: "user1", profilePicture: "person/1.jpeg" },
-          { _id: "temp2", username: "user2", profilePicture: "person/2.jpeg" },
-          { _id: "temp3", username: "user3", profilePicture: "person/3.jpeg" },
-          { _id: "temp4", username: "user4", profilePicture: "person/4.jpeg" }
-        ];
-        setUserProfiles(fallbackProfiles);
-      }
-    } catch (error) {
-      console.error('Error fetching user profiles:', error);
-      // Use fallback mock data if API fails
-      const fallbackProfiles = [
-        { _id: "temp1", username: "user1", profilePicture: "person/1.jpeg" },
-        { _id: "temp2", username: "user2", profilePicture: "person/2.jpeg" },
-        { _id: "temp3", username: "user3", profilePicture: "person/3.jpeg" },
-        { _id: "temp4", username: "user4", profilePicture: "person/4.jpeg" }
-      ];
-      setUserProfiles(fallbackProfiles);
-      toast.error('Using fallback profiles. Backend user profiles not available.');
-    }
-  };  const submitNext = async (e) => {
-    e.preventDefault();
-    
-    if (!selectedUserOption) {
-      toast.error('Please select a user profile to continue.');
-      return;
-    }
-
-    try {
-      console.log('Selected user option:', selectedUserOption);
-      console.log('Available user profiles:', userProfiles);
+      // Create a fixed user profile (no selection needed)
+      // Generate a simple username from the unique ID
+      const username = `user_${uniqId.substring(0, 8)}`;
+      const password = uniqId.substring(0, 10);
       
-      // Find the selected user profile
-      const selectedIndex = parseInt(selectedUserOption.replace('option', '')) - 1;
-      const selectedUser = userProfiles[selectedIndex];
+      // Use a default profile picture
+      const profilePicture = "person/1.jpeg";
       
-      console.log('Selected user data:', selectedUser);
+      const user = {
+        ...demographicsData, // Include demographic data
+        username: username,
+        password: password,
+        username_second: username,
+        profilePicture: profilePicture,
+        pool: 1, // Default pool
+        uniqId: uniqId
+      };
 
-      if (selectedUser) {
-        // Create user object with survey data like the old system
-        const user = {
-          ...demographicsData, // Include demographic data
-          ...weeklyData,       // Include weekly survey data  
-          username: selectedUser.username_second, // Use username_second from selected profile
-          password: uniqId.substring(0, 10), // Use first 10 chars of uniqueId as password
-          username_second: selectedUser.username_second, // Keep username_second same
-          profilePicture: selectedUser.profilePicture,
-          pool: 1, // Default pool
-          uniqId: uniqId // Include the unique ID
-        };
-
-        console.log('Creating user account with survey data and selected profile:', user);
-        
-        // Register the user using the same API as the old system
-        const userRes = await axios.post(`/auth/register/${uniqId}`, user);
-        console.log('User registration response:', userRes);
-        
-        if (userRes.data) {
-          const createdUser = userRes.data;
-          console.log('Created user:', createdUser);
+      console.log('Creating user account:', username);
+      
+      // Register the user
+      const userRes = await axios.post(`/auth/register/${uniqId}`, user);
+      console.log('User registration response:', userRes);
+      
+      if (userRes.data) {
+        // Try to login to get the auth token
+        try {
+          const loginRes = await axios.post(`/auth/login`, {
+            username: username,
+            password: password
+          });
           
-          // Try to login to get the auth token
-          try {
-            const loginRes = await axios.post(`/auth/login`, {
-              username: selectedUser.username_second, // Match the registered username
-              password: uniqId.substring(0, 10) // Use first 10 chars of uniqueId
-            });
+          if (loginRes.data && loginRes.data.token) {
+            console.log('Login successful, got token');
+            localStorage.setItem("token", loginRes.data.token);
+            localStorage.setItem("user", JSON.stringify(loginRes.data.user));
+            dispatch({ type: "LOGIN_SUCCESS", payload: loginRes.data.user });
             
-            if (loginRes.data && loginRes.data.token) {
-              console.log('Login successful, got token:', loginRes.data.token);
-              localStorage.setItem("token", loginRes.data.token);
-              localStorage.setItem("user", JSON.stringify(loginRes.data.user));
-              dispatch({ type: "LOGIN_SUCCESS", payload: loginRes.data.user });
-              
-              // Successfully logged in after registration
-              const token = loginRes.data.token;
-              const user = loginRes.data.user;
-              console.log('Login successful, user created and logged in');
-              
-              // Don't create initial data here - user will select topic in Feed first
-              // Topic selection → Weekly Survey → Initial data creation → Feed content
-              
-              toast.success('Account created successfully! Redirecting...');
-              dispatch({ type: "LOGIN_SUCCESS", payload: user });
-              // Set flag to show weekly survey after first time topic selection
-              localStorage.setItem('showWeeklySurvey', 'true');
-              localStorage.setItem('weeklySurveyReason', 'firstTime');
-              setTimeout(() => {
-                console.log('Redirecting to homepage. User will select topic, then see weekly survey...');
-                history.push('/');
-              }, 2000);
-            }
-          } catch (loginError) {
-            console.error('Login error after registration:', loginError);
-            toast.error('Account created but login failed. Please try logging in manually.');
+            toast.success('Welcome! Redirecting to the app...');
+            
+            // Set flag to show weekly survey after first time topic selection
+            localStorage.setItem('showWeeklySurvey', 'true');
+            localStorage.setItem('weeklySurveyReason', 'firstTime');
+            
+            setTimeout(() => {
+              console.log('Redirecting to homepage...');
+              history.push('/');
+            }, 2000);
           }
+        } catch (loginError) {
+          console.error('Login error after registration:', loginError);
+          toast.error('Account created but login failed. Please try logging in manually.');
         }
-      } else {
-        toast.error('Invalid user selection. Please try again.');
       }
     } catch (error) {
-      console.error('Registration error:', error);
+      console.error('Auto-registration error:', error);
       if (error.response) {
         toast.error(`Registration failed: ${error.response.data.message || error.response.status}`);
       } else {
@@ -608,16 +499,12 @@ function Register({classes}) {
     }
   };
 
+  // Functions fetchUserProfiles and submitNext removed - no longer needed for auto-registration
+
   const handlePreviousStage = () => {
     switch(currentStage) {
       case 'demographics':
         setCurrentStage('consent');
-        break;
-      case 'weekly':
-        setCurrentStage('demographics');
-        break;
-      case 'userSelection':
-        setCurrentStage('weekly');
         break;
       default:
         break;
@@ -642,99 +529,244 @@ function Register({classes}) {
             <p>Unique ID: {uniqId}</p>
             
             {currentStage === 'consent' && (
-              <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                <Typography variant="h4" gutterBottom align="center" style={{ marginBottom: '32px' }}>
-                  {CONSENT_WELCOME}
+              <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+                <Typography variant="h4" gutterBottom align="center" style={{ marginBottom: '32px', fontWeight: 'bold' }}>
+                  Form for Conscious and Free Consent to Participate in the Study
                 </Typography>
                 
-                <Typography variant="body1" paragraph style={{ fontSize: '16px', lineHeight: '1.6' }}>
-                  {CONSENT_INTRODUCTION}
+                {/* Lead Researcher Info */}
+                <Paper elevation={1} style={{ padding: '16px', marginBottom: '24px', backgroundColor: '#f5f5f5' }}>
+                  <Typography variant="body2" style={{ marginBottom: '4px' }}>
+                    <strong>Lead researcher:</strong> Uroš Sergaš
+                  </Typography>
+                  <Typography variant="body2" style={{ marginBottom: '4px' }}>
+                    <strong>Supervisors:</strong> Dr. Marko Tkalčič and Dr. Bruce Ferwerda
+                  </Typography>
+                  <Typography variant="body2" style={{ marginBottom: '4px' }}>
+                    <strong>Organisation:</strong> HICUP Lab, FAMNIT, University of Primorska
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Project:</strong> Diverse Perspectives in News Media: Analyzing User Engagement
+                  </Typography>
+                </Paper>
+
+                <Typography variant="body1" paragraph style={{ fontSize: '15px', lineHeight: '1.7', marginBottom: '24px' }}>
+                  This form has two sections. The first provides information about the study, explains how your data will be processed and used, and what are your rights. Please read it carefully and if there is anything that might not be clear to you, feel free to contact us. The second section consists of a certificate of consent where you are asked to verify your agreement to participate by confirming 8 (eight) statements and signing the form.
                 </Typography>
 
-                {/* Study Title */}
-                <Typography variant="h5" gutterBottom style={{ marginTop: '32px', marginBottom: '16px' }}>
-                  {CONSENT_STUDY_TITLE}
-                </Typography>
-                
-                <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
-                  {CONSENT_RESEARCHERS}
-                </Typography>
-
-                {/* Purpose Section */}
-                <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px' }}>
-                  {CONSENT_PURPOSE_TITLE}
-                </Typography>
-                <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
-                  {CONSENT_PURPOSE}
-                </Typography>
-
-                {/* Procedure Section */}
-                <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px' }}>
-                  {CONSENT_PROCEDURE_TITLE}
-                </Typography>
-                <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
-                  {CONSENT_PROCEDURE}
-                </Typography>
-
-                {/* Requirements */}
-                <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px' }}>
-                  {CONSENT_REQUIREMENTS_TITLE}
-                </Typography>
-                <ul style={{ marginLeft: '20px', marginBottom: '16px' }}>
-                  {CONSENT_REQUIREMENTS.map((requirement, index) => (
-                    <li key={index} style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
-                      {requirement}
-                    </li>
-                  ))}
-                </ul>
-
-                {/* Time Commitment */}
-                <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px' }}>
-                  {CONSENT_TIME_TITLE}
+                {/* Initial visible sections */}
+                <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
+                  About the organisation
                 </Typography>
                 <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
-                  {CONSENT_TIME}
+                  The study is organised by the HICUP Laboratory (https://hicup.famnit.upr.si/), a unit under the Department of Information Sciences and Technology of the Faculty of Mathematics, Natural Sciences and Information Technologies of the University of Primorska.
                 </Typography>
 
-                {/* Voluntary Participation */}
-                <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px' }}>
-                  {CONSENT_VOLUNTARY_TITLE}
+                <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
+                  Purpose of the study
                 </Typography>
                 <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
-                  {CONSENT_VOLUNTARY}
+                  This study is aimed at exploring how individuals interact with news content in a digital environment. In particular, we are interested in understanding how people interact with articles with different views on a certain topic. By participating in this study, you will help us collect the data needed to address the aforementioned research interests.
                 </Typography>
 
-                {/* Data Protection */}
-                <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px' }}>
-                  {CONSENT_DATA_PROTECTION_TITLE}
-                </Typography>
-                <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
-                  {CONSENT_DATA_PROTECTION}
-                </Typography>
+                {/* Read More Button */}
+                <div style={{ textAlign: 'center', margin: '32px 0' }}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    onClick={() => setShowConsentDialog(true)}
+                    style={{ minWidth: '200px', padding: '12px 24px' }}
+                  >
+                    Read the Whole Consent Form
+                  </Button>
+                </div>
 
-                {/* Data Sharing */}
-                <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px' }}>
-                  {CONSENT_DATA_SHARING_TITLE}
-                </Typography>
-                <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
-                  {CONSENT_DATA_SHARING}
-                </Typography>
+                {/* Full Consent Form Dialog */}
+                <Dialog
+                  open={showConsentDialog}
+                  onClose={() => setShowConsentDialog(false)}
+                  maxWidth="md"
+                  fullWidth
+                  scroll="paper"
+                >
+                  <DialogTitle>
+                    <Typography variant="h5" style={{ fontWeight: 'bold' }}>
+                      Full Consent Form
+                    </Typography>
+                  </DialogTitle>
+                  <DialogContent dividers>
+                  <div style={{ marginBottom: '32px' }}>
+                    <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
+                      Type of research intervention and participant selection
+                    </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      You are invited to participate in this longitudinal study if you satisfy the given criteria:
+                    </Typography>
+                    <ul style={{ marginLeft: '20px', marginBottom: '16px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+                        <strong>Age:</strong> You must be at least 18 years old
+                      </li>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+                        <strong>Consent:</strong> You must agree to and confirm the consent form
+                      </li>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+                        <strong>Language proficiency:</strong> You must comprehend English
+                      </li>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+                        <strong>Technological access:</strong> You own and are willing to use a smartphone or a computer with access to the internet to participate in the study
+                      </li>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+                        <strong>Willingness for longer participation:</strong> You are willing to participate in a longitudinal study, that will span for multiple weeks and will require regular interactions with the study tool
+                      </li>
+                    </ul>
 
-                {/* Contact Information */}
-                <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px' }}>
-                  {CONSENT_CONTACT_TITLE}
-                </Typography>
-                <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
-                  {CONSENT_CONTACT}
-                </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', marginTop: '16px' }}>
+                      You can <strong>NOT</strong> participate in the study if any of the following holds for you:
+                    </Typography>
+                    <ul style={{ marginLeft: '20px', marginBottom: '16px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+                        <strong>Age:</strong> You are under 18 years old
+                      </li>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+                        <strong>Legal restrictions:</strong> You live in a country where discussing or consuming certain political content might lead to legal consequences, compromising your safety
+                      </li>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+                        <strong>Persons with cognitive or emotional support needs:</strong> This study involves exposure to news media items covering a range of topics, some of which may present viewpoints that differ from your own. You believe that engaging with such content could cause you psychological distress or discomfort
+                      </li>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+                        <strong>Persons with insight information:</strong> You are working or studying in the news media sector or are conducting research on news media
+                      </li>
+                    </ul>
 
-                {/* Complaints */}
-                <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px' }}>
-                  {CONSENT_COMPLAINTS_TITLE}
-                </Typography>
-                <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '32px' }}>
-                  {CONSENT_COMPLAINTS}
-                </Typography>
+                    <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
+                      Voluntary participation
+                    </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      Your participation in this research is entirely voluntary. You can withdraw from the study at any point without providing any reasons for doing so.
+                    </Typography>
+
+                    <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
+                      Reward
+                    </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      By participating in this research you can be selected for a 50€ reward. To qualify for the reward, participants must fully read and interact with at least three news articles per session within our system. At the end of the study, 10 participants will be randomly chosen, from those who satisfied the condition for the reward.
+                    </Typography>
+
+                    <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
+                      Procedure
+                    </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      You will participate in this study that consists of weekly sessions spanning across four weeks.
+                    </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      The study itself will consist of multiple steps. Steps 1, 2 and 3 will be conducted only once, at the start of the individuals' participation in the study. Steps 4 and 5 will be conducted at each occurrence of the study during the four week period. The last step - debriefing will occur once, after all the repeats of steps 4 and 5 are done, thus concluding your participation. The details of each step are following:
+                    </Typography>
+                    <ol style={{ marginLeft: '20px', marginBottom: '16px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                        <strong>Informed Consent (approx. 5 minutes):</strong> Before your first session you will be provided with the Informed Consent Form (ICF) which you can sign and consent to if you wish to proceed further with the study. You will be provided with a method of contacting us in case you would seek clarifications on specific matters that may not be clear to you.
+                      </li>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                        <strong>Preparation (approx. 5 minutes):</strong> At the beginning of the first session, upon consenting, you will be given the instruction to download the Informfully application for your mobile device or a link to the web application of the same platform. Additionally, you will be given the username and a passcode that you will use to login to the Informfully platform. Once that is done you may require some additional time to orient yourself on the application.
+                      </li>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                        <strong>Initial questionnaire (approx. 5 minutes):</strong> During your first session you will also be presented with a set of demographic questions as well as questions that will assess your political activity and news consumption habits.
+                      </li>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                        <strong>Pre-interaction assessment (approx. 2 minutes):</strong> At the start of each session, you will be asked to fill a short questionnaire, with questions on your opinions and preferences towards social topics, groups of people whose political stance is similar to yours and groups of people with a differing political stance to yours.
+                      </li>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                        <strong>Interaction with news articles (approx. 10 minutes):</strong> At each occurrence of the weekly participation of the study, you will be asked to spend at least 10 minutes reading and rating news articles that will be recommended to you. You will be asked to first read multiple news articles and then rate the article using different measurements, which will be provided to you.
+                      </li>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                        <strong>Debriefing (approx. 1 minute):</strong> After the participation, you will receive a debriefing e-mail, where a relief talk will be offered as well as the notification whether you were selected for the monetary reward or not and the step-by-step instructions on how to claim it.
+                      </li>
+                    </ol>
+
+                    <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
+                      Risks and benefits
+                    </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      There are some of the risks one should be aware of before participating in the study:
+                    </Typography>
+                    <ul style={{ marginLeft: '20px', marginBottom: '16px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                        <strong>Cognitive overload:</strong> While the reoccurring sessions will be kept short, a small percentage of individuals may experience cognitive overload from receiving a larger amount of information in a shorter period of time. If, anytime during your participation in the study, you experience desensitization or information fatigue, please refrain from continuing your participation and take a break. If the sensation of cognitive overload persists, or if the experienced overload was too impactful, please refrain from further participation in the study and contact us immediately, so that our psychological support expert may assist you.
+                      </li>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                        <strong>Impact on well-being:</strong> Reading news articles on social topics that deal with topics that are divisive for the society, may cause stress or anxiety in some readers. Distressing or alarming news can heighten feelings of fear and worry. News stories that one may consider to be negative may also contribute to feelings of hopelessness or sadness, particularly for those who are already vulnerable to depression. Moreover, reading emotionally charged news repeatedly can mimic trauma exposure, leading to symptoms like nightmares or intrusive thoughts. If you experience any of the aforementioned symptoms or if you know that you are prone to anxiety, depression or post-traumatic stress, you are advised NOT to participate in the study. If you choose to participate regardless, remember that at any point you may contact us or the psychological support expert for any assistance.
+                      </li>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                        <strong>Social and emotional impact:</strong> If you start to feel like you have developed a new found discomfort, distrust or hate towards a specific social topic or group, please contact us. Promoting distrust and/or hate between political groups or between differing minded individuals is not what the study is aimed to achieve and moreover, it goes against our moral code as researchers.
+                      </li>
+                    </ul>
+
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      There are some potential benefits:
+                    </Typography>
+                    <ul style={{ marginLeft: '20px', marginBottom: '16px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                        <strong>Broadening your perspective and political knowledge:</strong> Since participating in the study will have you reading and interacting with diverse perspectives over multiple social topics, you might experience a better understanding for one or multiple social topics. Moreover, you might find it more reasonable why someone would choose to hold a differing opinion to yours, having read and interacted with diverse perspectives on said topics. Over time, this might result in you perceiving the people with differing opinions to yours in a new light, possibly even providing for a more civilized (political) discussion with them.
+                      </li>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                        <strong>Social benefit:</strong> Your participation in this study is crucial for us to understand how to detect political stances in news articles and obtain insights how differing stances might have an effect on an individual. These insights might benefit the society as a whole, since researchers, developers of news sites and journalists may learn from this and take precautions so that the process of news media consumption is not as polarizing as it can be.
+                      </li>
+                    </ul>
+
+                    <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
+                      Confidentiality
+                    </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      We will not share your personal information to anyone outside of the research team. Your real name and email will not be stored by us. All the communication will be done either through the participant recruitment platform (Prolific) or the news aggregator (Informfully) platform. Any other types of personally identifiable information will not appear in future publications and outputs. Any information about you will be marked by a participant ID instead of your name. Only members of the research group will have access to personally identifiable data and the consent forms. All the personal and contact information will be securely stored and destroyed when it is no longer needed.
+                    </Typography>
+
+                    <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
+                      Processing and storing your data
+                    </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      Your responses will be collected through a set of questionnaires and from the interaction with the news article aggregation platform. The data will be stored in a safe place at the investigators' facility and only authorised personnel will have access to it. The response data will be kept in the anonymized form.
+                    </Typography>
+
+                    <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
+                      Data Breach
+                    </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      In case of a data breach, the person responsible for data protection will be informed by the responsible researcher. Together they will undertake all steps necessary to minimise any negative consequences. You will receive a notification about the nature of the data breach, the information lost and the actions taken as soon as possible.
+                    </Typography>
+
+                    <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
+                      Your rights
+                    </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      You have the right to access your personal data, to correct it, to erase it, to restrict its processing, the right to data portability, and the right to object to in accordance with Articles 15-22 of the General Data Protection Regulation (GDPR). However, the right of erasure does not apply when the processing is necessary for the purposes of archiving that is in public interest, as well as the purposes of statistical analysis and scientific or historical research.
+                    </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      You can also withdraw your consent to process your personal data at any time according to GDPR Article 6(1) and Article 9(2) without any consequences. Upon request your local supervisory authority will provide you information on exercising your rights according to Article 57(e) GDPR.
+                    </Typography>
+
+                    <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
+                      Usage of your data
+                    </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      Processed data will be used in research publications, for education purposes and for future research. The use will not be limited to the research group. Third parties will be able to access and process the anonymized data deposited on, for example, the Zenodo open research data platform.
+                    </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      As a participant you can receive a summary of the results upon request.
+                    </Typography>
+
+                    <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
+                      Contact information
+                    </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                      If you require any form of emotional support during or at the end of the study, please contact our psychological support expert (email: hicup.care@famnit.upr.si) and briefly describe your issue. Please provide your contact information (e.g. email, phone number) so we can reach out to you. If necessary, we may schedule a relief talk. If you have any questions about the content, process or the goals of the study, you can contact the head researcher, Uroš Sergaš, (email: uros.sergas@upr.si).
+                    </Typography>
+                  </div>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={() => setShowConsentDialog(false)} color="primary">
+                      Close
+                    </Button>
+                  </DialogActions>
+                </Dialog>
 
                 {/* Consent Questions Table */}
                 <Paper elevation={2} style={{ padding: '24px', marginBottom: '32px' }}>
@@ -1149,158 +1181,8 @@ function Register({classes}) {
               </div>
             )}
             
-            {currentStage === 'weekly' && (
-              <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                <Typography variant="h4" gutterBottom align="center" style={{ marginBottom: '32px' }}>
-                  Weekly Survey (Moved to Feed)
-                </Typography>
-                
-                <Paper elevation={2} style={{ padding: '32px', marginBottom: '24px' }}>
-                  <Typography variant="h5" gutterBottom style={{ marginBottom: '24px', color: '#1976d2' }}>
-                    Note: Weekly surveys are now completed in the main feed
-                  </Typography>
-                  
-                  <Typography variant="body1" paragraph style={{ fontSize: '16px', lineHeight: '1.6' }}>
-                    <strong>Note:</strong> This section is no longer used. Weekly surveys are now topic-based and 
-                    are presented as popups in the main feed after topic selection or topic changes.
-                  </Typography>
-                  
-                  {/* Interactive Slider */}
-                  <Box style={{ marginTop: '32px', marginBottom: '32px', padding: '0 32px' }}>
-                    <Typography variant="body1" gutterBottom style={{ fontWeight: 'bold', marginBottom: '16px' }}>
-                      Your Response:
-                    </Typography>
-                    <Slider
-                      value={weeklyData.politicalIssue}
-                      onChange={(e, value) => setWeeklyData({ ...weeklyData, politicalIssue: value })}
-                      min={0}
-                      max={100}
-                      valueLabelDisplay="on"
-                      marks={[
-                        { value: 0, label: '0 (Very unfavorable)' },
-                        { value: 50, label: '50 (Neutral)' },
-                        { value: 100, label: '100 (Very favorable)' }
-                      ]}
-                      style={{ marginTop: '40px', marginBottom: '50px' }}
-                    />
-                  </Box>
-                </Paper>
-
-                {/* Navigation Buttons */}
-                <div style={{ textAlign: 'center', marginTop: '32px' }}>
-                  <Button
-                    variant="outlined"
-                    onClick={handlePreviousStage}
-                    style={{ 
-                      marginRight: '16px',
-                      minWidth: '120px',
-                      padding: '12px 24px'
-                    }}
-                  >
-                    {BTN_PREVIOUS}
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleWeeklySubmit}
-                    style={{ 
-                      minWidth: '120px',
-                      padding: '12px 24px'
-                    }}
-                  >
-                    {BTN_SUBMIT}
-                  </Button>
-                </div>
-              </div>
-            )}
-
-            {currentStage === 'userSelection' && (
-              <div>
-                <Typography variant="h6" gutterBottom>
-                  Select Your Profile
-                </Typography>
-                <Typography variant="body2" style={{ marginBottom: 20 }}>
-                  Please choose one of the following user profiles to continue.
-                </Typography>
-                
-                {userProfiles.length > 0 ? (
-                  <div>
-                    {userProfiles && userProfiles.length > 0 && userProfiles.slice(0, 4).map((user, index) => {
-                      const optionValue = `option${index + 1}`;
-                      
-                      return (
-                        <div key={index} style={{ 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          marginBottom: '16px',
-                          padding: '12px',
-                          border: '1px solid #ccc',
-                          borderRadius: '4px',
-                          backgroundColor: selectedUserOption === optionValue ? '#f0f8ff' : 'white'
-                        }}>
-                          <input 
-                            type="radio" 
-                            value={optionValue}
-                            checked={selectedUserOption === optionValue}
-                            onChange={(e) => setSelectedUserOption(e.target.value)}
-                            style={{ accentColor: 'red', marginRight: '12px' }}
-                          />
-                          <img 
-                            width="50" 
-                            height="50"
-                            src={user.profilePicture ? `${PF}${user.profilePicture}` : `${PF}person/noCover.png`}
-                            alt={user.username || `Profile ${index + 1}`}
-                            style={{ 
-                              borderRadius: '50%',
-                              marginRight: '12px',
-                              objectFit: 'cover'
-                            }}
-                          />
-                          <span style={{ fontSize: '16px' }}>
-                            {user.username || `User ${index + 1}`}
-                          </span>
-                        </div>
-                      );
-                    })}
-                    
-                    {(!userProfiles || userProfiles.length === 0) && (
-                      <div style={{ textAlign: 'center', padding: '20px' }}>
-                        Loading user profiles...
-                      </div>
-                    )}
-                    
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 20 }}>
-                      <Button
-                        variant="outlined"
-                        onClick={handlePreviousStage}
-                        style={{ 
-                          minWidth: '120px',
-                          padding: '12px 24px'
-                        }}
-                      >
-                        Back
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={submitNext}
-                        disabled={!selectedUserOption}
-                        style={{ 
-                          minWidth: '120px',
-                          padding: '12px 24px'
-                        }}
-                      >
-                        Continue
-                      </Button>
-                    </div>
-                  </div>
-                ) : (
-                  <div style={{ textAlign: 'center', padding: '40px' }}>
-                    <Typography variant="body1">Loading user profiles...</Typography>
-                  </div>
-                )}
-              </div>
-            )}
+            {/* Weekly survey removed - now appears as popup in home page after topic selection */}
+            {/* User selection removed - users are auto-created and logged in after demographics survey */}
           </div>
           
         </form>

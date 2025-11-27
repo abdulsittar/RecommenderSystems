@@ -807,6 +807,8 @@ router.put('/:id/read', verifyToken, async (req, res) => {
 // Submit weekly response
 router.post('/weeklyResponse', verifyToken, async (req, res) => {
     const WeeklyResponse = require('../models/WeeklyResponse');
+    const SurveyResponse = require('../models/SurveyResponse');
+    const { surveyToStanceScore, calculateOvertonWindow } = require('../utils/stanceCalculations');
     
     logger.info('Weekly response data received', { data: req.body });
     try {
@@ -816,11 +818,7 @@ router.post('/weeklyResponse', verifyToken, async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        const newWeeklyResponse = new WeeklyResponse({
-            uniqueId: user.uniqueId,
-            userId: req.body.userId,
-            topic: req.body.topic,
-            weekNumber: req.body.weekNumber || 1,
+        const surveyData = {
             topicAttitude: req.body.topicAttitude !== undefined ? req.body.topicAttitude : 50,
             oneSide_openminded: req.body.oneSide_openminded !== undefined ? req.body.oneSide_openminded : 5,
             oneSide_moderate: req.body.oneSide_moderate !== undefined ? req.body.oneSide_moderate : 5,
@@ -834,11 +832,71 @@ router.post('/weeklyResponse', verifyToken, async (req, res) => {
             otherSide_family: req.body.otherSide_family !== undefined ? req.body.otherSide_family : 5,
             otherSide_friend: req.body.otherSide_friend !== undefined ? req.body.otherSide_friend : 5,
             otherSide_coworker: req.body.otherSide_coworker !== undefined ? req.body.otherSide_coworker : 5
+        };
+
+        const topic = req.body.topic;
+        const weekNumber = req.body.weekNumber || 1;
+
+        // Calculate stance score from topicAttitude (0-100 → -1 to 1)
+        const stanceScore = surveyToStanceScore(surveyData.topicAttitude);
+        
+        // Calculate Overton window for this topic
+        const overtonWindow = calculateOvertonWindow(topic, surveyData);
+        
+        // Log survey response for historical analysis (new SurveyResponse model)
+        const surveyResponse = new SurveyResponse({
+            userId: user._id,
+            uniqueId: user.uniqueId,
+            topic: topic,
+            weekNumber: weekNumber,
+            ...surveyData,
+            calculatedStanceScore: stanceScore,
+            calculatedOvertonWindow: overtonWindow,
+            timestamp: new Date()
+        });
+        await surveyResponse.save();
+
+        // Save to WeeklyResponse for backward compatibility
+        const newWeeklyResponse = new WeeklyResponse({
+            uniqueId: user.uniqueId,
+            userId: req.body.userId,
+            topic: topic,
+            weekNumber: weekNumber,
+            ...surveyData
         });
         
         const savedResponse = await newWeeklyResponse.save();
+        
+        // Update user document with calculated values
+        await User.findByIdAndUpdate(
+            req.body.userId,
+            {
+                $set: {
+                    latestSurveyResults: surveyData,
+                    currentTopic: topic,
+                    stanceScore: stanceScore,
+                    overtonWindow: overtonWindow
+                }
+            },
+            { new: true }
+        );
+        
+        logger.info('Weekly survey processed', { 
+            userId: req.body.userId,
+            topic,
+            stanceScore,
+            overtonWindow,
+            controlGroup: user.controlGroup
+        });
+        
         console.log('Weekly response saved:', savedResponse);
-        res.status(200).json({ success: true, responseId: savedResponse._id });
+        res.status(200).json({ 
+            success: true, 
+            responseId: savedResponse._id,
+            controlGroup: user.controlGroup,
+            stanceScore: stanceScore,
+            overtonWindow: overtonWindow
+        });
         
     } catch (err) {
         logger.error('Error saving weekly response', { error: err.message });

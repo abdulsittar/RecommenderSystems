@@ -20,30 +20,39 @@ function parseCSV(csvContent) {
     // Parse data rows
     for (let i = 1; i < rows.length; i++) {
         const values = rows[i];
-        if (values.length >= headers.length) {
-            const article = {};
-            headers.forEach((header, index) => {
-                let value = values[index] || '';
-                
-                // Handle special conversions
-                if (header === 'id') {
-                    value = parseInt(value) || 0;
-                } else if (header === 'strength') {
-                    value = value && value !== 'NULL' ? parseInt(value) : null;
-                } else if (header === 'stance') {
-                    value = value && value !== 'NULL' ? value : null;
-                }
-                
-                article[header] = value;
-            });
+        // Skip completely empty rows
+        if (values.length === 0 || values.every(v => !v || v.trim() === '')) {
+            continue;
+        }
+        
+        // Must have at least an ID to be valid
+        if (!values[0] || !parseInt(values[0])) {
+            console.warn(`Skipping row ${i}: missing or invalid ID`);
+            continue;
+        }
+        
+        const article = {};
+        headers.forEach((header, index) => {
+            let value = values[index] || '';
             
-            // Map id to articleId for consistency with existing schema
-            if (article.id) {
-                article.articleId = article.id;
+            // Handle special conversions
+            if (header === 'id') {
+                value = parseInt(value) || 0;
+            } else if (header === 'strength') {
+                value = value && value !== 'NULL' ? parseInt(value) : null;
+            } else if (header === 'stance') {
+                value = value && value !== 'NULL' ? value : null;
             }
             
-            articles.push(article);
+            article[header] = value;
+        });
+        
+        // Map id to articleId for consistency with existing schema
+        if (article.id) {
+            article.articleId = article.id;
         }
+        
+        articles.push(article);
     }
     
     return articles;

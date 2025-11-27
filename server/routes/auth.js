@@ -318,6 +318,21 @@ try {
 
     const token = jwt.sign({ _id: user._id }, `${process.env.JWT_SECRET}`);
 
+    // Assign control group on first login if not already assigned
+    if (!user.controlGroup) {
+        const groups = ['control', 'edge', 'center'];
+        const assignedGroup = groups[Math.floor(Math.random() * groups.length)];
+        
+        user.controlGroup = assignedGroup;
+        user.controlGroupAssignedAt = new Date();
+        await user.save();
+        
+        logger.info('Control group assigned', { 
+            userId: user._id, 
+            controlGroup: assignedGroup 
+        });
+    }
+
     // Check if user needs to complete weekly survey
     let needsWeeklySurvey = false;
     
