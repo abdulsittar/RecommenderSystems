@@ -43,11 +43,13 @@ function calculateOvertonWindow(topic, surveyResults) {
     // Window size should exclude extreme opposite views while including moderate diversity
     // With perspective scores ranging -1.0 to +1.0, a window of ~0.4-0.6 width is reasonable
     const baseWindows = {
-        'abortion': { min: -0.3, max: 0.3 },      // Narrow - highly polarized topic
-        'climate': { min: -0.35, max: 0.35 },     // Slightly wider - more nuanced
-        'immigration': { min: -0.3, max: 0.3 },   // Narrow - polarized
-        'gun control': { min: -0.3, max: 0.3 },   // Narrow - polarized
-        'assisted death': { min: -0.4, max: 0.4 }, // Wider - less polarized
+        'abortion': { min: -0.3, max: 0.3 },              // Narrow - highly polarized topic
+        'gun control': { min: -0.3, max: 0.3 },           // Narrow - polarized
+        'assisted death': { min: -0.4, max: 0.4 },        // Wider - less polarized
+        'nuclear power': { min: -0.35, max: 0.35 },       // Moderate - technical topic
+        'social media regulation': { min: -0.35, max: 0.35 }, // Moderate
+        'military armament': { min: -0.3, max: 0.3 },     // Narrow - polarized
+        'climate action': { min: -0.35, max: 0.35 },      // Moderate - scientific topic
         'default': { min: -0.3, max: 0.3 }
     };
     
@@ -108,8 +110,17 @@ function calculateOvertonWindow(topic, surveyResults) {
  * Calculate perspective score from article stance and strength
  * Used to convert existing article data to perspective scores
  * 
- * @param {string} stance - Article stance: 'Pro-choice', 'Pro-life', 'Pro-gun control', 'Pro-gun rights', etc.
- * @param {number} strength - Strength value (typically 1-10 scale)
+ * Stance values from articles.csv:
+ * - abortion: 'Pro-choice' (+) / 'Pro-life' (-)
+ * - gun control: 'Pro gun control' (+) / 'Pro gun freedom' (-)
+ * - assisted death: 'Pro assisted death' (+) / 'Anti assisted death' (-)
+ * - nuclear power: 'pro nuclear power' (+) / 'anti nuclear power' (-)
+ * - social media regulation: 'pro regulation' (+) / 'anti regulation' (-)
+ * - military armament: 'pro armament' (+) / 'anti armament' (-)
+ * - climate action: 'high concern' (+) / 'low concern' (-)
+ * 
+ * @param {string} stance - Article stance from CSV
+ * @param {number} strength - Strength value (1-10 scale)
  * @returns {number} Perspective score in range [-1, 1]
  */
 function calculatePerspectiveScore(stance, strength) {
@@ -121,30 +132,38 @@ function calculatePerspectiveScore(stance, strength) {
     // Strength 1 = 0.1, Strength 10 = 1.0
     const normalizedStrength = Math.max(0, Math.min(1, strength / 10));
     
-    const stanceLower = stance.toLowerCase();
+    // Normalize stance: lowercase and replace en-dash with regular dash
+    const stanceLower = stance.toLowerCase().trim().replace(/–/g, '-');
     
-    // Check for "pro-choice", "pro-gun control", "pro-climate action" patterns (positive/progressive)
-    if (stanceLower.includes('pro-choice') || 
-        stanceLower.includes('pro-gun control') || 
-        stanceLower.includes('gun control') ||
-        stanceLower.includes('pro-climate') ||
-        stanceLower.includes('progressive') ||
-        stanceLower === 'pro') {
+    // POSITIVE stances (progressive/permissive/concerned direction)
+    // These get positive perspective scores
+    if (stanceLower.includes('pro-choice') ||           // Abortion
+        stanceLower.includes('pro gun control') ||      // Gun control
+        stanceLower.includes('pro-gun control') ||      // Gun control (with dash)
+        stanceLower.includes('pro assisted death') ||   // Assisted death
+        stanceLower.includes('pro-assisted death') ||   // Assisted death (with dash)
+        stanceLower.includes('pro nuclear power') ||    // Nuclear power
+        stanceLower.includes('pro regulation') ||       // Social media regulation
+        stanceLower.includes('pro armament') ||         // Military armament
+        stanceLower.includes('high concern')) {         // Climate action
         return normalizedStrength; // Positive score
     } 
-    // Check for "pro-life", "pro-gun rights", "pro-gun freedom", "conservative" patterns (negative/conservative)
-    else if (stanceLower.includes('pro-life') || 
-             stanceLower.includes('pro-gun rights') || 
-             stanceLower.includes('gun freedom') ||
-             stanceLower.includes('gun rights') ||
-             stanceLower.includes('anti-gun control') ||
-             stanceLower.includes('anti-climate') ||
-             stanceLower.includes('conservative') ||
-             stanceLower === 'con') {
+    // NEGATIVE stances (conservative/restrictive/unconcerned direction)
+    // These get negative perspective scores
+    else if (stanceLower.includes('pro-life') ||        // Abortion
+             stanceLower.includes('pro gun freedom') || // Gun control
+             stanceLower.includes('pro-gun freedom') || // Gun control (with dash)
+             stanceLower.includes('anti assisted death') || // Assisted death
+             stanceLower.includes('anti-assisted death') || // Assisted death (with dash)
+             stanceLower.includes('anti nuclear power') || // Nuclear power
+             stanceLower.includes('anti regulation') || // Social media regulation
+             stanceLower.includes('anti armament') ||   // Military armament
+             stanceLower.includes('low concern')) {     // Climate action
         return -normalizedStrength; // Negative score
     } 
     // Neutral or unknown
     else {
+        console.warn('Unknown stance value:', stance);
         return 0;
     }
 }

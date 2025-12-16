@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Post = require('../models/Post');
 const Article = require('../models/Article');
 const User = require('../models/User');
@@ -16,7 +17,7 @@ class RecommendationService {
      * Main entry point for getting recommended posts
      * Routes to appropriate algorithm based on user's control group
      */
-    async getRecommendedPosts(userId, topic, page = 0, limit = 5) {
+    async getRecommendedPosts(userId, topic, page = 0, limit = 5, excludeIds = []) {
         const user = await User.findById(userId);
         
         if (!user) {
@@ -26,7 +27,7 @@ class RecommendationService {
         
         if (!user.controlGroup || user.stanceScore === undefined) {
             logger.info('User has no control group or stance, using default recommendations', { userId });
-            return this.getDefaultRecommendations(userId, topic, page, limit);
+            return this.getDefaultRecommendations(userId, topic, page, limit, excludeIds);
         }
         
         logger.info('Getting recommendations', { 
@@ -34,18 +35,19 @@ class RecommendationService {
             controlGroup: user.controlGroup, 
             topic, 
             stanceScore: user.stanceScore,
-            overtonWindow: user.overtonWindow
+            overtonWindow: user.overtonWindow,
+            excludeCount: excludeIds.length
         });
         
         switch(user.controlGroup) {
             case 'control':
-                return this.controlGroupRecommendation(user, topic, page, limit);
+                return this.controlGroupRecommendation(user, topic, page, limit, excludeIds);
             case 'edge':
-                return this.edgeGroupRecommendation(user, topic, page, limit);
+                return this.edgeGroupRecommendation(user, topic, page, limit, excludeIds);
             case 'center':
-                return this.centerGroupRecommendation(user, topic, page, limit);
+                return this.centerGroupRecommendation(user, topic, page, limit, excludeIds);
             default:
-                return this.getDefaultRecommendations(userId, topic, page, limit);
+                return this.getDefaultRecommendations(userId, topic, page, limit, excludeIds);
         }
     }
     
@@ -54,11 +56,11 @@ class RecommendationService {
      * Filter articles within Overton window
      * Rank by relevance to user's stance (distance)
      */
-    async controlGroupRecommendation(user, topic, page, limit) {
-        logger.info('Control group recommendation', { userId: user._id, topic });
+    async controlGroupRecommendation(user, topic, page, limit, excludeIds = []) {
+        logger.info('Control group recommendation', { userId: user._id, topic, excludeCount: excludeIds.length });
         
         // Get all posts for topic with articles
-        const posts = await this.getPostsWithArticles(topic);
+        const posts = await this.getPostsWithArticles(topic, excludeIds);
         
         // Filter by Overton window
         const filtered = this.filterByOvertonWindow(posts, user.overtonWindow);
@@ -70,9 +72,8 @@ class RecommendationService {
             return distanceA - distanceB;
         });
         
-        // Paginate
-        const start = page * limit;
-        const paginated = ranked.slice(start, start + limit);
+        // Get only the first `limit` posts (no pagination offset needed since we exclude already shown)
+        const paginated = ranked.slice(0, limit);
         
         // Log recommendation
         this.logRecommendation(user._id, 'control', topic, paginated);
@@ -86,10 +87,10 @@ class RecommendationService {
      * - Centrists: Get articles from both edges of window, then towards extremes (±1.0)
      * - Extremists: Get articles from opposite edge of window, moving away from user
      */
-    async edgeGroupRecommendation(user, topic, page, limit) {
-        logger.info('Edge group recommendation', { userId: user._id, topic, stanceScore: user.stanceScore });
+    async edgeGroupRecommendation(user, topic, page, limit, excludeIds = []) {
+        logger.info('Edge group recommendation', { userId: user._id, topic, stanceScore: user.stanceScore, excludeCount: excludeIds.length });
         
-        const posts = await this.getPostsWithArticles(topic);
+        const posts = await this.getPostsWithArticles(topic, excludeIds);
         
         const userIsCentrist = isCentrist(user.stanceScore);
         const windowCenter = (user.overtonWindow.min + user.overtonWindow.max) / 2;
@@ -143,8 +144,8 @@ class RecommendationService {
             });
         }
         
-        const start = page * limit;
-        const paginated = ranked.slice(start, start + limit);
+        // Get only the first `limit` posts (no pagination offset needed since we exclude already shown)
+        const paginated = ranked.slice(0, limit);
         
         this.logRecommendation(user._id, 'edge', topic, paginated);
         
@@ -157,10 +158,10 @@ class RecommendationService {
      * Shows everything: first articles within window (from center out), then beyond window
      * Same behavior for centrists and extremists
      */
-    async centerGroupRecommendation(user, topic, page, limit) {
-        logger.info('Center group recommendation', { userId: user._id, topic, stanceScore: user.stanceScore });
+    async centerGroupRecommendation(user, topic, page, limit, excludeIds = []) {
+        logger.info('Center group recommendation', { userId: user._id, topic, stanceScore: user.stanceScore, excludeCount: excludeIds.length });
         
-        const posts = await this.getPostsWithArticles(topic);
+        const posts = await this.getPostsWithArticles(topic, excludeIds);
         
         const windowCenter = (user.overtonWindow.min + user.overtonWindow.max) / 2;
         
@@ -172,8 +173,8 @@ class RecommendationService {
             return distanceA - distanceB; // Ascending - center first, expanding outward
         });
         
-        const start = page * limit;
-        const paginated = ranked.slice(start, start + limit);
+        // Get only the first `limit` posts (no pagination offset needed since we exclude already shown)
+        const paginated = ranked.slice(0, limit);
         
         this.logRecommendation(user._id, 'center', topic, paginated);
         
@@ -184,14 +185,24 @@ class RecommendationService {
      * Default recommendations (no control group assigned)
      * Uses existing time-based chronological sorting
      */
-    async getDefaultRecommendations(userId, topic, page, limit) {
-        logger.info('Default recommendations', { userId, topic });
+    async getDefaultRecommendations(userId, topic, page, limit, excludeIds = []) {
+        logger.info('Default recommendations', { userId, topic, excludeCount: excludeIds.length });
         
         const queryFilter = topic ? { content: topic } : {};
         
+        // Add exclusion filter if excludeIds are provided
+        // Convert string IDs to ObjectIds for proper MongoDB matching
+        if (excludeIds && excludeIds.length > 0) {
+            const objectIds = excludeIds
+                .filter(id => mongoose.Types.ObjectId.isValid(id))
+                .map(id => new mongoose.Types.ObjectId(id));
+            if (objectIds.length > 0) {
+                queryFilter._id = { $nin: objectIds };
+            }
+        }
+        
         return await Post.find(queryFilter)
             .sort({ createdAt: -1 })
-            .skip(page * limit)
             .limit(limit)
             .populate('userId', 'username profilePicture')
             .populate({
@@ -209,14 +220,28 @@ class RecommendationService {
     /**
      * Helper: Get posts with their associated articles
      */
-    async getPostsWithArticles(topic) {
-        // Get posts for topic that have articleIds
-        const posts = await Post.find({ 
+    async getPostsWithArticles(topic, excludeIds = []) {
+        // Build query filter
+        const queryFilter = {
             content: topic,
             articleId: { $exists: true, $ne: null }
-        }).exec();
+        };
         
-        logger.info('Posts found for topic', { topic, postCount: posts.length });
+        // Add exclusion filter if excludeIds are provided
+        // Convert string IDs to ObjectIds for proper MongoDB matching
+        if (excludeIds && excludeIds.length > 0) {
+            const objectIds = excludeIds
+                .filter(id => mongoose.Types.ObjectId.isValid(id))
+                .map(id => new mongoose.Types.ObjectId(id));
+            if (objectIds.length > 0) {
+                queryFilter._id = { $nin: objectIds };
+            }
+        }
+        
+        // Get posts for topic that have articleIds (excluding already shown)
+        const posts = await Post.find(queryFilter).exec();
+        
+        logger.info('Posts found for topic', { topic, postCount: posts.length, excludedCount: excludeIds.length });
         
         // Get unique article IDs
         const articleIds = [...new Set(posts.map(p => p.articleId))];

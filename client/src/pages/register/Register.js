@@ -150,9 +150,6 @@ function Register({classes}) {
   const [password, setPassword] = useState("");
   const [proPic, setProPic] = useState("");
   
-  // Consent dialog state
-  const [showConsentDialog, setShowConsentDialog] = useState(false);
-  
   // User selection removed - auto-registration after survey completion
   
   const initialized = useRef(false);
@@ -186,14 +183,21 @@ function Register({classes}) {
             uniqueId: uniqId
           }, dispatch);
           
-          // Check if user needs to complete weekly survey
-          if (loginResponse && loginResponse.needsWeeklySurvey) {
-            console.log('User needs to complete weekly survey, redirecting...');
-            history.push('/weekly-survey');
+          console.log('Login response received:', loginResponse);
+          
+          // Check if this is a recurring session
+          if (loginResponse && loginResponse.isRecurringSession) {
+            console.log('Recurring session detected, session count:', loginResponse.sessionCount);
+            // Store session info in localStorage to show welcome message
+            localStorage.setItem('isRecurringSession', 'true');
+            localStorage.setItem('sessionCount', loginResponse.sessionCount);
+            console.log('Set localStorage flags - isRecurringSession: true, sessionCount:', loginResponse.sessionCount);
           } else {
-            console.log('User does not need weekly survey, redirecting to home...');
-            history.push("/");
+            console.log('Not a recurring session. isRecurringSession:', loginResponse?.isRecurringSession, 'sessionCount:', loginResponse?.sessionCount);
           }
+          
+          console.log('Redirecting to home...');
+          history.push("/");
         } catch (loginError) {
           console.error('Auto-login failed:', loginError);
           toast.error('Login failed. Please try again.');
@@ -419,14 +423,16 @@ function Register({classes}) {
             uniqueId: uniqId
           }, dispatch);
           
-          // Check if user needs to complete weekly survey
-          if (loginResponse && loginResponse.needsWeeklySurvey) {
-            console.log('User needs to complete weekly survey, redirecting...');
-            history.push('/weekly-survey');
-          } else {
-            console.log('Redirecting to home...');
-            history.push("/");
+          // Check if this is a recurring session
+          if (loginResponse && loginResponse.isRecurringSession) {
+            console.log('Recurring session detected, session count:', loginResponse.sessionCount);
+            // Store session info in localStorage to show welcome message
+            localStorage.setItem('isRecurringSession', 'true');
+            localStorage.setItem('sessionCount', loginResponse.sessionCount);
           }
+          
+          console.log('Redirecting to home...');
+          history.push("/");
         } catch (loginError) {
           console.error('Auto-login failed:', loginError);
           toast.error('Login failed. Please try again.');
@@ -550,90 +556,87 @@ function Register({classes}) {
                   </Typography>
                 </Paper>
 
-                <Typography variant="body1" paragraph style={{ fontSize: '15px', lineHeight: '1.7', marginBottom: '24px' }}>
-                  This form has two sections. The first provides information about the study, explains how your data will be processed and used, and what are your rights. Please read it carefully and if there is anything that might not be clear to you, feel free to contact us. The second section consists of a certificate of consent where you are asked to verify your agreement to participate by confirming 8 (eight) statements and signing the form.
+                {/* Consent form label */}
+                <Typography variant="body1" style={{ fontWeight: 'bold', marginTop: '32px', marginBottom: '12px', fontSize: '18px' }}>
+                  Consent Form
                 </Typography>
 
-                {/* Initial visible sections */}
-                <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
-                  About the organisation
-                </Typography>
-                <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
-                  The study is organised by the HICUP Laboratory (https://hicup.famnit.upr.si/), a unit under the Department of Information Sciences and Technology of the Faculty of Mathematics, Natural Sciences and Information Technologies of the University of Primorska.
-                </Typography>
-
-                <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
-                  Purpose of the study
-                </Typography>
-                <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
-                  This study is aimed at exploring how individuals interact with news content in a digital environment. In particular, we are interested in understanding how people interact with articles with different views on a certain topic. By participating in this study, you will help us collect the data needed to address the aforementioned research interests.
-                </Typography>
-
-                {/* Read More Button */}
-                <div style={{ textAlign: 'center', margin: '32px 0' }}>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => setShowConsentDialog(true)}
-                    style={{ minWidth: '200px', padding: '12px 24px' }}
-                  >
-                    Read the Whole Consent Form
-                  </Button>
-                </div>
-
-                {/* Full Consent Form Dialog */}
-                <Dialog
-                  open={showConsentDialog}
-                  onClose={() => setShowConsentDialog(false)}
-                  maxWidth="md"
-                  fullWidth
-                  scroll="paper"
+                {/* Scrollable Full Consent Form */}
+                <Paper 
+                  elevation={3} 
+                  style={{ 
+                    marginTop: '0px', 
+                    marginBottom: '32px',
+                    border: '1px solid #757575',
+                    borderRadius: '8px',
+                    overflow: 'hidden'
+                  }}
                 >
-                  <DialogTitle>
-                    <Typography variant="h5" style={{ fontWeight: 'bold' }}>
-                      Full Consent Form
+                  <div style={{ 
+                    maxHeight: '350px', 
+                    overflowY: 'auto',
+                    padding: '24px',
+                    border: '1px solid #e0e0e0',
+                    borderTop: '1px solid #757575',
+                    borderBottom: '1px solid #757575',
+                    textAlign: 'justify'
+                  }}>
+                    <Typography variant="body1" paragraph style={{ fontSize: '15px', lineHeight: '1.7', marginBottom: '24px', marginTop: '0px', textAlign: 'justify' }}>
+                      This form has two sections. The first provides information about the study, explains how your data will be processed and used, and what are your rights. Please read it carefully and if there is anything that might not be clear to you, feel free to contact us. The second section consists of a certificate of consent where you are asked to verify your agreement to participate by confirming 8 (eight) statements and signing the form.
                     </Typography>
-                  </DialogTitle>
-                  <DialogContent dividers>
-                  <div style={{ marginBottom: '32px' }}>
+
+                    <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
+                      About the organisation
+                    </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', textAlign: 'justify' }}>
+                      The study is organised by the HICUP Laboratory (https://hicup.famnit.upr.si/), a unit under the Department of Information Sciences and Technology of the Faculty of Mathematics, Natural Sciences and Information Technologies of the University of Primorska.
+                    </Typography>
+
+                    <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
+                      Purpose of the study
+                    </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
+                      This study is aimed at exploring how individuals interact with news content in a digital environment. In particular, we are interested in understanding how people interact with articles with different views on a certain topic. By participating in this study, you will help us collect the data needed to address the aforementioned research interests.
+                    </Typography>
+
                     <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
                       Type of research intervention and participant selection
                     </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
                       You are invited to participate in this longitudinal study if you satisfy the given criteria:
                     </Typography>
                     <ul style={{ marginLeft: '20px', marginBottom: '16px' }}>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '8px' }}>
                         <strong>Age:</strong> You must be at least 18 years old
                       </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '8px' }}>
                         <strong>Consent:</strong> You must agree to and confirm the consent form
                       </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '8px' }}>
                         <strong>Language proficiency:</strong> You must comprehend English
                       </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '8px' }}>
                         <strong>Technological access:</strong> You own and are willing to use a smartphone or a computer with access to the internet to participate in the study
                       </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '8px' }}>
                         <strong>Willingness for longer participation:</strong> You are willing to participate in a longitudinal study, that will span for multiple weeks and will require regular interactions with the study tool
                       </li>
                     </ul>
 
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', marginTop: '16px' }}>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginTop: '16px' }}>
                       You can <strong>NOT</strong> participate in the study if any of the following holds for you:
                     </Typography>
                     <ul style={{ marginLeft: '20px', marginBottom: '16px' }}>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '8px' }}>
                         <strong>Age:</strong> You are under 18 years old
                       </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '8px' }}>
                         <strong>Legal restrictions:</strong> You live in a country where discussing or consuming certain political content might lead to legal consequences, compromising your safety
                       </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '8px' }}>
                         <strong>Persons with cognitive or emotional support needs:</strong> This study involves exposure to news media items covering a range of topics, some of which may present viewpoints that differ from your own. You believe that engaging with such content could cause you psychological distress or discomfort
                       </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '8px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '8px' }}>
                         <strong>Persons with insight information:</strong> You are working or studying in the news media sector or are conducting research on news media
                       </li>
                     </ul>
@@ -641,43 +644,43 @@ function Register({classes}) {
                     <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
                       Voluntary participation
                     </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
                       Your participation in this research is entirely voluntary. You can withdraw from the study at any point without providing any reasons for doing so.
                     </Typography>
 
                     <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
                       Reward
                     </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
                       By participating in this research you can be selected for a 50€ reward. To qualify for the reward, participants must fully read and interact with at least three news articles per session within our system. At the end of the study, 10 participants will be randomly chosen, from those who satisfied the condition for the reward.
                     </Typography>
 
                     <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
                       Procedure
                     </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
                       You will participate in this study that consists of weekly sessions spanning across four weeks.
                     </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
                       The study itself will consist of multiple steps. Steps 1, 2 and 3 will be conducted only once, at the start of the individuals' participation in the study. Steps 4 and 5 will be conducted at each occurrence of the study during the four week period. The last step - debriefing will occur once, after all the repeats of steps 4 and 5 are done, thus concluding your participation. The details of each step are following:
                     </Typography>
                     <ol style={{ marginLeft: '20px', marginBottom: '16px' }}>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
                         <strong>Informed Consent (approx. 5 minutes):</strong> Before your first session you will be provided with the Informed Consent Form (ICF) which you can sign and consent to if you wish to proceed further with the study. You will be provided with a method of contacting us in case you would seek clarifications on specific matters that may not be clear to you.
                       </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
                         <strong>Preparation (approx. 5 minutes):</strong> At the beginning of the first session, upon consenting, you will be given the instruction to download the Informfully application for your mobile device or a link to the web application of the same platform. Additionally, you will be given the username and a passcode that you will use to login to the Informfully platform. Once that is done you may require some additional time to orient yourself on the application.
                       </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
                         <strong>Initial questionnaire (approx. 5 minutes):</strong> During your first session you will also be presented with a set of demographic questions as well as questions that will assess your political activity and news consumption habits.
                       </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
                         <strong>Pre-interaction assessment (approx. 2 minutes):</strong> At the start of each session, you will be asked to fill a short questionnaire, with questions on your opinions and preferences towards social topics, groups of people whose political stance is similar to yours and groups of people with a differing political stance to yours.
                       </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
                         <strong>Interaction with news articles (approx. 10 minutes):</strong> At each occurrence of the weekly participation of the study, you will be asked to spend at least 10 minutes reading and rating news articles that will be recommended to you. You will be asked to first read multiple news articles and then rate the article using different measurements, which will be provided to you.
                       </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
                         <strong>Debriefing (approx. 1 minute):</strong> After the participation, you will receive a debriefing e-mail, where a relief talk will be offered as well as the notification whether you were selected for the monetary reward or not and the step-by-step instructions on how to claim it.
                       </li>
                     </ol>
@@ -685,29 +688,29 @@ function Register({classes}) {
                     <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
                       Risks and benefits
                     </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
                       There are some of the risks one should be aware of before participating in the study:
                     </Typography>
                     <ul style={{ marginLeft: '20px', marginBottom: '16px' }}>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
                         <strong>Cognitive overload:</strong> While the reoccurring sessions will be kept short, a small percentage of individuals may experience cognitive overload from receiving a larger amount of information in a shorter period of time. If, anytime during your participation in the study, you experience desensitization or information fatigue, please refrain from continuing your participation and take a break. If the sensation of cognitive overload persists, or if the experienced overload was too impactful, please refrain from further participation in the study and contact us immediately, so that our psychological support expert may assist you.
                       </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
                         <strong>Impact on well-being:</strong> Reading news articles on social topics that deal with topics that are divisive for the society, may cause stress or anxiety in some readers. Distressing or alarming news can heighten feelings of fear and worry. News stories that one may consider to be negative may also contribute to feelings of hopelessness or sadness, particularly for those who are already vulnerable to depression. Moreover, reading emotionally charged news repeatedly can mimic trauma exposure, leading to symptoms like nightmares or intrusive thoughts. If you experience any of the aforementioned symptoms or if you know that you are prone to anxiety, depression or post-traumatic stress, you are advised NOT to participate in the study. If you choose to participate regardless, remember that at any point you may contact us or the psychological support expert for any assistance.
                       </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
                         <strong>Social and emotional impact:</strong> If you start to feel like you have developed a new found discomfort, distrust or hate towards a specific social topic or group, please contact us. Promoting distrust and/or hate between political groups or between differing minded individuals is not what the study is aimed to achieve and moreover, it goes against our moral code as researchers.
                       </li>
                     </ul>
 
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
                       There are some potential benefits:
                     </Typography>
                     <ul style={{ marginLeft: '20px', marginBottom: '16px' }}>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
                         <strong>Broadening your perspective and political knowledge:</strong> Since participating in the study will have you reading and interacting with diverse perspectives over multiple social topics, you might experience a better understanding for one or multiple social topics. Moreover, you might find it more reasonable why someone would choose to hold a differing opinion to yours, having read and interacted with diverse perspectives on said topics. Over time, this might result in you perceiving the people with differing opinions to yours in a new light, possibly even providing for a more civilized (political) discussion with them.
                       </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', marginBottom: '12px' }}>
+                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
                         <strong>Social benefit:</strong> Your participation in this study is crucial for us to understand how to detect political stances in news articles and obtain insights how differing stances might have an effect on an individual. These insights might benefit the society as a whole, since researchers, developers of news sites and journalists may learn from this and take precautions so that the process of news media consumption is not as polarizing as it can be.
                       </li>
                     </ul>
@@ -715,62 +718,56 @@ function Register({classes}) {
                     <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
                       Confidentiality
                     </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
                       We will not share your personal information to anyone outside of the research team. Your real name and email will not be stored by us. All the communication will be done either through the participant recruitment platform (Prolific) or the news aggregator (Informfully) platform. Any other types of personally identifiable information will not appear in future publications and outputs. Any information about you will be marked by a participant ID instead of your name. Only members of the research group will have access to personally identifiable data and the consent forms. All the personal and contact information will be securely stored and destroyed when it is no longer needed.
                     </Typography>
 
                     <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
                       Processing and storing your data
                     </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
                       Your responses will be collected through a set of questionnaires and from the interaction with the news article aggregation platform. The data will be stored in a safe place at the investigators' facility and only authorised personnel will have access to it. The response data will be kept in the anonymized form.
                     </Typography>
 
                     <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
                       Data Breach
                     </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
                       In case of a data breach, the person responsible for data protection will be informed by the responsible researcher. Together they will undertake all steps necessary to minimise any negative consequences. You will receive a notification about the nature of the data breach, the information lost and the actions taken as soon as possible.
                     </Typography>
 
                     <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
                       Your rights
                     </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
                       You have the right to access your personal data, to correct it, to erase it, to restrict its processing, the right to data portability, and the right to object to in accordance with Articles 15-22 of the General Data Protection Regulation (GDPR). However, the right of erasure does not apply when the processing is necessary for the purposes of archiving that is in public interest, as well as the purposes of statistical analysis and scientific or historical research.
                     </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
                       You can also withdraw your consent to process your personal data at any time according to GDPR Article 6(1) and Article 9(2) without any consequences. Upon request your local supervisory authority will provide you information on exercising your rights according to Article 57(e) GDPR.
                     </Typography>
 
                     <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
                       Usage of your data
                     </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
                       Processed data will be used in research publications, for education purposes and for future research. The use will not be limited to the research group. Third parties will be able to access and process the anonymized data deposited on, for example, the Zenodo open research data platform.
                     </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
                       As a participant you can receive a summary of the results upon request.
                     </Typography>
 
                     <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
                       Contact information
                     </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '0px' }}>
                       If you require any form of emotional support during or at the end of the study, please contact our psychological support expert (email: hicup.care@famnit.upr.si) and briefly describe your issue. Please provide your contact information (e.g. email, phone number) so we can reach out to you. If necessary, we may schedule a relief talk. If you have any questions about the content, process or the goals of the study, you can contact the head researcher, Uroš Sergaš, (email: uros.sergas@upr.si).
                     </Typography>
                   </div>
-                  </DialogContent>
-                  <DialogActions>
-                    <Button onClick={() => setShowConsentDialog(false)} color="primary">
-                      Close
-                    </Button>
-                  </DialogActions>
-                </Dialog>
+                </Paper>
 
                 {/* Consent Questions Table */}
                 <Paper elevation={2} style={{ padding: '24px', marginBottom: '32px' }}>
-                  <Typography variant="h6" gutterBottom style={{ marginBottom: '8px' }}>
+                  <Typography variant="h6" gutterBottom style={{ marginBottom: '8px', fontWeight: 'bold' }}>
                     Consent Requirements
                   </Typography>
                   <Typography variant="body2" style={{ 
@@ -1124,11 +1121,11 @@ function Register({classes}) {
                   </FormControl>
 
                   {/* News Source - Multi-select */}
-                  <FormControl component="fieldset" style={{ width: '100%', marginBottom: '24px' }}>
-                    <FormLabel component="legend" style={{ marginBottom: '12px', fontSize: '16px' }}>
+                  <FormControl component="fieldset" style={{ width: '100%', marginBottom: '24px', textAlign: 'left' }}>
+                    <FormLabel component="legend" style={{ marginBottom: '12px', fontSize: '16px', textAlign: 'left' }}>
                       {NEWS_SOURCE_QUESTION} * (Select all that apply)
                     </FormLabel>
-                    <div>
+                    <div style={{ textAlign: 'left' }}>
                       {NEWS_SOURCE_OPTIONS.map((option, index) => (
                         <FormControlLabel
                           key={index}
@@ -1145,7 +1142,7 @@ function Register({classes}) {
                             />
                           }
                           label={option}
-                          style={{ marginBottom: '8px', display: 'block' }}
+                          style={{ marginBottom: '8px', display: 'block', textAlign: 'left' }}
                         />
                       ))}
                     </div>

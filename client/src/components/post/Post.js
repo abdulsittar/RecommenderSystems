@@ -101,10 +101,6 @@ const [webViewUrl, setWebViewUrl] = useState('');
   const ref = useRef(null);
   const desc = useRef();
   const toastIdRef = useRef(null);
-  const articleOpenTimeRef = useRef(null);
-  const isAlertShowing = useRef(false);
-  const lastAlertTime = useRef(0);
-  const MINIMUM_READ_TIME = 30000; // 30 seconds in milliseconds
   const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)"});
   const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)"});
   const extractUrls = require("extract-urls");
@@ -239,115 +235,16 @@ const [webViewUrl, setWebViewUrl] = useState('');
   }, []);
 
   useEffect(() => {
-    console.log('Message listener useEffect mounted for post:', post._id);
     const handleMessage = (event) => {
-      console.log('Message received:', event.data);
       if (event.data && event.data.type === 'articleBackButtonClicked') {
-        console.log('Back button clicked, timeSpent:', event.data.timeSpent, 'MINIMUM_READ_TIME:', MINIMUM_READ_TIME);
-        const timeSpent = event.data.timeSpent || 0;
-        if (timeSpent < MINIMUM_READ_TIME) {
-          console.log('Time requirement not met. isAlertShowing.current:', isAlertShowing.current, 'lastAlertTime:', lastAlertTime.current);
-          
-          // Prevent multiple alerts - use timestamp-based throttling
-          const now = Date.now();
-          const timeSinceLastAlert = now - lastAlertTime.current;
-          console.log('Time since last alert:', timeSinceLastAlert, 'ms');
-          
-          if (timeSinceLastAlert < 3000 && lastAlertTime.current > 0) {
-            console.log('Alert shown too recently (within 3 seconds), ignoring this message');
-            return;
-          }
-          
-          if (isAlertShowing.current) {
-            console.log('Alert already showing, returning early');
-            return; // Exit early if alert is already being shown
-          }
-          
-          // Set flags FIRST before any async operations
-          isAlertShowing.current = true;
-          lastAlertTime.current = now;
-          console.log('Flags set to true at timestamp:', now, ', creating new alert overlay');
-          
-          // Show custom alert overlay
-          const alertOverlay = document.createElement('div');
-          alertOverlay.setAttribute('data-alert-overlay', 'true');
-          alertOverlay.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 99999;
-          `;
-          
-          const alertBox = document.createElement('div');
-          alertBox.style.cssText = `
-            background-color: white;
-            padding: 30px 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            max-width: 400px;
-          `;
-          
-          const alertText = document.createElement('p');
-          alertText.textContent = 'Please read the full article before closing it.';
-          alertText.style.cssText = `
-            margin: 0 0 20px 0;
-            font-size: 16px;
-            color: #333;
-          `;
-          
-          const okButton = document.createElement('button');
-          okButton.textContent = 'OK';
-          okButton.style.cssText = `
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 30px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-          `;
-          
-          okButton.onclick = () => {
-            console.log('OK button clicked, isAlertShowing.current before removal:', isAlertShowing.current);
-            console.log('Removing ALL alert overlays from DOM');
-            
-            // Remove ALL alert overlays that might have been stacked
-            const allOverlays = document.querySelectorAll('div[data-alert-overlay="true"]');
-            console.log('Found', allOverlays.length, 'overlay(s) to remove');
-            allOverlays.forEach(overlay => {
-              document.body.removeChild(overlay);
-            });
-            
-            console.log('All alert overlays removed');
-            // Keep flag true for 2 seconds after dismissing to prevent rapid-fire
-            setTimeout(() => {
-              console.log('Resetting isAlertShowing.current to false after timeout');
-              isAlertShowing.current = false;
-            }, 2000);
-          };
-          
-          alertBox.appendChild(alertText);
-          alertBox.appendChild(okButton);
-          alertOverlay.appendChild(alertBox);
-          document.body.appendChild(alertOverlay);
-        } else {
-          // Time requirement met, close the toast
-          toast.dismiss();
-        }
+        console.log(`Back button clicked for article ${event.data.articleId} (time spent: ${event.data.timeSpent}ms) - dismissing toast`);
+        // Simply dismiss the toast when back button is clicked
+        toast.dismiss();
       }
     };
 
     window.addEventListener('message', handleMessage);
-    console.log('Message listener registered for post:', post._id);
     return () => {
-      console.log('Message listener cleanup for post:', post._id);
       window.removeEventListener('message', handleMessage);
     };
   }, []);
@@ -781,17 +678,23 @@ const submitHandler2 = async (e) => {
     
     console.log("🟢 toggleWebView called - Adding green bar!");
     
-    // Set the article open time
-    articleOpenTimeRef.current = Date.now();
-    
     try {
         const token = localStorage.getItem('token');
-        const lc = await axios.post("/posts/" + currentUser._id + "/track-view", {postId: post._id, userId: currentUser._id, headers: { 'auth-token': token }});
+        const lc = await axios.post("/posts/" + currentUser._id + "/track-view", 
+            {postId: post._id, userId: currentUser._id}, 
+            {headers: { 'auth-token': token }}
+        );
         console.log("Viewpost updated successfully.");
+        
+        // Fetch updated user data to see current readPosts count
+        const userRes = await axios.get(`/users/${currentUser._id}`, {
+            headers: { 'auth-token': token }
+        });
+        const articlesRead = userRes.data?.sessionReadPosts?.length || 0;
+        console.log(`📊 Article tracking updated. Articles read in this session: ${articlesRead}`);
         
     } catch (error) {
         console.error("Error updating view post:", error);
-
     }
     
     const id = toast.info(
@@ -816,32 +719,23 @@ const submitHandler2 = async (e) => {
 };
 
 
-  const checkMinimumReadTime = () => {
-    if (!articleOpenTimeRef.current) return true;
-    const timeSpent = Date.now() - articleOpenTimeRef.current;
-    if (timeSpent < MINIMUM_READ_TIME) {
-      alert('Please read the full article before closing it.');
-      return false;
-    }
-    return true;
-  };
-
   const toggleWebView3 = async () => {
     try {
         const token = localStorage.getItem('token');
-        await axios.post("/posts/" + currentUser._id + "/track-view", {
-            postId: post._id, 
-            userId: currentUser._id,
-            headers: { 'auth-token': token }
-        });
+        await axios.post("/posts/" + currentUser._id + "/track-view", 
+            {
+                postId: post._id, 
+                userId: currentUser._id
+            },
+            {
+                headers: { 'auth-token': token }
+            }
+        );
 
         console.log("Viewpost updated successfully.");
     } catch (error) {
         console.error("Error updating view post:", error);
     }
-    
-    // Set the article open time
-    articleOpenTimeRef.current = Date.now();
     
     toast.info(
         <div 

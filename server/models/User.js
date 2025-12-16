@@ -51,6 +51,10 @@ readPosts: [{
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Readpost'
 }],
+sessionReadPosts: [{
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Post'
+}],
 activity: [{
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'TimeMe'
@@ -90,6 +94,10 @@ relationship: {
 },
 lastLoginDate: {
     type: Date,
+},
+loginCount: {
+    type: Number,
+    default: 0
 },
 currentTopic: {
     type: String,

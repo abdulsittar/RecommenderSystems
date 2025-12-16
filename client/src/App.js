@@ -7,6 +7,7 @@ import Register from "./pages/register/Register";
 import FollowersPage from "./pages/Followers/FollowersPage";
 import FollowingsPage from "./pages/Followings/FollowingsPage";
 import WeeklySurvey from "./pages/weeklySurvey/WeeklySurvey";
+import ThankYou from "./pages/thankyou/ThankYou";
 import {regSw, subscribe} from './helper.js';
 
 import {
@@ -32,6 +33,7 @@ function App() {
     
     <Router>
     <Switch>
+    <Route path="/thankyou/:userId"><ThankYou /></Route>
     <Route path="/landingPage"><LandingPage/></Route>
 		<Route exact path="/">{user ? <Home /> : <LandingPage />}</Route>
 		<Route path="/login/:userId"><Login /></Route>

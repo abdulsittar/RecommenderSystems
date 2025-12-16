@@ -1,8 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-// CSV file path - updated to point to the uploaded file
-const CSV_FILE_PATH = path.join(__dirname, '../../articles-uros.csv');
+// CSV file path - updated to point to the new articles file with semicolon delimiter
+const CSV_FILE_PATH = path.join(__dirname, '../../articles.csv');
 
 /**
  * Parse CSV content into JavaScript objects
@@ -84,8 +84,8 @@ function parseCSVRows(csvContent) {
                 inQuotes = !inQuotes;
                 i++;
             }
-        } else if (char === ',' && !inQuotes) {
-            // Field separator
+        } else if (char === ';' && !inQuotes) {
+            // Field separator (semicolon for articles.csv)
             currentRow.push(currentField.trim());
             currentField = '';
             i++;
@@ -134,9 +134,9 @@ async function loadArticlesFromCSV() {
         // If file doesn't exist at default location, try alternative paths
         if (!fs.existsSync(csvPath)) {
             const alternatives = [
-                path.join(process.cwd(), 'articles-uros.csv'),
-                path.join(__dirname, '../../../articles-uros.csv'),
-                '/home/mateja/Downloads/articles-uros.csv'
+                path.join(process.cwd(), 'articles.csv'),
+                path.join(__dirname, '../../../articles.csv'),
+                '/home/mateja/Downloads/articles.csv'
             ];
             
             for (const altPath of alternatives) {

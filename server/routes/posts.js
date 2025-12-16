@@ -651,6 +651,22 @@
                 await newView.save();
             }
 
+            // Update user's readPosts array (only if not already there)
+            const user = await User.findById(userId);
+            if (user) {
+                // Add to lifetime readPosts if not already there
+                if (!user.readPosts.includes(postId)) {
+                    await user.updateOne({ $push: { readPosts: postId } });
+                    console.log("Added post to user's readPosts array:", postId);
+                }
+                
+                // Add to sessionReadPosts if not already there (for current session tracking)
+                if (!user.sessionReadPosts.includes(postId)) {
+                    await user.updateOne({ $push: { sessionReadPosts: postId } });
+                    console.log("Added post to user's sessionReadPosts array:", postId);
+                }
+            }
+
             res.status(200).json({ message: "Viewpost updated successfully." });
 
         } catch (error) {
@@ -1059,11 +1075,15 @@
     const userId = req.params.userId;
     const page = parseInt(req.query.page) || 0;
     const topic = req.query.topic; // Get topic from query parameters
+    const exclude = req.query.exclude; // Get exclude parameter (comma-separated post IDs)
+    
+    // Parse exclude IDs
+    const excludeIds = exclude ? exclude.split(',').filter(id => id.trim()) : [];
 
-    console.log('Timeline endpoint - userId:', userId, 'page:', page, 'topic:', topic);
+    console.log('Timeline endpoint - userId:', userId, 'page:', page, 'topic:', topic, 'excludeIds:', excludeIds.length);
 
     // ✅ only first page should show the last 5 created, filtered by topic if provided
-    const posts = await getLatestFivePosts(userId, page, topic);
+    const posts = await getLatestFivePosts(userId, page, topic, excludeIds);
 
     res.status(200).json(posts);
   } catch (error) {
@@ -1117,9 +1137,13 @@
     const userId = req.params.userId;
     const page = parseInt(req.query.page) || 0;
     const topic = req.query.topic; // Get topic from query parameters
+    const exclude = req.query.exclude; // Get exclude parameter (comma-separated post IDs)
+    
+    // Parse exclude IDs
+    const excludeIds = exclude ? exclude.split(',').filter(id => id.trim()) : [];
 
     // ✅ only first page should show the last 5 created, filtered by topic if provided
-    const posts = await getLatestFivePosts(userId, page, topic);
+    const posts = await getLatestFivePosts(userId, page, topic, excludeIds);
 
     res.status(200).json(posts);
   } catch (error) {
@@ -1131,7 +1155,7 @@
 const recommendationService = require('../services/recommendationService');
 
 // Get posts filtered by topic - Updated to use recommendation service
-const getLatestFivePosts = async (userId, page = 0, topic = null) => {
+const getLatestFivePosts = async (userId, page = 0, topic = null, excludeIds = []) => {
   const currentUser = await User.findById(userId);
   if (!currentUser) return [];
 
@@ -1140,15 +1164,17 @@ const getLatestFivePosts = async (userId, page = 0, topic = null) => {
     logger.info('Using recommendation service', { 
       userId, 
       controlGroup: currentUser.controlGroup, 
-      topic 
+      topic,
+      excludeCount: excludeIds.length
     });
     
-    const limit = page === 0 ? 5 : 30;
+    const limit = 5; // Always fetch 5 posts
     return await recommendationService.getRecommendedPosts(
       userId,
       topic || currentUser.currentTopic,
       page,
-      limit
+      limit,
+      excludeIds
     );
   }
 
@@ -1160,8 +1186,20 @@ const getLatestFivePosts = async (userId, page = 0, topic = null) => {
   if (topic) {
     queryFilter.content = topic;
   }
+  
+  // Add exclusion filter if excludeIds are provided
+  // Convert string IDs to ObjectIds for proper MongoDB matching
+  if (excludeIds && excludeIds.length > 0) {
+    const mongoose = require('mongoose');
+    const objectIds = excludeIds
+      .filter(id => mongoose.Types.ObjectId.isValid(id))
+      .map(id => new mongoose.Types.ObjectId(id));
+    if (objectIds.length > 0) {
+      queryFilter._id = { $nin: objectIds };
+    }
+  }
 
-  console.log('Using default time-based recommendations', { userId, topic });
+  console.log('Using default time-based recommendations', { userId, topic, excludeCount: excludeIds.length });
   console.log('getLatestFivePosts - Topic filter:', topic, 'Query filter:', queryFilter);
 
   // Debug: Check what posts exist in database
@@ -1173,36 +1211,10 @@ const getLatestFivePosts = async (userId, page = 0, topic = null) => {
 
   console.log('Searching for posts with filter:', queryFilter);
 
-  // ✅ For first page only (page = 0), return latest 5 posts
-  if (page === 0) {
-    const latestFive = await Post.find(queryFilter)
-      .sort({ createdAt: -1 })
-      .limit(5)
-      .populate('userId', 'username profilePicture') // populate user info for display
-      .populate({
-        path: 'comments',
-        model: 'Comment',
-        populate: [
-          { path: 'userId', model: 'User' },
-          { path: 'likes', model: 'CommentLike' },
-          { path: 'dislikes', model: 'CommentDislike' }
-        ]
-      })
-      .exec();
-
-    console.log('getLatestFivePosts - Found posts:', latestFive.length);
-    latestFive.forEach((post, i) => {
-      console.log(`  Found ${i+1}. Content: "${post.content}" | Title: "${post.title?.substring(0, 50)}..." | Desc: "${post.desc?.substring(0, 50)}..."`);
-    });
-    return latestFive;
-  }
-
-  // For other pages (optional)
-  const resultsPerPage = 30;
-  return await Post.find(queryFilter)
+  // ✅ Always return 5 posts (excluding already shown ones)
+  const latestFive = await Post.find(queryFilter)
     .sort({ createdAt: -1 })
-    .skip(page * resultsPerPage)
-    .limit(resultsPerPage)
+    .limit(5)
     .populate('userId', 'username profilePicture') // populate user info for display
     .populate({
       path: 'comments',
@@ -1214,6 +1226,12 @@ const getLatestFivePosts = async (userId, page = 0, topic = null) => {
       ]
     })
     .exec();
+
+  console.log('getLatestFivePosts - Found posts:', latestFive.length);
+  latestFive.forEach((post, i) => {
+    console.log(`  Found ${i+1}. Content: "${post.content}" | Title: "${post.title?.substring(0, 50)}..." | Desc: "${post.desc?.substring(0, 50)}..."`);
+  });
+  return latestFive;
 };
 
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { Search, Person, Chat, Notifications } from '@material-ui/icons';
 import RefreshIcon  from '@mui/icons-material/Refresh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import {COLORS} from '../values/colors.js';
 import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 import { Link } from 'react-router-dom';
@@ -13,6 +14,14 @@ import { useMediaQuery } from 'react-responsive';
 import HomeIcon from '@mui/icons-material/Home';
 import {Searche } from '../../constants';
 import { toast } from 'react-toastify';
+import { useHistory } from "react-router";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+import axios from 'axios';
 
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import SimplePopover from '../popover/SimplePopover';
@@ -20,9 +29,12 @@ import SimplePopover from '../popover/SimplePopover';
 function Topbar({ classes, setSelectedValue, isProfile, setSearchTerm, onAction, showRefreshIcon, onAction2 }) {
     const [fv, setFv] = useState(0);
     const { user }    = useContext(AuthContext);
+    const { user: currentUser, dispatch } = useContext(AuthContext);
     const PF          = process.env.REACT_APP_PUBLIC_FOLDER;
     const [anchorEl, setAnchorEl] = useState(null);
-    const { user: currentUser, dispatch } = useContext(AuthContext);
+    const [showWarningDialog, setShowWarningDialog] = useState(false);
+    const [articlesReadCount, setArticlesReadCount] = useState(0);
+    const history = useHistory();
     
     const shouldShowRefresh = showRefreshIcon || false;
     
@@ -49,6 +61,63 @@ function Topbar({ classes, setSelectedValue, isProfile, setSearchTerm, onAction,
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const logOut = () => {
+        console.log('🚪 Logging out, redirecting to thank you page');
+        console.log('Current user:', currentUser);
+        
+        // Get the yourID string from the uniqueId object
+        const uniqueIdString = currentUser?.uniqueId?.yourID || 'default';
+        console.log('Using uniqueId string:', uniqueIdString);
+        
+        localStorage.removeItem("user");
+        localStorage.removeItem("token");
+        
+        const thankYouPath = `/thankyou/${uniqueIdString}`;
+        console.log('Redirecting to:', thankYouPath);
+        history.push(thankYouPath);
+    }
+
+    const handleEndSession = async () => {
+        try {
+            // Fetch the latest user data to get updated readPosts count
+            const token = localStorage.getItem('token');
+            const res = await axios.get(`/users/${currentUser._id}`, {
+                headers: { 'auth-token': token }
+            });
+            
+            const articlesRead = res.data?.sessionReadPosts?.length || 0;
+            setArticlesReadCount(articlesRead);
+            console.log('End session clicked. Articles read in this session:', articlesRead);
+            
+            if (articlesRead < 3) {
+                // Show warning dialog with updated count
+                setShowWarningDialog(true);
+            } else {
+                // Allow logout
+                logOut();
+            }
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            // Fallback to cached data if API fails
+            const articlesRead = currentUser?.sessionReadPosts?.length || 0;
+            setArticlesReadCount(articlesRead);
+            if (articlesRead < 3) {
+                setShowWarningDialog(true);
+            } else {
+                logOut();
+            }
+        }
+    }
+
+    const handleWarningClose = () => {
+        setShowWarningDialog(false);
+    }
+
+    const handleForceLogout = () => {
+        setShowWarningDialog(false);
+        logOut();
+    }
 
     function setSearchTermFunction(value) {
         setSearchTerm(value);
@@ -125,13 +194,24 @@ const handleRefreshFeed23 = (e) => {
 
             {
             !isMobileDevice && !isTabletDevice && 
-            <div style={{'display': 'flex', alignItems: 'flex-end', 'margin': '5px 5px'}}>
-                     <Link style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', cursor:'default'}}>
-                         <img  src={user.profilePicture? PF + user.profilePicture: PF + "person/noAvatar.png"} alt="" className={classes.topbarImg} style={{cursor:'default'}}/>
-                         <p className={classes.username}>{user.username}</p>
-                     </Link>
-                     <KeyboardArrowDownIcon className={classes.downArrow} onClick={openProfileDetails} /> 
-                     <SimplePopover anchorEl={anchorEl} handleClose={handleClose} />
+            <div style={{'display': 'flex', alignItems: 'flex-end', 'margin': '5px 15px'}}>
+                     <Button 
+                        variant="contained"
+                        startIcon={<PowerSettingsNewIcon />}
+                        onClick={handleEndSession}
+                        style={{
+                            backgroundColor: '#dc3545',
+                            color: 'white',
+                            textTransform: 'none',
+                            fontWeight: 'bold',
+                            padding: '8px 20px',
+                            '&:hover': {
+                                backgroundColor: '#c82333'
+                            }
+                        }}
+                     >
+                        End Session
+                     </Button>
             </div>
             }
             </div>
@@ -163,14 +243,49 @@ const handleRefreshFeed23 = (e) => {
             {(isMobileDevice || isTabletDevice) && 
             <div className={classes.topbarRight} >
                 <div className={classes.userInfo} style={{ alignItems: 'flex-end' }}>
-                    <Link style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', cursor:'default' }}>
-                        <img src={ user.profilePicture ? PF + user.profilePicture : PF + "person/noAvatar.png" } alt="" className={classes.topbarImg} style={{cursor:'default'}}/>
-                        <p className={classes.username}>{user.username}</p>
-                    </Link>
-                     <KeyboardArrowDownIcon className={classes.downArrow} onClick={openProfileDetails} /> 
-                    <SimplePopover anchorEl={anchorEl} handleClose={handleClose} />
+                     <Button 
+                        variant="contained"
+                        startIcon={<PowerSettingsNewIcon />}
+                        onClick={handleEndSession}
+                        style={{
+                            backgroundColor: '#dc3545',
+                            color: 'white',
+                            textTransform: 'none',
+                            fontWeight: 'bold',
+                            padding: '6px 16px',
+                            fontSize: '14px'
+                        }}
+                     >
+                        End Session
+                     </Button>
                 </div>
             </div>}
+
+            {/* Warning Dialog */}
+            <Dialog
+                open={showWarningDialog}
+                onClose={handleWarningClose}
+                aria-labelledby="warning-dialog-title"
+                aria-describedby="warning-dialog-description"
+            >
+                <DialogTitle id="warning-dialog-title">
+                    {"Minimum 3 Articles Required"}
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="warning-dialog-description">
+                        Please read at least 3 articles before ending your session. 
+                        You have currently read {articlesReadCount} article(s).
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleWarningClose} color="primary">
+                        Continue Reading
+                    </Button>
+                    <Button onClick={handleForceLogout} color="secondary">
+                        End Anyway
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     )
 }

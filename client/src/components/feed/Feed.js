@@ -44,6 +44,7 @@ const [preFilter, setPreFilter] = useState(-1);
 const [progress, setProgress] = useState(0);
 const [preProfile, setPreProfile] = useState(" ");
 const [viewedPosts, setViewedPosts] = useState([]);
+const [shownPostIds, setShownPostIds] = useState([]); // Track shown post IDs for "View More Articles"
 const { user: currentUser, dispatch } = useContext(AuthContext);
 const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
 const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
@@ -56,6 +57,8 @@ const [open, setOpen] = React.useState(false);
 
 // Weekly survey modal state
 const [weeklySurveyOpen, setWeeklySurveyOpen] = useState(false);
+const [welcomeDialogOpen, setWelcomeDialogOpen] = useState(false);
+const [sessionCount, setSessionCount] = useState(1);
 const [weeklyData, setWeeklyData] = useState({
     topicAttitude: 50,
     oneSide_openminded: 5,
@@ -148,7 +151,10 @@ const handleFeedAction = async (e) => {
             'assisted death': 'option1',
             'abortion': 'option2', 
             'gun control': 'option3',
-            'other': 'option4'
+            'nuclear power': 'option4',
+            'social media regulation': 'option5',
+            'military armament': 'option6',
+            'climate action': 'option7'
         };
         const currentOption = topicToOptionMapping[currentTopic] || 'option1';
         setNextSelectedOption(currentOption);
@@ -164,12 +170,15 @@ const handleFeedAction = async (e) => {
     }
 
     const handleNextConfirm = async () => {
-            // Map options to topics for initial-data creation - Updated to match new categories
+            // Map options to topics for initial-data creation - All 7 topics from articles.csv
             const topicMapping = {
-                option1: 'assisted death',    // Assisted Death
-                option2: 'abortion',          // Abortion  
-                option3: 'gun control',       // Gun Control
-                option4: 'other'              // Other
+                option1: 'assisted death',           // Assisted Death
+                option2: 'abortion',                 // Abortion  
+                option3: 'gun control',              // Gun Control
+                option4: 'nuclear power',            // Nuclear Power
+                option5: 'social media regulation',  // Social Media Regulation
+                option6: 'military armament',        // Military Armament
+                option7: 'climate action'            // Climate Action
             };
             const topic = topicMapping[nextSelectedOption] || 'abortion';
             console.log('handleNextConfirm - Selected option:', nextSelectedOption, 'Mapped topic:', topic);
@@ -181,27 +190,106 @@ const handleFeedAction = async (e) => {
             setCurrentTopic(topic); // Store the selected topic for filtering
             setNextDialogOpen(false);
             
+            // Clear shown post IDs when topic changes
+            setShownPostIds([]);
+            
             // Scroll to top of page when changing topic
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            // If topic changed (not first time), show weekly survey
-            if (topicChanged) {
-                console.log('Topic changed from', currentTopic, 'to', topic, '- showing weekly survey');
-                // Set flag and show weekly survey modal
-                localStorage.setItem('showWeeklySurvey', 'true');
-                localStorage.setItem('weeklySurveyReason', 'topicChange');
-                localStorage.setItem('pendingTopic', topic); // Store the new topic
-                setWeeklySurveyOpen(true);
-                return; // Don't fetch posts yet - will fetch after survey
-            }
-            
-            // If this is first topic selection and flag is set, show weekly survey
-            if (isFirstTopic && localStorage.getItem('showWeeklySurvey') === 'true') {
-                console.log('First topic selection - showing weekly survey before loading content');
-                localStorage.setItem('pendingTopic', topic);
-                localStorage.setItem('weeklySurveyReason', 'firstTime'); // Set reason for first time
-                setWeeklySurveyOpen(true);
-                return; // Don't fetch posts yet - will fetch after survey
+            // Check if user already has a survey for this topic
+            try {
+                const token = localStorage.getItem('token');
+                const existingSurveyResponse = await axios.get(`/users/${user._id}/weeklyResponse/${topic}`, {
+                    headers: { 'auth-token': token }
+                });
+                
+                const hasSurveyForTopic = existingSurveyResponse.data && existingSurveyResponse.data.exists;
+                console.log(`Survey exists for topic "${topic}":`, hasSurveyForTopic);
+                
+                // If topic changed and NO survey exists for this topic, show survey with default values
+                if (topicChanged && !hasSurveyForTopic) {
+                    console.log('Topic changed to', topic, '- no survey exists yet, showing weekly survey with default values');
+                    
+                    // Reset to default middle values
+                    setWeeklyData({
+                        topicAttitude: 50,
+                        oneSide_openminded: 5,
+                        oneSide_moderate: 5,
+                        oneSide_moral: 5,
+                        oneSide_family: 5,
+                        oneSide_friend: 5,
+                        oneSide_coworker: 5,
+                        otherSide_openminded: 5,
+                        otherSide_moderate: 5,
+                        otherSide_moral: 5,
+                        otherSide_family: 5,
+                        otherSide_friend: 5,
+                        otherSide_coworker: 5
+                    });
+                    
+                    // Store topic for survey submission, but DON'T set showWeeklySurvey flag
+                    localStorage.setItem('weeklySurveyReason', 'topicChange');
+                    localStorage.setItem('pendingTopic', topic);
+                    setWeeklySurveyOpen(true);
+                    return; // Don't fetch posts yet - will fetch after survey
+                }
+                
+                // If topic changed but survey already exists, just switch topics without survey
+                if (topicChanged && hasSurveyForTopic) {
+                    console.log('Topic changed to', topic, '- survey already exists, switching without survey');
+                    await axios.put(`/users/${user._id}/updateTopic`, {
+                        topic: topic
+                    }, { headers: { 'auth-token': token } });
+                    
+                    await axios.post(`/posts/${user._id}/createInitialData`, { topic, pool: user.pool, userId: user._id }, { headers: { 'auth-token': token } });
+                    setIndex(0);
+                    await fetchPostsWithTopic(selectedValue, 0, topic);
+                    return;
+                }
+                
+                // If this is first topic selection and NO survey exists, show survey with default values
+                if (isFirstTopic && !hasSurveyForTopic) {
+                    console.log('First topic selection - no survey exists yet, showing weekly survey with default values');
+                    
+                    // Reset to default middle values
+                    setWeeklyData({
+                        topicAttitude: 50,
+                        oneSide_openminded: 5,
+                        oneSide_moderate: 5,
+                        oneSide_moral: 5,
+                        oneSide_family: 5,
+                        oneSide_friend: 5,
+                        oneSide_coworker: 5,
+                        otherSide_openminded: 5,
+                        otherSide_moderate: 5,
+                        otherSide_moral: 5,
+                        otherSide_family: 5,
+                        otherSide_friend: 5,
+                        otherSide_coworker: 5
+                    });
+                    
+                    // Store topic for survey submission, but DON'T set showWeeklySurvey flag
+                    localStorage.setItem('pendingTopic', topic);
+                    localStorage.setItem('weeklySurveyReason', 'firstTime');
+                    setWeeklySurveyOpen(true);
+                    return; // Don't fetch posts yet - will fetch after survey
+                }
+                
+                // If first topic and survey exists, just load the topic
+                if (isFirstTopic && hasSurveyForTopic) {
+                    console.log('First topic selection - survey already exists, loading topic');
+                    await axios.put(`/users/${user._id}/updateTopic`, {
+                        topic: topic
+                    }, { headers: { 'auth-token': token } });
+                    
+                    await axios.post(`/posts/${user._id}/createInitialData`, { topic, pool: user.pool, userId: user._id }, { headers: { 'auth-token': token } });
+                    setIndex(0);
+                    await fetchPostsWithTopic(selectedValue, 0, topic);
+                    return;
+                }
+            } catch (err) {
+                console.error('Error checking existing survey:', err);
+                // If check fails, proceed with normal flow
             }
             
             try {
@@ -223,15 +311,23 @@ const handleFeedAction = async (e) => {
             }
     }
 
-    // Get topic-specific side labels
+    // Get topic-specific side labels for all 7 topics
     const getTopicSides = (topic) => {
         const topicLower = (topic || '').toLowerCase();
         if (topicLower.includes('abortion')) {
             return { oneSide: 'pro-choice advocates', otherSide: 'pro-life advocates' };
         } else if (topicLower.includes('gun')) {
-            return { oneSide: 'gun rights advocates', otherSide: 'gun control advocates' };
+            return { oneSide: 'gun freedom advocates', otherSide: 'gun control advocates' };
         } else if (topicLower.includes('assisted death') || topicLower.includes('euthanasia')) {
-            return { oneSide: 'right-to-die advocates', otherSide: 'right-to-life advocates' };
+            return { oneSide: 'pro assisted death advocates', otherSide: 'anti assisted death advocates' };
+        } else if (topicLower.includes('nuclear')) {
+            return { oneSide: 'pro nuclear power advocates', otherSide: 'anti nuclear power advocates' };
+        } else if (topicLower.includes('social media') || topicLower.includes('regulation')) {
+            return { oneSide: 'pro regulation advocates', otherSide: 'anti regulation advocates' };
+        } else if (topicLower.includes('military') || topicLower.includes('armament')) {
+            return { oneSide: 'pro armament advocates', otherSide: 'anti armament advocates' };
+        } else if (topicLower.includes('climate')) {
+            return { oneSide: 'high concern advocates', otherSide: 'low concern advocates' };
         } else {
             return { oneSide: 'one side advocates', otherSide: 'other side advocates' };
         }
@@ -250,6 +346,11 @@ const handleFeedAction = async (e) => {
             const token = localStorage.getItem('token');
             const weeklySurveyReason = localStorage.getItem('weeklySurveyReason');
             const pendingTopic = localStorage.getItem('pendingTopic') || currentTopic;
+            
+            // Clear flags FIRST to prevent re-triggering
+            localStorage.removeItem('weeklySurveyReason');
+            localStorage.removeItem('pendingTopic');
+            localStorage.removeItem('showWeeklySurvey');
             
             // Calculate current week number
             const now = new Date();
@@ -287,10 +388,6 @@ const handleFeedAction = async (e) => {
                 }
                 
                 setWeeklySurveyOpen(false);
-                
-                // Clear flags
-                localStorage.removeItem('weeklySurveyReason');
-                localStorage.removeItem('pendingTopic');
                 
                 // After survey submission, create initial data and fetch posts
                 // (for both first time and topic change scenarios)
@@ -344,21 +441,46 @@ useEffect(() => {
     }
 }, [currentUser]);
 
-// Check if user needs to select a topic (first time) or complete weekly survey
+// Check if user needs to select a topic (first time) or show welcome message for recurring session
 useEffect(() => {
     const showWeeklySurvey = localStorage.getItem('showWeeklySurvey');
     const weeklySurveyReason = localStorage.getItem('weeklySurveyReason');
+    const isRecurringSession = localStorage.getItem('isRecurringSession');
+    const storedSessionCount = localStorage.getItem('sessionCount');
     
-    // Priority 1: If user doesn't have a current topic, show topic selection dialog FIRST
+    console.log('Feed useEffect - checking flags:', {
+        showWeeklySurvey,
+        weeklySurveyReason,
+        isRecurringSession,
+        storedSessionCount,
+        weeklySurveyOpen
+    });
+    
+    // Don't do anything if survey is already open
+    if (weeklySurveyOpen) {
+        console.log('Survey already open, skipping useEffect checks');
+        return;
+    }
+    
+    // Priority 1: Show welcome message for recurring sessions
+    if (isRecurringSession === 'true' && storedSessionCount) {
+        console.log('Recurring session detected - showing welcome message for session', storedSessionCount);
+        setSessionCount(parseInt(storedSessionCount));
+        setWelcomeDialogOpen(true);
+        // Clear the flags after showing
+        localStorage.removeItem('isRecurringSession');
+        localStorage.removeItem('sessionCount');
+        return; // Don't proceed to other checks
+    }
+    
+    // Priority 2: If user doesn't have a current topic, show topic selection dialog FIRST
     if (user && !currentUser.currentTopic && !currentTopic) {
         console.log('User has no currentTopic set - showing topic selection dialog');
-        // DON'T clear the weekly survey flag - keep it for after topic selection
-        // localStorage.removeItem('showWeeklySurvey'); // REMOVED - let it persist
         setTimeout(() => {
             setNextDialogOpen(true);
         }, 500);
     }
-    // Priority 2: If user has a topic AND flag is set, show weekly survey
+    // Priority 3: If user has a topic AND flag is set, show weekly survey
     else if (showWeeklySurvey === 'true' && (currentUser.currentTopic || currentTopic)) {
         console.log('Weekly survey should be shown. Reason:', weeklySurveyReason);
         // Show weekly survey modal after a brief delay
@@ -368,7 +490,7 @@ useEffect(() => {
         // Clear the flag so it doesn't show again on refresh
         localStorage.removeItem('showWeeklySurvey');
     }
-}, [currentUser, currentTopic]);
+}, [currentUser, currentTopic, weeklySurveyOpen]);
 
 useEffect(() => {
 
@@ -768,17 +890,65 @@ if (preProfile === " ") {
     console.log(whPosts);
 }}
 
-    // Handler to get more posts on the same topic
-    const handleGetMorePosts = () => {
+    // Handler to get more posts on the same topic - shows NEW articles, excluding already shown ones
+    const handleGetMorePosts = async () => {
         if (currentTopic) {
             // Scroll to top of page
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            // Increment page and fetch more posts with the same topic
-            const nextPage = index + 1;
-            setIndex(nextPage);
-            fetchPostsWithTopic(selectedValue, nextPage, currentTopic);
+            // Collect current post IDs to exclude
+            const currentPostIds = posts.map(p => p._id);
+            const allExcludedIds = [...new Set([...shownPostIds, ...currentPostIds])];
+            
+            // Update shown post IDs with current posts before fetching new ones
+            setShownPostIds(allExcludedIds);
+            
+            // Fetch new posts excluding already shown ones
+            await fetchNewPostsExcluding(selectedValue, currentTopic, allExcludedIds);
         }
+    };
+    
+    // Fetch new posts excluding already shown ones
+    const fetchNewPostsExcluding = async (selectedValue, topicParam, excludeIds) => {
+        setProgress(30);
+        console.log("fetchNewPostsExcluding - excluding IDs:", excludeIds);
+        
+        var whPosts = "/posts/timelinePag/";
+        if(selectedValue == 0){
+            whPosts = "/posts/timelinePag/";
+        } else if (selectedValue == 1){
+            whPosts = "/posts/onlyFollowersPag/"
+        } else if (selectedValue == 2){
+            whPosts = "/posts/onlyFollowingsPag/"
+        }
+        
+        const token = localStorage.getItem('token');
+        
+        // Build URL with topic and exclude parameters
+        let url = `${whPosts}${user._id}?page=0`; // Always page 0, but with exclusions
+        if (topicParam) {
+            url += `&topic=${encodeURIComponent(topicParam)}`;
+        }
+        if (excludeIds && excludeIds.length > 0) {
+            url += `&exclude=${excludeIds.join(',')}`;
+        }
+        
+        console.log('fetchNewPostsExcluding - URL:', url);
+        
+        const res = await axios.get(url, {headers: { 'auth-token': token, 'userId': user._id }});
+        console.log('fetchNewPostsExcluding - Got posts:', res.data.length);
+        
+        if(res.data.length > 0){
+            setPosts(res.data);
+            setProgress(100);
+        } else {
+            // No more new posts available - reset shown posts and start fresh
+            console.log('No more new posts - resetting to start');
+            setShownPostIds([]);
+            // Fetch fresh posts without exclusions
+            await fetchPostsWithTopic(selectedValue, 0, topicParam);
+        }
+        setProgress(100);
     };
 
 return (
@@ -819,7 +989,7 @@ return (
                 onClick={handleGetMorePosts}
                 disabled={!currentTopic}
             >
-                Get More Posts on This Topic
+                View More Articles
             </Button>
             <Button 
                 variant="contained" 
@@ -855,7 +1025,7 @@ return (
                 onClick={handleGetMorePosts}
                 disabled={!currentTopic}
             >
-                Get More Posts on This Topic
+                View More Articles
             </Button>
             <Button 
                 variant="contained" 
@@ -874,10 +1044,13 @@ return (
                         <FormControl component="fieldset" style={{marginTop: 8}}>
                             <FormLabel component="legend">Topics</FormLabel>
                             <RadioGroup value={nextSelectedOption} onChange={handleNextOptionChange}>
-                                <FormControlLabel value="option1" control={<Radio />} label="Assisted death" />
+                                <FormControlLabel value="option1" control={<Radio />} label="Assisted Death" />
                                 <FormControlLabel value="option2" control={<Radio />} label="Abortion" />
-                                <FormControlLabel value="option3" control={<Radio />} label="Gun control" />
-
+                                <FormControlLabel value="option3" control={<Radio />} label="Gun Control" />
+                                <FormControlLabel value="option4" control={<Radio />} label="Nuclear Power" />
+                                <FormControlLabel value="option5" control={<Radio />} label="Social Media Regulation" />
+                                <FormControlLabel value="option6" control={<Radio />} label="Military Armament" />
+                                <FormControlLabel value="option7" control={<Radio />} label="Climate Action" />
                             </RadioGroup>
                         </FormControl>
                     </DialogContent>
@@ -886,6 +1059,30 @@ return (
                         <Button onClick={handleNextConfirm} color="primary">Confirm</Button>
                     </DialogActions>
                 </Dialog>
+
+        {/* Welcome Back Dialog for Recurring Sessions */}
+        <Dialog 
+            open={welcomeDialogOpen} 
+            onClose={() => setWelcomeDialogOpen(false)} 
+            aria-labelledby="welcome-dialog-title"
+            maxWidth="sm"
+            fullWidth
+        >
+            <DialogTitle id="welcome-dialog-title">Welcome Back!</DialogTitle>
+            <DialogContent>
+                <Typography variant="body1" style={{marginBottom: 16, fontSize: '18px'}}>
+                    This is your <strong>session #{sessionCount}</strong>.
+                </Typography>
+                <Typography variant="body2" style={{color: '#666'}}>
+                    Continue exploring articles on your selected topic.
+                </Typography>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={() => setWelcomeDialogOpen(false)} color="primary" variant="contained">
+                    Continue
+                </Button>
+            </DialogActions>
+        </Dialog>
 
         {/* Weekly Survey Modal */}
         <Dialog 

@@ -333,73 +333,56 @@ try {
         });
     }
 
-    // Check if user needs to complete weekly survey
-    let needsWeeklySurvey = false;
+    // Calculate session count and show welcome message
+    let sessionCount = 1;
+    let isRecurringSession = false;
     
-    // Only check for survey participants (those who completed presurvey)
+    // Only calculate for survey participants (those who completed presurvey)
     if (user.uniqueId) {
         const now = new Date();
         
         // Get user's last login timestamp (use createdAt if never logged in before)
         const lastLogin = user.lastLoginDate || user.createdAt;
         
-        // Calculate days since last login
-        const daysSinceLastLogin = Math.floor((now - new Date(lastLogin)) / (1000 * 60 * 60 * 24));
+        // Calculate if this is a recurring session (any login after the first one)
+        const minutesSinceLastLogin = Math.floor((now - new Date(lastLogin)) / (1000 * 60));
+        // Show welcome message on any login after the first (threshold = 0)
+        isRecurringSession = minutesSinceLastLogin >= 0 && user.loginCount > 0;
+        
+        // Count the number of logins to determine session number
+        if (user.loginCount) {
+            sessionCount = user.loginCount + 1;
+        }
         
         console.log('='.repeat(60));
-        console.log('WEEKLY SURVEY CHECK - User Login');
+        console.log('SESSION CHECK - User Login');
         console.log('='.repeat(60));
         console.log(`User: ${user.username}`);
         console.log(`User ID: ${user._id}`);
         console.log(`Current Time: ${now.toISOString()}`);
         console.log(`Last Login: ${lastLogin ? new Date(lastLogin).toISOString() : 'Never (using createdAt)'}`);
-        console.log(`Days Since Last Login: ${daysSinceLastLogin} days`);
-        console.log(`Current Topic: ${user.currentTopic || 'Not set'}`);
-        console.log(`Threshold: 7 days`);
-        console.log(`Has Been 7+ Days: ${daysSinceLastLogin >= 7 ? 'YES ✓' : 'NO ✗'}`);
-        
-        // Check if it's been 7+ days since last login
-        if (daysSinceLastLogin >= 7) {
-            console.log('\n>>> 7+ days detected - Checking weekly survey status for current topic...');
-            
-            // Check if user has submitted weekly survey for their CURRENT topic
-            // (regardless of when - topic-specific check)
-            const topicWeeklyResponse = await WeeklyResponse.findOne({
-                userId: user._id,
-                topic: user.currentTopic
-            }).sort({ createdAt: -1 }); // Get the most recent one for this topic
-            
-            if (topicWeeklyResponse) {
-                // Check if it's been 7+ days since last survey for this topic
-                const daysSinceLastSurvey = Math.floor((now - new Date(topicWeeklyResponse.createdAt)) / (1000 * 60 * 60 * 24));
-                console.log(`Last survey for topic "${user.currentTopic}": ${topicWeeklyResponse.createdAt.toISOString()}`);
-                console.log(`Days since last survey for this topic: ${daysSinceLastSurvey} days`);
-                
-                needsWeeklySurvey = daysSinceLastSurvey >= 7;
-            } else {
-                // No survey for this topic yet
-                console.log(`No weekly survey found for topic: ${user.currentTopic}`);
-                needsWeeklySurvey = true;
-            }
-            
-            console.log(`Will Show Weekly Survey: ${needsWeeklySurvey ? 'YES ✓' : 'NO ✗'}`);
-        } else {
-            console.log(`\n>>> Less than 7 days since last login - No weekly survey needed`);
-            console.log(`User needs to wait ${7 - daysSinceLastLogin} more day(s)`);
-        }
-        
-        console.log('\nFinal Decision: needsWeeklySurvey =', needsWeeklySurvey);
+        console.log(`Minutes Since Last Login: ${minutesSinceLastLogin} minutes`);
+        console.log(`Login Count: ${user.loginCount || 0}`);
+        console.log(`Is Recurring Session: ${isRecurringSession ? 'YES ✓' : 'NO ✗'}`);
+        console.log(`Session Count: ${sessionCount}`);
         console.log('='.repeat(60));
         
-        // Update last login timestamp
-        await User.findByIdAndUpdate(user._id, { lastLoginDate: now });
+        // Update last login timestamp and increment login count
+        await User.findByIdAndUpdate(user._id, { 
+            lastLoginDate: now,
+            loginCount: sessionCount,
+            sessionReadPosts: [] // Clear session articles on new login
+        });
         console.log(`Updated lastLoginDate to: ${now.toISOString()}`);
+        console.log(`Updated loginCount to: ${sessionCount}`);
+        console.log(`Cleared sessionReadPosts for new session`);
     }
 
     const usr = {
         "user": user, 
         "token": token,
-        "needsWeeklySurvey": needsWeeklySurvey
+        "isRecurringSession": isRecurringSession,
+        "sessionCount": sessionCount
     };
 
     console.log(usr)

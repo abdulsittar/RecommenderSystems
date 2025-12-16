@@ -105,6 +105,22 @@ router.delete("/:id", verifyToken, async (req, res) => {
     }
 })
 
+// get user by id - for fetching current user data including readPosts
+router.get("/:id", verifyToken, async (req, res) => {
+    logger.info('GET user by ID', { userId: req.params.id });
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        const { password, updatedAt, ...other } = user._doc;
+        res.status(200).json(other);
+    } catch (err) {
+        logger.error('Error fetching user', { error: err.message });
+        res.status(500).json(err);
+    }
+})
+
 /**
  * @swagger
  * tags:
@@ -900,6 +916,44 @@ router.post('/weeklyResponse', verifyToken, async (req, res) => {
         
     } catch (err) {
         logger.error('Error saving weekly response', { error: err.message });
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// Check if user has a weekly response for a specific topic
+router.get('/:id/weeklyResponse/:topic', verifyToken, async (req, res) => {
+    const WeeklyResponse = require('../models/WeeklyResponse');
+    
+    logger.info('Checking weekly response for topic', { 
+        userId: req.params.id, 
+        topic: req.params.topic 
+    });
+    
+    try {
+        const user = await User.findById(req.params.id);
+        
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        // Check if user has submitted a weekly survey for this specific topic
+        const weeklyResponse = await WeeklyResponse.findOne({
+            userId: req.params.id,
+            topic: req.params.topic
+        });
+        
+        const exists = weeklyResponse !== null;
+        
+        console.log(`Weekly survey for user ${user.username} and topic "${req.params.topic}": ${exists ? 'EXISTS' : 'DOES NOT EXIST'}`);
+        
+        res.status(200).json({ 
+            exists: exists,
+            response: weeklyResponse 
+        });
+        
+    } catch (err) {
+        logger.error('Error checking weekly response', { error: err.message });
         console.log(err);
         res.status(500).json(err);
     }

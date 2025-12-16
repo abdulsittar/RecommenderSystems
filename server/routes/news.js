@@ -692,7 +692,6 @@ router.get('/article/:articleId', async (req, res) => {
     <script>
         // Track time spent on article
         let articleOpenTime = Date.now();
-        const MINIMUM_READ_TIME = 30000; // 30 seconds in milliseconds
         
         const slider = document.getElementById('agreementSlider');
         const sliderValue = document.getElementById('sliderValue');
@@ -714,17 +713,7 @@ router.get('/article/:articleId', async (req, res) => {
             }
         });
         
-        // Prevent closing before minimum read time
-        window.addEventListener('beforeunload', function(e) {
-            const timeSpent = Date.now() - articleOpenTime;
-            if (timeSpent < MINIMUM_READ_TIME) {
-                e.preventDefault();
-                e.returnValue = 'Please read the article for at least 30 seconds before closing.';
-                return e.returnValue;
-            }
-        });
-        
-        // Also handle back button clicks - communicate with parent frame
+        // Handle back button clicks - communicate with parent frame
         const backButton = document.querySelector('.back-button');
         if (backButton && !backButton.dataset.listenerAttached) {
             backButton.dataset.listenerAttached = 'true';
@@ -737,8 +726,7 @@ router.get('/article/:articleId', async (req, res) => {
                     window.parent.postMessage({
                         type: 'articleBackButtonClicked',
                         articleId: ${article.id},
-                        timeSpent: timeSpent,
-                        minimumReadTime: MINIMUM_READ_TIME
+                        timeSpent: timeSpent
                     }, '*');
                 }
             }, { once: false }); // Keep listener active for multiple clicks
