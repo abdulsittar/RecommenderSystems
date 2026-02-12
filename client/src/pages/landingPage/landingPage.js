@@ -36,9 +36,9 @@ const LandingPage = () => {
 
   return (
     <div className={classes.container}>
-      <div className={classes.welcomeText}>Dobrodošli u istraživački projekat TWON</div>
+      <div className={classes.welcomeText}>Welcome to the joint study of Jožef Stefan Institute and University of Primorska</div>
       <Button variant="contained" className={classes.button} onClick={handleStartStudy}>
-      Kliknite ovde da biste učestvovali
+      Click here to participate.
       </Button>
     </div>
   );
