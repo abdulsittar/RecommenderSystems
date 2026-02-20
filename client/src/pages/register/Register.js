@@ -1,3 +1,15 @@
+// ====================================================================
+// PILOT STUDY MODIFICATIONS - 2 Sessions
+// ====================================================================
+// This file has been modified for the pilot study which uses 2 sessions.
+// For the main study with 3 sessions, search for "PILOT STUDY" and
+// "MAIN STUDY" comments throughout this file and uncomment the main
+// study code while commenting out pilot study code.
+// Key changes:
+// - Procedure section text changed from "four weeks" to "two weeks"
+// - References to multi-week study period updated for 2 sessions
+// ====================================================================
+
 import React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { Route, Redirect } from 'react-router-dom';
@@ -18,6 +30,9 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Radio from '@material-ui/core/Radio';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
 import { render } from "react-dom";
 import axios from "axios";
 import TimeMe from "timeme.js";
@@ -187,13 +202,27 @@ function Register({classes}) {
           
           // Check if this is a recurring session
           if (loginResponse && loginResponse.isRecurringSession) {
-            console.log('Recurring session detected, session count:', loginResponse.sessionCount);
-            // Store session info in localStorage to show welcome message
-            localStorage.setItem('isRecurringSession', 'true');
-            localStorage.setItem('sessionCount', loginResponse.sessionCount);
-            console.log('Set localStorage flags - isRecurringSession: true, sessionCount:', loginResponse.sessionCount);
+            console.log('✅ Recurring session detected!');
+            console.log('   Server sessionCount:', loginResponse.sessionCount);
+            console.log('   User ID:', data.user._id);
+            
+            // Store user-specific session info in localStorage to show welcome message
+            const recurringSessionKey = `isRecurringSession_${data.user._id}`;
+            const sessionCountKey = `sessionCount_${data.user._id}`;
+            
+            console.log('   Before setting - localStorage sessionCount:', localStorage.getItem(sessionCountKey));
+            localStorage.setItem(recurringSessionKey, 'true');
+            localStorage.setItem(sessionCountKey, String(loginResponse.sessionCount));
+            console.log('   After setting - localStorage sessionCount:', localStorage.getItem(sessionCountKey));
+            console.log(`   ✓ Set localStorage flags - isRecurringSession: true, sessionCount:`, loginResponse.sessionCount);
           } else {
             console.log('Not a recurring session. isRecurringSession:', loginResponse?.isRecurringSession, 'sessionCount:', loginResponse?.sessionCount);
+            // Initialize session count for first-time users with user-specific key
+            const sessionCountKey = `sessionCount_${data.user._id}`;
+            if (!localStorage.getItem(sessionCountKey)) {
+              localStorage.setItem(sessionCountKey, '1');
+              console.log(`Initialized sessionCount to 1 for new user ${data.user._id}`);
+            }
           }
           
           console.log('Redirecting to home...');
@@ -329,8 +358,7 @@ function Register({classes}) {
         setButtonDisabled(false);
       }
     } else {
-      const missingCount = uncheckedQuestions.length;
-      toast.error(`Please check all ${CONSENT_QUESTIONS.length} consent boxes to continue. ${missingCount} ${missingCount === 1 ? 'item' : 'items'} still need to be checked.`);
+      toast.error(`Please check the consent box to continue.`);
       
       // Scroll to first unchecked item
       const firstUnchecked = document.querySelector(`[data-consent-index="${uncheckedQuestions[0]}"]`);
@@ -426,9 +454,15 @@ function Register({classes}) {
           // Check if this is a recurring session
           if (loginResponse && loginResponse.isRecurringSession) {
             console.log('Recurring session detected, session count:', loginResponse.sessionCount);
-            // Store session info in localStorage to show welcome message
-            localStorage.setItem('isRecurringSession', 'true');
-            localStorage.setItem('sessionCount', loginResponse.sessionCount);
+            // Store user-specific session info in localStorage to show welcome message
+            const recurringSessionKey = `isRecurringSession_${checkRes.data.user._id}`;
+            localStorage.setItem(recurringSessionKey, 'true');
+            // Use user-specific sessionCount key
+            const sessionCountKey = `sessionCount_${checkRes.data.user._id}`;
+            localStorage.setItem(sessionCountKey, String(loginResponse.sessionCount));
+            console.log(`Set localStorage flags for user ${checkRes.data.user._id} - isRecurringSession: true, sessionCount:`, loginResponse.sessionCount);
+          } else {
+            console.log('Not a recurring session - first time user');
           }
           
           console.log('Redirecting to home...');
@@ -525,6 +559,21 @@ function Register({classes}) {
     <div>
       <LoadingBar color="#f11946" progress={progress} onLoaderFinished={() => setProgress(0)} />
       
+      {/* Show loading screen while checking if user already exists */}
+      {checkingStatus ? (
+        <div style={{ 
+          display: 'flex', 
+          flexDirection: 'column',
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          minHeight: '100vh',
+          gap: '20px'
+        }}>
+          <div style={{ fontSize: '48px' }}>🔄</div>
+          <Typography variant="h5">Checking your session...</Typography>
+          <Typography variant="body1" color="textSecondary">Please wait</Typography>
+        </div>
+      ) : (
       <div className={classes.register}>
         <form className={classes.form} noValidate autoComplete="off">
           
@@ -652,18 +701,27 @@ function Register({classes}) {
                       Reward
                     </Typography>
                     <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
-                      By participating in this research you can be selected for a 50€ reward. To qualify for the reward, participants must fully read and interact with at least three news articles per session within our system. At the end of the study, 10 participants will be randomly chosen, from those who satisfied the condition for the reward.
+                      By participating in this research you can be selected for a 50€ reward. To qualify for the reward, participants must fully read and interact with at least five news articles per session within our system. At the end of the study, 10 participants will be randomly chosen, from those who satisfied the condition for the reward.
                     </Typography>
 
                     <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
                       Procedure
                     </Typography>
+                    {/* PILOT STUDY - 2 sessions version */}
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
+                      You will participate in this pilot study that consists of two weekly sessions spanning across two weeks.
+                    </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
+                      The study itself will consist of multiple steps. Steps 1, 2 and 3 will be conducted only once, at the start of the individuals' participation in the study. Steps 4 and 5 will be conducted at each occurrence of the study during the two week period. The last step - debriefing will occur once, after all the repeats of steps 4 and 5 are done, thus concluding your participation. The details of each step are following:
+                    </Typography>
+                    {/* MAIN STUDY - 3 sessions version (uncomment for main study)
                     <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
                       You will participate in this study that consists of weekly sessions spanning across four weeks.
                     </Typography>
                     <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
                       The study itself will consist of multiple steps. Steps 1, 2 and 3 will be conducted only once, at the start of the individuals' participation in the study. Steps 4 and 5 will be conducted at each occurrence of the study during the four week period. The last step - debriefing will occur once, after all the repeats of steps 4 and 5 are done, thus concluding your participation. The details of each step are following:
                     </Typography>
+                    */}
                     <ol style={{ marginLeft: '20px', marginBottom: '16px' }}>
                       <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
                         <strong>Informed Consent (approx. 5 minutes):</strong> Before your first session you will be provided with the Informed Consent Form (ICF) which you can sign and consent to if you wish to proceed further with the study. You will be provided with a method of contacting us in case you would seek clarifications on specific matters that may not be clear to you.
@@ -766,16 +824,9 @@ function Register({classes}) {
                 </Paper>
 
                 {/* Consent Questions Table */}
-                <Paper elevation={2} style={{ padding: '24px', marginBottom: '32px' }}>
-                  <Typography variant="h6" gutterBottom style={{ marginBottom: '8px', fontWeight: 'bold' }}>
+                <Paper elevation={2} style={{ padding: '24px', marginBottom: '24px' }}>
+                  <Typography variant="h6" gutterBottom style={{ marginBottom: '16px', fontWeight: 'bold' }}>
                     Consent Requirements
-                  </Typography>
-                  <Typography variant="body2" style={{ 
-                    marginBottom: '20px', 
-                    color: '#d32f2f',
-                    fontWeight: 'bold'
-                  }}>
-                    * All items below are mandatory and must be checked to participate in the study.
                   </Typography>
                   
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -836,21 +887,38 @@ function Register({classes}) {
                       );
                     })}
                   </div>
-                  
-                  {/* Progress indicator */}
-                  <div style={{ marginTop: '20px', textAlign: 'center' }}>
-                    <Typography variant="body2" style={{ 
-                      color: Object.values(consentAnswers).filter(Boolean).length === CONSENT_QUESTIONS.length ? '#4caf50' : '#666',
-                      fontWeight: 'bold'
-                    }}>
-                      Progress: {Object.values(consentAnswers).filter(Boolean).length} of {CONSENT_QUESTIONS.length} items checked
-                    </Typography>
-                  </div>
+                </Paper>
+
+                {/* Participation Tasks Box */}
+                <Paper elevation={2} style={{ padding: '24px', marginBottom: '32px', backgroundColor: '#f0f7ff' }}>
+                  <Typography variant="h6" gutterBottom style={{ marginBottom: '16px', fontWeight: 'bold', color: '#1976d2' }}>
+                    Participation Tasks
+                  </Typography>
+                  <Typography variant="body1" style={{ marginBottom: '12px', fontWeight: '500' }}>
+                    You will be asked to:
+                  </Typography>
+                  <ol style={{ marginLeft: '20px', marginBottom: '0' }}>
+                    <li style={{ fontSize: '14px', lineHeight: '1.8', marginBottom: '8px' }}>
+                      Fill out the initial questionnaire
+                    </li>
+                    <li style={{ fontSize: '14px', lineHeight: '1.8', marginBottom: '8px' }}>
+                      Choose a topic
+                    </li>
+                    <li style={{ fontSize: '14px', lineHeight: '1.8', marginBottom: '8px' }}>
+                      Read at least 5 articles and press the "End session" button
+                    </li>
+                    <li style={{ fontSize: '14px', lineHeight: '1.8', marginBottom: '8px' }}>
+                      Fill out a post questionnaire and receive the Prolific participation code
+                    </li>
+                    <li style={{ fontSize: '14px', lineHeight: '1.8', marginBottom: '0' }}>
+                      In a few days you will be invited to re-take the study again
+                    </li>
+                  </ol>
                 </Paper>
                 
                 {/* Action Buttons */}
                 <div style={{ textAlign: 'center', marginTop: '32px' }}>
-                  {/* Show warning if not all items are checked */}
+                  {/* Show warning if consent not checked */}
                   {Object.values(consentAnswers).filter(Boolean).length < CONSENT_QUESTIONS.length && (
                     <div style={{ 
                       marginBottom: '16px',
@@ -861,7 +929,7 @@ function Register({classes}) {
                       color: '#856404'
                     }}>
                       <Typography variant="body2" style={{ fontWeight: 'bold' }}>
-                        ⚠️ Please check all {CONSENT_QUESTIONS.length} consent items above to proceed with the study.
+                        ⚠️ Please check the consent box above to proceed with the study.
                       </Typography>
                     </div>
                   )}
@@ -880,11 +948,6 @@ function Register({classes}) {
                     }}
                   >
                     {CONSENT_AGREE}
-                    {Object.values(consentAnswers).filter(Boolean).length < CONSENT_QUESTIONS.length && (
-                      <span style={{ marginLeft: '8px', fontSize: '12px' }}>
-                        ({Object.values(consentAnswers).filter(Boolean).length}/{CONSENT_QUESTIONS.length})
-                      </span>
-                    )}
                   </Button>
                   <Button
                     variant="outlined"
@@ -918,24 +981,30 @@ function Register({classes}) {
                   </Typography>
                   
                   {/* Age */}
-                  <FormControl component="fieldset" style={{ width: '100%', marginBottom: '24px' }}>
-                    <FormLabel component="legend" style={{ marginBottom: '12px', fontSize: '16px' }}>
-                      {DEMO_AGE_QUESTION} *
-                    </FormLabel>
-                    <RadioGroup
+                  <FormControl variant="outlined" style={{ width: '100%', marginBottom: '24px' }}>
+                    <InputLabel id="age-select-label">{DEMO_AGE_QUESTION} *</InputLabel>
+                    <Select
+                      labelId="age-select-label"
                       value={demographicsData.age || ''}
                       onChange={(e) => setDemographicsData({...demographicsData, age: e.target.value})}
+                      label={DEMO_AGE_QUESTION + ' *'}
+                      MenuProps={{
+                        PaperProps: {
+                          style: {
+                            maxHeight: 300,
+                          },
+                        },
+                      }}
                     >
+                      <MenuItem value="" disabled>
+                        <em>Select year of birth</em>
+                      </MenuItem>
                       {DEMO_AGE_OPTIONS.map((option, index) => (
-                        <FormControlLabel
-                          key={index}
-                          value={option}
-                          control={<Radio />}
-                          label={option}
-                          style={{ marginBottom: '8px' }}
-                        />
+                        <MenuItem key={index} value={option}>
+                          {option}
+                        </MenuItem>
                       ))}
-                    </RadioGroup>
+                    </Select>
                   </FormControl>
 
                   {/* Gender */}
@@ -1184,6 +1253,7 @@ function Register({classes}) {
           
         </form>
       </div>
+      )}
       
       <ToastContainer />
     </div>

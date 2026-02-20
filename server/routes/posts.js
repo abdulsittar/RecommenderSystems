@@ -510,6 +510,79 @@
                 }
         });
 
+        // Route: create refresh data for returning users (new session with incremented treatment)
+        router.post('/:id/createRefreshData', verifyToken, async (req, res) => {
+                logger.info('Data received', { data: req.body });
+                try {
+                        // Validate that :id is a valid MongoDB ObjectId
+                        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+                                return res.status(400).json({ success: false, error: 'Invalid user ID format' });
+                        }
+
+                        const userId = req.params.id;
+                        console.log('='.repeat(60));
+                        console.log('CREATE REFRESH DATA - New Session');
+                        console.log('='.repeat(60));
+                        console.log(`User ID: ${userId}`);
+                        
+                        // Find the maximum treatment value for this user
+                        const maxTreatmentPost = await Post
+                                .findOne({ "reactorUser": userId })
+                                .sort({ treatment: -1 })
+                                .exec();
+                        
+                        let newTreatment = 0;
+                        if (maxTreatmentPost) {
+                                newTreatment = maxTreatmentPost.treatment + 1;
+                                console.log(`Max existing treatment: ${maxTreatmentPost.treatment}`);
+                        } else {
+                                console.log('No existing posts found, starting with treatment 0');
+                        }
+                        console.log(`New treatment value: ${newTreatment}`);
+                        
+                        // Get user's current topic
+                        const user = await User.findById(userId);
+                        if (!user) {
+                                return res.status(404).json({ success: false, error: 'User not found' });
+                        }
+                        
+                        const topic = user.currentTopic || req.body.topic || 'abortion';
+                        const pool = req.body.pool || req.body.version || user.pool || 1;
+                        
+                        console.log(`Topic: ${topic}`);
+                        console.log(`Pool: ${pool}`);
+                        
+                        // Create initial data with incremented treatment
+                        const created = await createInitialDataForUser({ 
+                                targetUserId: userId, 
+                                pool: pool, 
+                                topic, 
+                                reactorUserId: req.body.userId || userId
+                        });
+                        
+                        // Update the treatment value for all newly created posts
+                        const postIds = created.map(p => p._id);
+                        await Post.updateMany(
+                                { _id: { $in: postIds } },
+                                { $set: { treatment: newTreatment } }
+                        );
+                        
+                        console.log(`Created ${created.length} posts with treatment ${newTreatment}`);
+                        console.log('='.repeat(60));
+                        
+                        res.status(200).json({ 
+                                success: true, 
+                                message: `Posts for session ${newTreatment + 1} created successfully!`, 
+                                treatment: newTreatment,
+                                created 
+                        });
+                } catch (error) {
+                        logger.error('Error creating refresh data', { error: error.message });
+                        console.error('CREATE REFRESH DATA ERROR:', error);
+                        res.status(500).json({ success: false, error: error.message });
+                }
+        });
+
     //repost a post
     router.post('/:id/repost', verifyToken, async (req, res) => {
         logger.info('Data received', { data: req.body });
@@ -1076,14 +1149,16 @@
     const page = parseInt(req.query.page) || 0;
     const topic = req.query.topic; // Get topic from query parameters
     const exclude = req.query.exclude; // Get exclude parameter (comma-separated post IDs)
+    const excludeArticles = req.query.excludeArticles; // Get exclude articles parameter
     
     // Parse exclude IDs
     const excludeIds = exclude ? exclude.split(',').filter(id => id.trim()) : [];
+    const excludeArticleIds = excludeArticles ? excludeArticles.split(',').filter(id => id.trim()) : [];
 
-    console.log('Timeline endpoint - userId:', userId, 'page:', page, 'topic:', topic, 'excludeIds:', excludeIds.length);
+    console.log('Timeline endpoint - userId:', userId, 'page:', page, 'topic:', topic, 'excludeIds:', excludeIds.length, 'excludeArticleIds:', excludeArticleIds.length);
 
     // ✅ only first page should show the last 5 created, filtered by topic if provided
-    const posts = await getLatestFivePosts(userId, page, topic, excludeIds);
+    const posts = await getLatestFivePosts(userId, page, topic, excludeIds, excludeArticleIds);
 
     res.status(200).json(posts);
   } catch (error) {
@@ -1155,7 +1230,7 @@
 const recommendationService = require('../services/recommendationService');
 
 // Get posts filtered by topic - Updated to use recommendation service
-const getLatestFivePosts = async (userId, page = 0, topic = null, excludeIds = []) => {
+const getLatestFivePosts = async (userId, page = 0, topic = null, excludeIds = [], excludeArticleIds = []) => {
   const currentUser = await User.findById(userId);
   if (!currentUser) return [];
 
@@ -1165,7 +1240,8 @@ const getLatestFivePosts = async (userId, page = 0, topic = null, excludeIds = [
       userId, 
       controlGroup: currentUser.controlGroup, 
       topic,
-      excludeCount: excludeIds.length
+      excludeCount: excludeIds.length,
+      excludeArticleCount: excludeArticleIds.length
     });
     
     const limit = 5; // Always fetch 5 posts
@@ -1174,7 +1250,8 @@ const getLatestFivePosts = async (userId, page = 0, topic = null, excludeIds = [
       topic || currentUser.currentTopic,
       page,
       limit,
-      excludeIds
+      excludeIds,
+      excludeArticleIds  // Pass article IDs to exclude
     );
   }
 
@@ -1198,8 +1275,14 @@ const getLatestFivePosts = async (userId, page = 0, topic = null, excludeIds = [
       queryFilter._id = { $nin: objectIds };
     }
   }
+  
+  // Add article exclusion filter if excludeArticleIds are provided
+  // This prevents showing different posts with the same article
+  if (excludeArticleIds && excludeArticleIds.length > 0) {
+    queryFilter.articleId = { $nin: excludeArticleIds };
+  }
 
-  console.log('Using default time-based recommendations', { userId, topic, excludeCount: excludeIds.length });
+  console.log('Using default time-based recommendations', { userId, topic, excludeCount: excludeIds.length, excludeArticleCount: excludeArticleIds.length });
   console.log('getLatestFivePosts - Topic filter:', topic, 'Query filter:', queryFilter);
 
   // Debug: Check what posts exist in database
@@ -1211,10 +1294,10 @@ const getLatestFivePosts = async (userId, page = 0, topic = null, excludeIds = [
 
   console.log('Searching for posts with filter:', queryFilter);
 
-  // ✅ Always return 5 posts (excluding already shown ones)
-  const latestFive = await Post.find(queryFilter)
+  // ✅ Fetch more posts than needed to account for potential duplicates (fetch 15 to get 5 unique articles)
+  const posts = await Post.find(queryFilter)
     .sort({ createdAt: -1 })
-    .limit(5)
+    .limit(15)
     .populate('userId', 'username profilePicture') // populate user info for display
     .populate({
       path: 'comments',
@@ -1227,9 +1310,22 @@ const getLatestFivePosts = async (userId, page = 0, topic = null, excludeIds = [
     })
     .exec();
 
+  // Deduplicate by articleId (keep first occurrence, which is newest due to sort)
+  const seenArticleIds = new Set();
+  const latestFive = posts.filter(post => {
+    const articleIdStr = post.articleId?.toString();
+    if (!articleIdStr) return true; // Keep posts without articles
+    if (seenArticleIds.has(articleIdStr)) {
+      console.log(`  Filtering duplicate article: ${articleIdStr} (post ID: ${post._id})`);
+      return false;
+    }
+    seenArticleIds.add(articleIdStr);
+    return true;
+  }).slice(0, 5); // Return only 5 unique articles
+
   console.log('getLatestFivePosts - Found posts:', latestFive.length);
   latestFive.forEach((post, i) => {
-    console.log(`  Found ${i+1}. Content: "${post.content}" | Title: "${post.title?.substring(0, 50)}..." | Desc: "${post.desc?.substring(0, 50)}..."`);
+    console.log(`  Found ${i+1}. Content: "${post.content}" | ArticleId: "${post.articleId}" | Title: "${post.title?.substring(0, 50)}..." | Desc: "${post.desc?.substring(0, 50)}..."`);
   });
   return latestFive;
 };

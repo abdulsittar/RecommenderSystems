@@ -1,3 +1,15 @@
+// ====================================================================
+// PILOT STUDY MODIFICATIONS - 2 Sessions
+// ====================================================================
+// This file has been modified for the pilot study which uses 2 sessions.
+// For the main study with 3 sessions, search for "PILOT STUDY" and
+// "MAIN STUDY" comments throughout this file and uncomment the main
+// study code while commenting out pilot study code.
+// Key changes:
+// - getUserActionsRefresh: maxTreatment == 1 (pilot) vs == 2 (main)
+// - getUserActions: maxTreatment == 1 (pilot) vs == 2 (main)
+// ====================================================================
+
 const User = require('../models/User');
 const PostLike = require('../models/PostLike');
 const PostDislike = require('../models/PostDislike');
@@ -109,7 +121,7 @@ router.delete("/:id", verifyToken, async (req, res) => {
 router.get("/:id", verifyToken, async (req, res) => {
     logger.info('GET user by ID', { userId: req.params.id });
     try {
-        const user = await User.findById(req.params.id);
+        const user = await User.findById(req.params.id).populate('uniqueId');
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -675,7 +687,7 @@ router.get('/:id/getUserActionsRefresh', verifyToken, async (req, res) => {
             Comment.countDocuments({ postId: { $in: postIds } }),
             PostLike.countDocuments({ postId: { $in: postIds } }),
             PostDislike.countDocuments({ postId: { $in: postIds } }),
-            Viewpost.countDocuments({ postId: { $in: postIds } }),
+            Viewpost.countDocuments({ userId: new mongoose.Types.ObjectId(userId), postId: { $in: postIds } }),
         ]);
 
         console.log("Total Comments");
@@ -684,29 +696,34 @@ router.get('/:id/getUserActionsRefresh', verifyToken, async (req, res) => {
         console.log(dislikeCount);
         console.log(readCount);
 
+        // PILOT STUDY - Check for 2 sessions (maxTreatment == 1)
+        // Only requires reading articles, not comments/likes/dislikes
+        // MAIN STUDY - Uncomment the outer if condition for interaction requirement
+        
+        // PILOT STUDY: Check maxTreatment == 1 for 2 sessions (no interaction required)
+        if (readCount > 0 && maxTreatment == 1) {
+        // MAIN STUDY: Uncomment line below for 3 sessions
+        // if (readCount > 0 && maxTreatment == 2) {
+            const response = { "showAlert": "final", "commentcount": String(commentCount), "postLikeCount": String(likeCount) }
+            return res.status(200).json(response);
+        }
+        
+        // MAIN STUDY: Uncomment this entire block if you want to require interactions
+        /*
         if (commentCount > 0 || likeCount > 0 || dislikeCount > 0) {
-
             if (readCount > 0 && maxTreatment == 2) {
                 const response = { "showAlert": "final", "commentcount": String(commentCount), "postLikeCount": String(likeCount) }
-                res.status(200).json(response);
-
-            }
-
-            if (readCount > 0) {
+                return res.status(200).json(response);
+            } else if (readCount > 0) {
                 const response = { "showAlert": "third", "commentcount": String(commentCount), "postLikeCount": String(likeCount) }
-                res.status(200).json(response);
-
-            } else {
-                const response = { "showAlert": "fifth" }
-                res.status(200).json(response);
-
+                return res.status(200).json(response);
             }
-
-        } else {
-            const response = { "showAlert": "fifth" }
-            res.status(200).json(response);
-
         }
+        */
+        
+        // Default response
+        const response = { "showAlert": "fifth" }
+        return res.status(200).json(response);
 
     } catch (err) {
         logger.error('Error saving data', { error: err.message });
@@ -717,31 +734,44 @@ router.get('/:id/getUserActionsRefresh', verifyToken, async (req, res) => {
 
 // My Actions
 router.get('/:id/getUserActions', verifyToken, async (req, res) => {
-    logger.info('Data received', { data: req.body });
+    logger.info('getUserActions called', { userId: req.params.id });
+    console.log('🔍 [getUserActions] Called for user:', req.params.id);
     try {
         const userId = req.params.id;
-        console.log(userId);
+        // PILOT STUDY: Get sessionCount from query parameter
+        const sessionCount = parseInt(req.query.sessionCount) || 1;
+        console.log('📊 [getUserActions] Session count from client:', sessionCount);
 
+        // PILOT STUDY: Simplified logic - just check sessionReadPosts count
+        // No need for complex reactorUser/treatment queries since we're not using that system
+        const user = await User.findById(userId).select('sessionReadPosts');
+        const readCount = user?.sessionReadPosts?.length || 0;
+        console.log('📚 [getUserActions] Articles read in current session:', readCount);
+
+        // MAIN STUDY: Keep this code for when we need treatment system
+        /*
         const maxTreatmentPost = await Post
             .findOne({ "reactorUser": userId })
             .sort({ treatment: -1 })
             .exec();
 
-        console.log(maxTreatmentPost);
+        console.log('📊 [getUserActions] maxTreatmentPost:', maxTreatmentPost);
 
         if (!maxTreatmentPost) {
+            console.log('❌ [getUserActions] No posts found for user:', userId);
             return res.status(404).json({ message: "No posts found for this user." });
         }
 
         const maxTreatment = maxTreatmentPost.treatment;
-        console.log(maxTreatment);
+        console.log('📈 [getUserActions] maxTreatment:', maxTreatment);
+        
         const postsWithMaxTreatment = await Post.find({
             "reactorUser": userId,
             treatment: maxTreatment
         }).select('_id');
 
         const postIds = postsWithMaxTreatment.map(post => post._id);
-        console.log(postIds);
+        console.log('📝 [getUserActions] postIds count:', postIds.length);
 
         const [
             commentCount,
@@ -752,32 +782,47 @@ router.get('/:id/getUserActions', verifyToken, async (req, res) => {
             Comment.countDocuments({ postId: { $in: postIds } }),
             PostLike.countDocuments({ postId: { $in: postIds } }),
             PostDislike.countDocuments({ postId: { $in: postIds } }),
-            Viewpost.countDocuments({ postId: { $in: postIds } }),
+            Viewpost.countDocuments({ userId: new mongoose.Types.ObjectId(userId), postId: { $in: postIds } }),
         ]);
 
-        console.log("Total Comments");
-        console.log(commentCount);
-        console.log(likeCount);
-        console.log(dislikeCount);
-        console.log(readCount);
+        console.log('📚 [getUserActions] Stats:', {
+            maxTreatment,
+            commentCount,
+            likeCount,
+            dislikeCount,
+            readCount
+        });
+        */
 
+        // PILOT STUDY: Check sessionCount >= 2 for 2 sessions completed (no interaction required)
+        console.log('🎯 [getUserActions] Checking condition: readCount > 0 && sessionCount >= 2');
+        console.log('🎯 [getUserActions] Values:', { readCount, sessionCount, condition: readCount > 0 && sessionCount >= 2 });
+        
+        if (readCount > 0 && sessionCount >= 2) {
+        // MAIN STUDY: Uncomment line below for 3 sessions
+        // if (readCount > 0 && maxTreatment == 2) {
+            console.log('✅ [getUserActions] Condition MET! Returning "third" for post-survey');
+            const response = { "showAlert": "third", "commentcount": "0", "postLikeCount": "0" }
+            return res.status(200).json(response);
+        }
+        
+        // MAIN STUDY: Uncomment this entire block if you want to require interactions
+        /*
         if (commentCount > 0 || likeCount > 0 || dislikeCount > 0) {
-
             if (readCount > 0 && maxTreatment == 2) {
                 const response = { "showAlert": "third", "commentcount": String(commentCount), "postLikeCount": String(likeCount) }
                 return res.status(200).json(response);
-
             } else if (readCount > 0) {
                 const response = { "showAlert": "fifth" }
                 return res.status(200).json(response);
-
             }
-
-        } else {
-            const response = { "showAlert": "fifth" }
-            return res.status(200).json(response);
-
         }
+        */
+        
+        // Default response
+        console.log('ℹ️ [getUserActions] Condition NOT met. Returning "fifth"');
+        const response = { "showAlert": "fifth" }
+        return res.status(200).json(response);
 
     } catch (err) {
         logger.error('Error saving data', { error: err.message });
@@ -853,11 +898,19 @@ router.post('/weeklyResponse', verifyToken, async (req, res) => {
         const topic = req.body.topic;
         const weekNumber = req.body.weekNumber || 1;
 
-        // Calculate stance score from topicAttitude (0-100 → -1 to 1)
-        const stanceScore = surveyToStanceScore(surveyData.topicAttitude);
+        // Use calculated stance score from frontend if provided, otherwise calculate here
+        // Frontend uses new weighting formula: 33.33% Q1, 33.33% Q2-Q7, -33.33% Q8-Q13
+        let stanceScore;
+        if (req.body.calculatedStanceScore !== undefined && req.body.calculatedStanceScore !== null) {
+            // Frontend sends [0-100] scale, convert to [-1, +1] scale
+            stanceScore = (req.body.calculatedStanceScore / 50) - 1;
+        } else {
+            // Fallback: use old calculation
+            stanceScore = surveyToStanceScore(surveyData.topicAttitude);
+        }
         
-        // Calculate Overton window for this topic
-        const overtonWindow = calculateOvertonWindow(topic, surveyData);
+        // Calculate Overton window for this topic using the new weighting formula
+        const overtonWindow = calculateOvertonWindow(topic, surveyData, user.controlGroup);
         
         // Log survey response for historical analysis (new SurveyResponse model)
         const surveyResponse = new SurveyResponse({
@@ -962,6 +1015,91 @@ router.get('/:id/weeklyResponse/:topic', verifyToken, async (req, res) => {
 // Update user's current topic
 router.put('/:id/updateTopic', verifyToken, async (req, res) => {
     logger.info('Update topic data received', { data: req.body });
+    const { surveyToStanceScore, calculateOvertonWindow } = require('../utils/stanceCalculations');
+    const WeeklyResponse = require('../models/WeeklyResponse');
+    const SurveyResponse = require('../models/SurveyResponse');
+    
+    try {
+        const user = await User.findById(req.params.id).populate('uniqueId');
+        
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        const newTopic = req.body.topic;
+        
+        // Find the most recent survey response for this topic
+        const surveyResponse = await SurveyResponse.findOne({
+            userId: user._id,
+            topic: newTopic
+        }).sort({ timestamp: -1 });
+        
+        // Also check WeeklyResponse for backward compatibility
+        const weeklyResponse = await WeeklyResponse.findOne({
+            uniqueId: user.uniqueId._id,
+            topic: newTopic
+        }).sort({ createdAt: -1 });
+        
+        let stanceScore = user.stanceScore || 0;
+        let overtonWindow = user.overtonWindow || { min: 0, max: 100 };
+        
+        // If we have survey data for this topic, recalculate stance and window
+        if (surveyResponse) {
+            console.log('Found survey response for topic', newTopic, '- recalculating stance and window');
+            stanceScore = surveyResponse.calculatedStanceScore || 0;
+            overtonWindow = surveyResponse.calculatedOvertonWindow || { min: 0, max: 100 };
+        } else if (weeklyResponse) {
+            console.log('Found weekly response for topic', newTopic, '- recalculating stance and window');
+            
+            const surveyData = {
+                topicAttitude: weeklyResponse.topicAttitude || 50,
+                oneSide_openminded: weeklyResponse.oneSide_openminded || 5,
+                oneSide_moderate: weeklyResponse.oneSide_moderate || 5,
+                oneSide_moral: weeklyResponse.oneSide_moral || 5,
+                oneSide_family: weeklyResponse.oneSide_family || 5,
+                oneSide_friend: weeklyResponse.oneSide_friend || 5,
+                oneSide_coworker: weeklyResponse.oneSide_coworker || 5,
+                otherSide_openminded: weeklyResponse.otherSide_openminded || 5,
+                otherSide_moderate: weeklyResponse.otherSide_moderate || 5,
+                otherSide_moral: weeklyResponse.otherSide_moral || 5,
+                otherSide_family: weeklyResponse.otherSide_family || 5,
+                otherSide_friend: weeklyResponse.otherSide_friend || 5,
+                otherSide_coworker: weeklyResponse.otherSide_coworker || 5
+            };
+            
+            // Recalculate stance and window for this topic
+            stanceScore = surveyToStanceScore(surveyData.topicAttitude);
+            overtonWindow = calculateOvertonWindow(newTopic, surveyData, user.controlGroup);
+        } else {
+            console.log('No survey data found for topic', newTopic, '- using default values');
+        }
+
+        await user.updateOne({
+            $set: {
+                currentTopic: newTopic,
+                lastTopicChangeDate: new Date(),
+                stanceScore: stanceScore,
+                overtonWindow: overtonWindow
+            }
+        });
+        
+        console.log(`User ${user.username} topic updated to: ${newTopic}, stance: ${stanceScore}, window:`, overtonWindow);
+        res.status(200).json({ 
+            success: true, 
+            topic: newTopic,
+            stanceScore: stanceScore,
+            overtonWindow: overtonWindow
+        });
+        
+    } catch (err) {
+        logger.error('Error updating user topic', { error: err.message });
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
+
+// PILOT STUDY: Clear sessionReadPosts when starting a new session
+router.post('/:id/clearSessionReadPosts', verifyToken, async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
         
@@ -969,19 +1107,23 @@ router.put('/:id/updateTopic', verifyToken, async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        await user.updateOne({
-            $set: {
-                currentTopic: req.body.topic,
-                lastTopicChangeDate: new Date()
-            }
+        console.log(`🧹 Clearing sessionReadPosts for user ${user.username} (ID: ${user._id})`);
+        console.log(`   Previous count: ${user.sessionReadPosts?.length || 0}`);
+        
+        await User.findByIdAndUpdate(user._id, { 
+            sessionReadPosts: [] 
         });
         
-        console.log(`User ${user.username} topic updated to: ${req.body.topic}`);
-        res.status(200).json({ success: true, topic: req.body.topic });
+        console.log(`   ✅ sessionReadPosts cleared - ready for new session`);
+        
+        res.status(200).json({ 
+            success: true,
+            message: "Session read posts cleared successfully"
+        });
         
     } catch (err) {
-        logger.error('Error updating user topic', { error: err.message });
-        console.log(err);
+        logger.error('Error clearing sessionReadPosts', { error: err.message });
+        console.error('❌ Error clearing sessionReadPosts:', err);
         res.status(500).json(err);
     }
 });

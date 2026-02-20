@@ -9,8 +9,9 @@ const DemographicsDataSchema = new mongoose.Schema({
     // Q1: Demographics
     age: { 
         type: String, 
-        required: false,
-        enum: ['18–24', '25–34', '35–44', '45–54', '55–64', '65+', '']
+        required: false
+        // Note: Changed from age ranges to year of birth (e.g., '2005', '1990', etc.)
+        // No enum constraint to allow any valid year
     },
     gender: { 
         type: String, 

@@ -112,3 +112,79 @@ router.post('/pstsurvey/:userId', verifyToken, async (req, res) => {
     });
     
     module.exports = router;
+
+// PILOT STUDY: Simplified post-survey route (13 weekly survey questions + feedback)
+router.post('/simplified/:userId', verifyToken, async (req, res) => {
+    logger.info('Simplified post-survey data received', { data: req.body });
+    try {
+        console.log("Processing simplified post-survey for user:", req.params.userId);
+        
+        // Check if user already submitted
+        const existingSurvey = await PostSurvey.findOne({ userId: req.params.userId });
+        if (existingSurvey) {
+            return res.status(400).json({ 
+                message: "User has already submitted a post-survey.",
+                prolificCode: existingSurvey.prolific_code
+            });
+        }
+        
+        // Get prolific code from PreSurvey
+        const user = await require('../models/User').findById(req.params.userId);
+        const idstor = await IDStorage.findOne({ _id: user.uniqueId });
+        let prolificCode = 'PILOT_TEST_CODE'; // Default code for pilot
+        
+        if (idstor && idstor.yourID) {
+            const preSurvey = await PreSurvey.findOne({ uniqueId: idstor._id });
+            if (preSurvey && preSurvey.prolific_Code) {
+                prolificCode = preSurvey.prolific_Code;
+            }
+        }
+        
+        // Store simplified post-survey data
+        // Using existing PostSurvey model but only filling relevant fields
+        const newSurvey = new PostSurvey({
+            userId: req.params.userId,
+            
+            // Store the 13 topic survey responses in q1-q13
+            q1: String(req.body.topicAttitude || 50),           // Overall attitude (0-100)
+            q2: String(req.body.oneSide_openminded || 5),       // One side: open-minded (0-10)
+            q3: String(req.body.oneSide_moderate || 5),         // One side: moderate (0-10)
+            q4: String(req.body.oneSide_moral || 5),            // One side: moral (0-10)
+            q5: String(req.body.oneSide_family || 5),           // One side: family (0-10)
+            q6: String(req.body.oneSide_friend || 5),           // One side: friend (0-10)
+            q7_1: String(req.body.oneSide_coworker || 5),       // One side: coworker (0-10)
+            
+            q8_1: String(req.body.otherSide_openminded || 5),   // Other side: open-minded (0-10)
+            q8_2: String(req.body.otherSide_moderate || 5),     // Other side: moderate (0-10)
+            q8_3: String(req.body.otherSide_moral || 5),        // Other side: moral (0-10)
+            q8_4: String(req.body.otherSide_family || 5),       // Other side: family (0-10)
+            q8_5: String(req.body.otherSide_friend || 5),       // Other side: friend (0-10)
+            q8_6: String(req.body.otherSide_coworker || 5),     // Other side: coworker (0-10)
+            
+            // Store optional feedback
+            feedback: sanitizeInput(req.body.feedback || ''),
+            
+            // Store prolific code
+            prolific_code: prolificCode,
+            
+            // Store topic for reference
+            q21: req.body.topic || 'unknown'
+        });
+        
+        await newSurvey.save();
+        console.log("Simplified post-survey saved successfully");
+        
+        res.status(200).json({ 
+            success: true,
+            message: 'Post-survey submitted successfully',
+            prolificCode: prolificCode
+        });
+        
+    } catch (err) {
+        logger.error('Error saving simplified post-survey', { error: err.message });
+        console.error(err);
+        res.status(500).json({ error: 'Failed to save post-survey', details: err.message });
+    }
+});
+
+module.exports = router;

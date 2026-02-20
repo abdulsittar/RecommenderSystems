@@ -28,20 +28,82 @@ function isCentrist(stanceScore, threshold = 0.2) {
 
 /**
  * Calculate Overton window based on topic and survey data
- * Uses survey responses about open-mindedness and moderation to adjust window size
+ * Uses NEW WEIGHTING FORMULA:
+ * - 33.33% for Q1 (feeling thermometer: topicAttitude)
+ * - 33.33% for Q2-Q7 (oneSide questions)
+ * - 33.33% for Q8-Q13 (otherSide questions)
  * 
  * The Overton window represents the range of acceptable perspectives a user is willing to see.
  * Tighter windows = more filter bubble effect
  * Wider windows = more diverse perspectives
  * 
  * @param {string} topic - Current topic (abortion, climate, etc)
- * @param {Object} surveyResults - Survey response object with 12 rating questions (1-10 scale)
+ * @param {Object} surveyResults - Survey response object with 13 rating questions
+ * @param {string} controlGroup - User's control group ('control', 'edge', 'center')
  * @returns {Object} {min: number, max: number}
  */
-function calculateOvertonWindow(topic, surveyResults) {
-    // TIGHTER base windows per topic - these create meaningful filtering
-    // Window size should exclude extreme opposite views while including moderate diversity
-    // With perspective scores ranging -1.0 to +1.0, a window of ~0.4-0.6 width is reasonable
+function calculateOvertonWindow(topic, surveyResults, controlGroup = 'control') {
+    // NEW FORMULA: Calculate weighted stance score from all 13 questions
+    // Q8-Q13 have NEGATIVE weight (they represent the opposite side)
+    
+    // Q1 (33.33%): Feeling thermometer [1-100] normalized to [-1, +1]
+    // Value 1 → -1 (strongly against), Value 50.5 → 0 (neutral), Value 100 → +1 (strongly for)
+    const topicAttitude = surveyResults.topicAttitude || 50.5;
+    const q1_normalized = (topicAttitude - 50.5) / 49.5;
+    const weight_q1 = q1_normalized * 0.3333;
+    
+    // Q2-Q7 (33.33%): oneSide questions [1-10] normalized to [-1, +1]
+    // These measure alignment WITH your side
+    const q2_7_values = [
+        surveyResults.oneSide_openminded || 5.5,
+        surveyResults.oneSide_moderate || 5.5,
+        surveyResults.oneSide_moral || 5.5,
+        surveyResults.oneSide_family || 5.5,
+        surveyResults.oneSide_friend || 5.5,
+        surveyResults.oneSide_coworker || 5.5
+    ];
+    const q2_7_avg = q2_7_values.reduce((a, b) => a + b, 0) / q2_7_values.length;
+    const q2_7_normalized = (q2_7_avg - 5.5) / 4.5;  // Value 1→-1, 5.5→0, 10→+1
+    const weight_q2_7 = q2_7_normalized * 0.3333;
+    
+    // Q8-Q13 (33.33%): otherSide questions [1-10] normalized to [-1, +1]
+    // These measure alignment with OTHER side: NEGATIVE WEIGHT!
+    // If other side rates high, your stance moves in negative direction
+    const q8_13_values = [
+        surveyResults.otherSide_openminded || 5.5,
+        surveyResults.otherSide_moderate || 5.5,
+        surveyResults.otherSide_moral || 5.5,
+        surveyResults.otherSide_family || 5.5,
+        surveyResults.otherSide_friend || 5.5,
+        surveyResults.otherSide_coworker || 5.5
+    ];
+    const q8_13_avg = q8_13_values.reduce((a, b) => a + b, 0) / q8_13_values.length;
+    const q8_13_normalized = (q8_13_avg - 5.5) / 4.5;  // Value 1→-1, 5.5→0, 10→+1
+    const weight_q8_13 = -q8_13_normalized * 0.3333;  // NEGATIVE WEIGHT
+    
+    // Combined stance score directly in [-1, +1] scale
+    const userStance = weight_q1 + weight_q2_7 + weight_q8_13;
+    
+    console.log('Overton Window Calculation (Backend):', {
+        topicAttitude,
+        q1_normalized,
+        weight_q1,
+        q2_7_avg,
+        q2_7_normalized,
+        weight_q2_7,
+        q8_13_avg,
+        q8_13_normalized,
+        weight_q8_13_negative: weight_q8_13,
+        userStance_final: userStance
+    });
+    
+    // CONTROL GROUP: Show all articles (0-100 window = no filtering)
+    if (controlGroup === 'control') {
+        return { min: 0, max: 100 };
+    }
+    
+    // EDGE & CENTER GROUPS: Calculate window based on openness/tolerance
+    // Base windows per topic (in [-1, 1] scale for perspective scores)
     const baseWindows = {
         'abortion': { min: -0.3, max: 0.3 },              // Narrow - highly polarized topic
         'gun control': { min: -0.3, max: 0.3 },           // Narrow - polarized
@@ -55,22 +117,11 @@ function calculateOvertonWindow(topic, surveyResults) {
     
     const baseWindow = baseWindows[topic] || baseWindows['default'];
     
-    // Calculate tolerance score from survey data (how open-minded and moderate they see both sides)
-    // Higher scores = more tolerant = wider Overton window
-    const oneSideScore = (
-        (surveyResults.oneSide_openminded || 5) +
-        (surveyResults.oneSide_moderate || 5)
-    ) / 2;
+    // Calculate openness/tolerance from Q2-Q13 (already calculated above)
+    // Use the same Q2-Q7 and Q8-Q13 averages for consistency
+    const avgTolerance = (q2_7_avg + q8_13_avg) / 2; // [1-10] scale
     
-    const otherSideScore = (
-        (surveyResults.otherSide_openminded || 5) +
-        (surveyResults.otherSide_moderate || 5)
-    ) / 2;
-    
-    // Average tolerance across both sides (1-10 scale)
-    const avgTolerance = (oneSideScore + otherSideScore) / 2;
-    
-    // Calculate how moral/family/friend/coworker connected they feel (1-10 scale)
+    // Calculate connection score (moral/family/friend/coworker proximity to other side)
     // Higher connection to opposite side = more tolerance
     const connectionScore = (
         (surveyResults.otherSide_moral || 5) +
@@ -83,26 +134,24 @@ function calculateOvertonWindow(topic, surveyResults) {
     const opennessScore = (avgTolerance * 0.7) + (connectionScore * 0.3);
     
     // TIGHTER scale factor range to prevent windows from becoming too wide
-    // - Score of 1 (very closed) → 0.6x window (significantly narrower, min ~0.36 width)
-    // - Score of 5.5 (neutral) → 1.0x window (base ~0.6 width)
-    // - Score of 10 (very open) → 1.3x window (moderately wider, max ~0.78 width)
+    // - Score of 1 (very closed) → 0.6x window (significantly narrower)
+    // - Score of 5.5 (neutral) → 1.0x window (base width)
+    // - Score of 10 (very open) → 1.3x window (moderately wider)
     // This ensures even very open users don't see ALL content (filter bubble research goal)
     const scaleFactor = 0.6 + (opennessScore / 10) * 0.7;
     
-    // Calculate user's stance from topicAttitude (if available in surveyResults)
-    // This centers the Overton window around the user's position, not at 0
-    const userStance = surveyResults.topicAttitude !== undefined 
-        ? surveyToStanceScore(surveyResults.topicAttitude)
-        : 0; // Default to center if no stance available
-    
-    // Apply scaling to base window
+    // Apply scaling to base window and center around user's stance
     const windowSize = baseWindow.max - baseWindow.min;
     const newHalfSize = (windowSize / 2) * scaleFactor;
     
-    // Center window around user's stance, not at 0
+    // Center window around user's stance (userStance already calculated above using new formula)
+    // Convert from [-1, 1] scale to [0, 100] scale for consistency with articles
+    const userStance_0_100 = (userStance + 1) * 50; // Convert [-1,1] to [0,100]
+    const halfSize_0_100 = newHalfSize * 50; // Convert [-1,1] range to [0,100] range
+    
     return {
-        min: Math.max(-1, userStance - newHalfSize), // Bound to [-1, 1]
-        max: Math.min(1, userStance + newHalfSize)
+        min: Math.max(0, userStance_0_100 - halfSize_0_100),   // Bound to [0, 100]
+        max: Math.min(100, userStance_0_100 + halfSize_0_100)
     };
 }
 

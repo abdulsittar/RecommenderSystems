@@ -17,7 +17,7 @@ class RecommendationService {
      * Main entry point for getting recommended posts
      * Routes to appropriate algorithm based on user's control group
      */
-    async getRecommendedPosts(userId, topic, page = 0, limit = 5, excludeIds = []) {
+    async getRecommendedPosts(userId, topic, page = 0, limit = 5, excludeIds = [], excludeArticleIds = []) {
         const user = await User.findById(userId);
         
         if (!user) {
@@ -27,7 +27,7 @@ class RecommendationService {
         
         if (!user.controlGroup || user.stanceScore === undefined) {
             logger.info('User has no control group or stance, using default recommendations', { userId });
-            return this.getDefaultRecommendations(userId, topic, page, limit, excludeIds);
+            return this.getDefaultRecommendations(userId, topic, page, limit, excludeIds, excludeArticleIds);
         }
         
         logger.info('Getting recommendations', { 
@@ -36,18 +36,19 @@ class RecommendationService {
             topic, 
             stanceScore: user.stanceScore,
             overtonWindow: user.overtonWindow,
-            excludeCount: excludeIds.length
+            excludeCount: excludeIds.length,
+            excludeArticleCount: excludeArticleIds.length
         });
         
         switch(user.controlGroup) {
             case 'control':
-                return this.controlGroupRecommendation(user, topic, page, limit, excludeIds);
+                return this.controlGroupRecommendation(user, topic, page, limit, excludeIds, excludeArticleIds);
             case 'edge':
-                return this.edgeGroupRecommendation(user, topic, page, limit, excludeIds);
+                return this.edgeGroupRecommendation(user, topic, page, limit, excludeIds, excludeArticleIds);
             case 'center':
-                return this.centerGroupRecommendation(user, topic, page, limit, excludeIds);
+                return this.centerGroupRecommendation(user, topic, page, limit, excludeIds, excludeArticleIds);
             default:
-                return this.getDefaultRecommendations(userId, topic, page, limit, excludeIds);
+                return this.getDefaultRecommendations(userId, topic, page, limit, excludeIds, excludeArticleIds);
         }
     }
     
@@ -56,11 +57,11 @@ class RecommendationService {
      * Filter articles within Overton window
      * Rank by relevance to user's stance (distance)
      */
-    async controlGroupRecommendation(user, topic, page, limit, excludeIds = []) {
-        logger.info('Control group recommendation', { userId: user._id, topic, excludeCount: excludeIds.length });
+    async controlGroupRecommendation(user, topic, page, limit, excludeIds = [], excludeArticleIds = []) {
+        logger.info('Control group recommendation', { userId: user._id, topic, excludeCount: excludeIds.length, excludeArticleCount: excludeArticleIds.length });
         
         // Get all posts for topic with articles
-        const posts = await this.getPostsWithArticles(topic, excludeIds);
+        const posts = await this.getPostsWithArticles(topic, excludeIds, excludeArticleIds);
         
         // Filter by Overton window
         const filtered = this.filterByOvertonWindow(posts, user.overtonWindow);
@@ -72,8 +73,11 @@ class RecommendationService {
             return distanceA - distanceB;
         });
         
+        // Deduplicate by articleId (keep first/best occurrence)
+        const deduplicated = this.deduplicateByArticleId(ranked);
+        
         // Get only the first `limit` posts (no pagination offset needed since we exclude already shown)
-        const paginated = ranked.slice(0, limit);
+        const paginated = deduplicated.slice(0, limit);
         
         // Log recommendation
         this.logRecommendation(user._id, 'control', topic, paginated);
@@ -87,10 +91,10 @@ class RecommendationService {
      * - Centrists: Get articles from both edges of window, then towards extremes (±1.0)
      * - Extremists: Get articles from opposite edge of window, moving away from user
      */
-    async edgeGroupRecommendation(user, topic, page, limit, excludeIds = []) {
-        logger.info('Edge group recommendation', { userId: user._id, topic, stanceScore: user.stanceScore, excludeCount: excludeIds.length });
+    async edgeGroupRecommendation(user, topic, page, limit, excludeIds = [], excludeArticleIds = []) {
+        logger.info('Edge group recommendation', { userId: user._id, topic, stanceScore: user.stanceScore, excludeCount: excludeIds.length, excludeArticleCount: excludeArticleIds.length });
         
-        const posts = await this.getPostsWithArticles(topic, excludeIds);
+        const posts = await this.getPostsWithArticles(topic, excludeIds, excludeArticleIds);
         
         const userIsCentrist = isCentrist(user.stanceScore);
         const windowCenter = (user.overtonWindow.min + user.overtonWindow.max) / 2;
@@ -100,8 +104,9 @@ class RecommendationService {
             // Centrists: Start from OUTSIDE the window edges, move towards extremes
             // Show articles closest to edges (just outside), then progressively more extreme
             ranked = posts.sort((a, b) => {
-                const scoreA = a.article.perspectiveScore;
-                const scoreB = b.article.perspectiveScore;
+                // Convert perspective scores from [-1, 1] to [0, 100] for comparison with window
+                const scoreA = (a.article.perspectiveScore + 1) * 50;
+                const scoreB = (b.article.perspectiveScore + 1) * 50;
                 
                 const isAInWindow = scoreA >= user.overtonWindow.min && scoreA <= user.overtonWindow.max;
                 const isBInWindow = scoreB >= user.overtonWindow.min && scoreB <= user.overtonWindow.max;
@@ -138,14 +143,21 @@ class RecommendationService {
             
             // Sort by distance from opposite edge (closest to opposite edge first, then further)
             ranked = posts.sort((a, b) => {
-                const distA = Math.abs(a.article.perspectiveScore - oppositeEdge);
-                const distB = Math.abs(b.article.perspectiveScore - oppositeEdge);
+                // Convert perspective scores from [-1, 1] to [0, 100] for comparison
+                const scoreA = (a.article.perspectiveScore + 1) * 50;
+                const scoreB = (b.article.perspectiveScore + 1) * 50;
+                
+                const distA = Math.abs(scoreA - oppositeEdge);
+                const distB = Math.abs(scoreB - oppositeEdge);
                 return distA - distB; // Closest to opposite edge first
             });
         }
         
+        // Deduplicate by articleId (keep first/best occurrence)
+        const deduplicated = this.deduplicateByArticleId(ranked);
+        
         // Get only the first `limit` posts (no pagination offset needed since we exclude already shown)
-        const paginated = ranked.slice(0, limit);
+        const paginated = deduplicated.slice(0, limit);
         
         this.logRecommendation(user._id, 'edge', topic, paginated);
         
@@ -158,23 +170,30 @@ class RecommendationService {
      * Shows everything: first articles within window (from center out), then beyond window
      * Same behavior for centrists and extremists
      */
-    async centerGroupRecommendation(user, topic, page, limit, excludeIds = []) {
-        logger.info('Center group recommendation', { userId: user._id, topic, stanceScore: user.stanceScore, excludeCount: excludeIds.length });
+    async centerGroupRecommendation(user, topic, page, limit, excludeIds = [], excludeArticleIds = []) {
+        logger.info('Center group recommendation', { userId: user._id, topic, stanceScore: user.stanceScore, excludeCount: excludeIds.length, excludeArticleCount: excludeArticleIds.length });
         
-        const posts = await this.getPostsWithArticles(topic, excludeIds);
+        const posts = await this.getPostsWithArticles(topic, excludeIds, excludeArticleIds);
         
         const windowCenter = (user.overtonWindow.min + user.overtonWindow.max) / 2;
         
         // Sort all articles by distance from center of window (closest first)
         // This naturally shows within-window articles first, then expands beyond
         const ranked = posts.sort((a, b) => {
-            const distanceA = Math.abs(a.article.perspectiveScore - windowCenter);
-            const distanceB = Math.abs(b.article.perspectiveScore - windowCenter);
+            // Convert perspective scores from [-1, 1] to [0, 100] for comparison with window
+            const scoreA = (a.article.perspectiveScore + 1) * 50;
+            const scoreB = (b.article.perspectiveScore + 1) * 50;
+            
+            const distanceA = Math.abs(scoreA - windowCenter);
+            const distanceB = Math.abs(scoreB - windowCenter);
             return distanceA - distanceB; // Ascending - center first, expanding outward
         });
         
+        // Deduplicate by articleId (keep first/best occurrence)
+        const deduplicated = this.deduplicateByArticleId(ranked);
+        
         // Get only the first `limit` posts (no pagination offset needed since we exclude already shown)
-        const paginated = ranked.slice(0, limit);
+        const paginated = deduplicated.slice(0, limit);
         
         this.logRecommendation(user._id, 'center', topic, paginated);
         
@@ -185,8 +204,8 @@ class RecommendationService {
      * Default recommendations (no control group assigned)
      * Uses existing time-based chronological sorting
      */
-    async getDefaultRecommendations(userId, topic, page, limit, excludeIds = []) {
-        logger.info('Default recommendations', { userId, topic, excludeCount: excludeIds.length });
+    async getDefaultRecommendations(userId, topic, page, limit, excludeIds = [], excludeArticleIds = []) {
+        logger.info('Default recommendations', { userId, topic, excludeCount: excludeIds.length, excludeArticleCount: excludeArticleIds.length });
         
         const queryFilter = topic ? { content: topic } : {};
         
@@ -200,10 +219,16 @@ class RecommendationService {
                 queryFilter._id = { $nin: objectIds };
             }
         }
+                // Add article exclusion filter if excludeArticleIds are provided
+        if (excludeArticleIds && excludeArticleIds.length > 0) {
+            queryFilter.articleId = { $nin: excludeArticleIds };
+        }
         
-        return await Post.find(queryFilter)
+        // Fetch more posts than needed to account for potential duplicates
+        // We'll deduplicate and then slice to the limit
+        const posts = await Post.find(queryFilter)
             .sort({ createdAt: -1 })
-            .limit(limit)
+            .limit(limit * 3) // Fetch 3x to ensure we have enough after deduplication
             .populate('userId', 'username profilePicture')
             .populate({
                 path: 'comments',
@@ -215,12 +240,28 @@ class RecommendationService {
                 ]
             })
             .exec();
+        
+        // Deduplicate by articleId (keep first occurrence, which is newest due to sort)
+        const seenArticleIds = new Set();
+        const deduplicated = posts.filter(post => {
+            const articleIdStr = post.articleId?.toString();
+            if (!articleIdStr) return true; // Keep posts without articles
+            if (seenArticleIds.has(articleIdStr)) {
+                logger.debug('Filtering duplicate article from default recommendations', { articleId: articleIdStr, postId: post._id });
+                return false;
+            }
+            seenArticleIds.add(articleIdStr);
+            return true;
+        });
+        
+        // Return only the requested limit
+        return deduplicated.slice(0, limit);
     }
     
     /**
      * Helper: Get posts with their associated articles
      */
-    async getPostsWithArticles(topic, excludeIds = []) {
+    async getPostsWithArticles(topic, excludeIds = [], excludeArticleIds = []) {
         // Build query filter
         const queryFilter = {
             content: topic,
@@ -238,10 +279,15 @@ class RecommendationService {
             }
         }
         
+        // Add article exclusion filter to prevent duplicate articles
+        if (excludeArticleIds && excludeArticleIds.length > 0) {
+            queryFilter.articleId = { $nin: excludeArticleIds };
+        }
+        
         // Get posts for topic that have articleIds (excluding already shown)
         const posts = await Post.find(queryFilter).exec();
         
-        logger.info('Posts found for topic', { topic, postCount: posts.length, excludedCount: excludeIds.length });
+        logger.info('Posts found for topic', { topic, postCount: posts.length, excludedPostCount: excludeIds.length, excludedArticleCount: excludeArticleIds.length });
         
         // Get unique article IDs
         const articleIds = [...new Set(posts.map(p => p.articleId))];
@@ -316,12 +362,47 @@ class RecommendationService {
     
     /**
      * Helper: Filter posts by Overton window
+     * Note: perspectiveScore is in [-1, 1] scale, overtonWindow is in [0, 100] scale
+     * We need to convert perspectiveScore to [0, 100] for comparison
      */
     filterByOvertonWindow(postsWithArticles, overtonWindow) {
-        return postsWithArticles.filter(item => 
-            item.article.perspectiveScore >= overtonWindow.min && 
-            item.article.perspectiveScore <= overtonWindow.max
-        );
+        return postsWithArticles.filter(item => {
+            // Convert perspective score from [-1, 1] to [0, 100] scale
+            // -1 → 0, 0 → 50, +1 → 100
+            const perspectiveScore_0_100 = (item.article.perspectiveScore + 1) * 50;
+            
+            const inWindow = perspectiveScore_0_100 >= overtonWindow.min && 
+                            perspectiveScore_0_100 <= overtonWindow.max;
+            
+            if (!inWindow) {
+                logger.debug('Article filtered out by Overton window', {
+                    articleId: item.article.articleId,
+                    perspectiveScore: item.article.perspectiveScore,
+                    perspectiveScore_0_100,
+                    window: overtonWindow
+                });
+            }
+            
+            return inWindow;
+        });
+    }
+    
+    /**
+     * Helper: Deduplicate posts by articleId (keep first occurrence)
+     * This ensures we don't return multiple posts with the same article
+     */
+    deduplicateByArticleId(postsWithArticles) {
+        const seenArticleIds = new Set();
+        return postsWithArticles.filter(item => {
+            const articleId = item.post.articleId?.toString();
+            if (!articleId) return true; // Keep posts without articles
+            if (seenArticleIds.has(articleId)) {
+                logger.debug('Filtering duplicate article from results', { articleId, postId: item.post._id });
+                return false;
+            }
+            seenArticleIds.add(articleId);
+            return true;
+        });
     }
     
     /**

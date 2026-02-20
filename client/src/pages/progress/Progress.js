@@ -143,9 +143,10 @@ const fetchTimeSpent2 = async () => {
     console.log(res.data);
     
     
-    
+    // PILOT STUDY: Redirect to simplified post-survey
+    // MAIN STUDY: Change to /postsurvey/${currentUser.username}
     if(res.data["showAlert"] == "third"){
-      history.push(`/postsurvey/${currentUser.username}`);
+      history.push(`/postsurvey-pilot`);
           //setDay_One_Percent(100);
           //setDay_Two_Percent(100);
           //setDay_Three_Percent(100);
@@ -484,9 +485,11 @@ const handleUserNameChange = async (e) => {
         
         <div style={{ alignItems: "center", marginLeft: isMobileDevice && isTabletDevice && '300px', marginRight:isMobileDevice && isTabletDevice &&"300px"}}>
         <h3 className={classes.progressHead}>{(day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)?status_msg2: status_msg}
+        {/* PILOT STUDY: Link to simplified post-survey */}
+        {/* MAIN STUDY: Change to /postsurvey/${currentUser.username} */}
         {(day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)?
         <a onClick={(day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)? handleClick : undefined} style={{ color: (day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)? 'blue' : 'gray', cursor: (day_One_Percent > 50 && day_Two_Percent > 50 && day_Three_Percent > 50)? 'pointer' : 'not-allowed' }}>
-          <Link to={`/postsurvey/${currentUser.username}`}>Link to the post survey</Link></a>: <div></div>}
+          <Link to={`/postsurvey-pilot`}>Link to the post survey</Link></a>: <div></div>}
         
         
         </h3></div>

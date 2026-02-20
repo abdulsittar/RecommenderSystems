@@ -62,20 +62,100 @@ function Topbar({ classes, setSelectedValue, isProfile, setSearchTerm, onAction,
         setAnchorEl(null);
     };
 
-    const logOut = () => {
-        console.log('🚪 Logging out, redirecting to thank you page');
-        console.log('Current user:', currentUser);
-        
-        // Get the yourID string from the uniqueId object
-        const uniqueIdString = currentUser?.uniqueId?.yourID || 'default';
-        console.log('Using uniqueId string:', uniqueIdString);
-        
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        
-        const thankYouPath = `/thankyou/${uniqueIdString}`;
-        console.log('Redirecting to:', thankYouPath);
-        history.push(thankYouPath);
+    const logOut = async () => {
+        try {
+            console.log('🚪 Ending session, checking if post-survey should be shown');
+            console.log('Current user:', currentUser);
+            
+            if (!currentUser || !currentUser._id) {
+                console.error('❌ currentUser or currentUser._id is missing!');
+                return;
+            }
+            
+            // Fetch fresh user data to get populated uniqueId
+            const token = localStorage.getItem('token');
+            const userRes = await axios.get(`/users/${currentUser._id}`, {
+                headers: { 'auth-token': token }
+            });
+            const freshUser = userRes.data;
+            console.log('📥 Fetched fresh user data:', freshUser);
+            
+            console.log('Current user ID:', currentUser._id);
+            // Use user-specific session count key
+            const sessionCountKey = `sessionCount_${currentUser._id}`;
+            console.log('Current sessionCount from localStorage:', localStorage.getItem(sessionCountKey));
+            
+            // Get the yourID string from the uniqueId object
+            console.log('Full uniqueId object:', freshUser.uniqueId);
+            console.log('uniqueId._id:', freshUser.uniqueId?._id);
+            console.log('uniqueId.yourID:', freshUser.uniqueId?.yourID);
+            
+            // Try to extract the unique ID - handle both populated and unpopulated cases
+            let uniqueIdString = 'default';
+            if (freshUser.uniqueId?.yourID) {
+                uniqueIdString = freshUser.uniqueId.yourID;
+            } else if (freshUser.uniqueId?._id) {
+                uniqueIdString = freshUser.uniqueId._id;
+            } else if (typeof freshUser.uniqueId === 'string') {
+                uniqueIdString = freshUser.uniqueId;
+            }
+            console.log('Extracted uniqueId string:', uniqueIdString);
+            
+            // PILOT STUDY: Check if user should see post-survey
+            try {
+                const token = localStorage.getItem('token');
+                // Get current session count and send to server
+                const currentSessionCount = parseInt(localStorage.getItem(sessionCountKey) || '1');
+                console.log('📊 Current session count:', currentSessionCount);
+                
+                const url = `/users/${currentUser._id}/getUserActions?sessionCount=${currentSessionCount}`;
+                console.log('Calling getUserActions at:', url);
+                
+                const response = await axios.get(url, {
+                    headers: { 'auth-token': token }
+                });
+                
+                console.log('✅ getUserActions response:', response.data);
+                const showAlert = response.data?.showAlert;
+                console.log('showAlert value:', showAlert);
+                
+                if (showAlert === 'third' || showAlert === 'final') {
+                    // User completed 2 sessions - redirect to post-survey
+                    console.log('🎯 Post-survey trigger detected! showAlert:', showAlert);
+                    console.log('Redirecting to /postsurvey-pilot');
+                    // Clear session-specific data but keep user logged in for post-survey
+                    const recurringSessionKey = `isRecurringSession_${currentUser._id}`;
+                    localStorage.removeItem(recurringSessionKey);
+                    localStorage.removeItem(sessionCountKey); // Remove user-specific session count
+                    history.push('/postsurvey-pilot');
+                    return;
+                }
+                
+                console.log('ℹ️ Not ready for post-survey yet. showAlert:', showAlert);
+            } catch (error) {
+                console.error('❌ Error checking getUserActions:', error);
+                console.error('Error details:', error.response?.data || error.message);
+                console.error('Status code:', error.response?.status);
+            }
+            
+            // Not ready for post-survey yet - show thank you page
+            // PILOT STUDY: Log out user so sessionReadPosts gets cleared
+            // They'll auto-login on next session via unique link
+            console.log('🚪 Logging out user - sessionReadPosts will be cleared on next login');
+            localStorage.removeItem("user");
+            localStorage.removeItem("token");
+            
+            // Clear user-specific session flag
+            const recurringSessionKey = `isRecurringSession_${currentUser._id}`;
+            localStorage.removeItem(recurringSessionKey);
+            
+            const thankYouPath = `/thankyou/${uniqueIdString}`;
+            console.log('Redirecting to:', thankYouPath);
+            history.push(thankYouPath);
+        } catch (outerError) {
+            console.error('❌ FATAL ERROR in logOut function:', outerError);
+            console.error('Stack trace:', outerError.stack);
+        }
     }
 
     const handleEndSession = async () => {
@@ -90,22 +170,22 @@ function Topbar({ classes, setSelectedValue, isProfile, setSearchTerm, onAction,
             setArticlesReadCount(articlesRead);
             console.log('End session clicked. Articles read in this session:', articlesRead);
             
-            if (articlesRead < 3) {
+            if (articlesRead < 5) {
                 // Show warning dialog with updated count
                 setShowWarningDialog(true);
             } else {
                 // Allow logout
-                logOut();
+                await logOut();
             }
         } catch (error) {
             console.error('Error fetching user data:', error);
             // Fallback to cached data if API fails
             const articlesRead = currentUser?.sessionReadPosts?.length || 0;
             setArticlesReadCount(articlesRead);
-            if (articlesRead < 3) {
+            if (articlesRead < 5) {
                 setShowWarningDialog(true);
             } else {
-                logOut();
+                await logOut();
             }
         }
     }
@@ -114,10 +194,12 @@ function Topbar({ classes, setSelectedValue, isProfile, setSearchTerm, onAction,
         setShowWarningDialog(false);
     }
 
-    const handleForceLogout = () => {
-        setShowWarningDialog(false);
-        logOut();
-    }
+    // PILOT STUDY: Removed handleForceLogout function - no force logout allowed
+    // MAIN STUDY: Uncomment if you want to restore the "End Anyway" button
+    // const handleForceLogout = () => {
+    //     setShowWarningDialog(false);
+    //     logOut();
+    // }
 
     function setSearchTermFunction(value) {
         setSearchTerm(value);
@@ -269,21 +351,24 @@ const handleRefreshFeed23 = (e) => {
                 aria-describedby="warning-dialog-description"
             >
                 <DialogTitle id="warning-dialog-title">
-                    {"Minimum 3 Articles Required"}
+                    {"Minimum 5 Articles Required"}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="warning-dialog-description">
-                        Please read at least 3 articles before ending your session. 
-                        You have currently read {articlesReadCount} article(s).
+                        Please read at least 5 articles before ending your session. 
+                        You have currently read {articlesReadCount} article(s). 
+                        You need to read {5 - articlesReadCount} more article(s).
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleWarningClose} color="primary">
+                    <Button onClick={handleWarningClose} color="primary" autoFocus>
                         Continue Reading
                     </Button>
-                    <Button onClick={handleForceLogout} color="secondary">
+                    {/* PILOT STUDY: Removed "End Anyway" button - users must read 5 articles */}
+                    {/* MAIN STUDY: Uncomment below to restore force logout option */}
+                    {/* <Button onClick={handleForceLogout} color="secondary">
                         End Anyway
-                    </Button>
+                    </Button> */}
                 </DialogActions>
             </Dialog>
         </div>

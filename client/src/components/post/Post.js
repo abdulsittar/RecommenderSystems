@@ -1122,7 +1122,7 @@ const triangleOverlayStyle = {
             fontFamily: 'monospace'
         }}>
             <div><strong>Article ID:</strong> {post.articleId || 'N/A'}</div>
-            <div><strong>Perspective Score:</strong> {post.perspectiveScore?.toFixed(2) || 'N/A'}</div>
+            <div><strong>Perspective Score:</strong> {post.perspectiveScore?.toFixed(2) || 'N/A'} <span style={{color: '#666'}}>({post.perspectiveScore != null ? ((post.perspectiveScore + 1) * 50).toFixed(1) : 'N/A'} on 0-100 scale)</span></div>
             <div><strong>Stance:</strong> {post.stance || 'N/A'}</div>
             <div><strong>Strength:</strong> {post.strength || 'N/A'}</div>
             <div><strong>Topic:</strong> {post.content || 'N/A'}</div>

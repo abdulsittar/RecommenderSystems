@@ -157,11 +157,11 @@ export default function SimplePopover({anchorEl, handleClose}) {
         aria-describedby="warning-dialog-description"
       >
         <DialogTitle id="warning-dialog-title">
-          {"Minimum 3 Articles Required"}
+          {"Minimum 5 Articles Required"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="warning-dialog-description">
-            Please read at least 3 articles before ending your session. 
+            Please read at least 5 articles before ending your session. 
             You have currently read {user?.readPosts?.length || 0} article(s).
           </DialogContentText>
         </DialogContent>

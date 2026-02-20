@@ -188,8 +188,10 @@ function Home() {
       
         }, [location.pathname]);
 
+        // PILOT STUDY: Redirect to simplified post-survey
+        // MAIN STUDY: Change to /postsurvey/${currentUser.username}
         const handleNotificationClick = () => {
-          history.push(`/postsurvey/${currentUser.username}`);
+          history.push(`/postsurvey-pilot`);
         };
         
         const fetchTimeSpent = async () => {

@@ -23,6 +23,7 @@ import LandingPage from "./pages/landingPage/landingPage.js";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Postsurvey from './pages/postsurvey/postsurvey';
+import PostSurveySimplified from './pages/postsurvey/PostSurveySimplified';
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
 		<Route path="/weekly-survey">{user ? <WeeklySurvey /> : <Redirect to="/landingPage" />}</Route>
 		<Route path="/profile/:username"><Profile /></Route>
     <Route path="/progress/:username"><Progress /></Route>
+    <Route path="/postsurvey-pilot">{user ? <PostSurveySimplified /> : <Redirect to="/landingPage" />}</Route>
     <Route path="/postsurvey/:username"><Postsurvey /></Route>
     <Route path="/followerspage/:username"><FollowersPage /></Route>
     <Route path="/followingspage/:username"><FollowingsPage /></Route>

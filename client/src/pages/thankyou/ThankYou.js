@@ -12,13 +12,18 @@ export default function ThankYou() {
         console.log('Extracted userId from params:', userId);
     }, [userId]);
 
-    const handleNewSession = () => {
+    const handleNewSession = async () => {
         console.log('🔄 Start New Session clicked');
         console.log('Using userId:', userId);
-        console.log('Redirecting to:', `/register/${userId}`);
         
-        // Redirect to register/login page with the same unique ID
+        // PILOT STUDY: User was logged out, redirect to register page
+        // Register page will detect existing user and auto-login them
+        // This will clear sessionReadPosts and increment sessionCount
+        console.log('Redirecting to register page for auto-login');
         history.push(`/register/${userId}`);
+        
+        // MAIN STUDY: Same flow but may require manual login
+        // history.push(`/login/${userId}`);
     };
 
     const handleBackToBrowser = () => {

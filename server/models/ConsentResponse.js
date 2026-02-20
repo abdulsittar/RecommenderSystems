@@ -9,12 +9,22 @@ const ConsentResponseSchema = new mongoose.Schema({
     consentAnswers: {
         type: [Boolean],
         required: true,
+        // PILOT STUDY: Validate for 1 consent question
+        validate: {
+            validator: function(v) {
+                return v.length === 1; // We have 1 consent question for pilot
+            },
+            message: 'consentAnswers must contain exactly 1 boolean value'
+        }
+        // MAIN STUDY: Uncomment below for 8 consent questions
+        /*
         validate: {
             validator: function(v) {
                 return v.length === 8; // We have 8 consent questions
             },
             message: 'consentAnswers must contain exactly 8 boolean values'
         }
+        */
     },
     agreedToParticipate: {
         type: Boolean,

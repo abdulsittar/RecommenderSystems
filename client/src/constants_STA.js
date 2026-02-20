@@ -40,6 +40,13 @@ export const CONSENT_DATA_SHARING_TITLE = "Data Sharing";
 export const CONSENT_DATA_SHARING = "The results of this study may be shared with other researchers and/or published through a public database (open access), without personal data or information that could individually identify participants. The results may be used in future research on topics not necessarily related to this study.";
 
 // Consent checklist questions
+// PILOT STUDY: Simplified to single checkbox
+export const CONSENT_QUESTIONS = [
+  "I have read all sections in this information sheet."
+];
+
+// MAIN STUDY: Uncomment below for full consent questions
+/*
 export const CONSENT_QUESTIONS = [
   "I have read all sections in this information sheet.",
   "I understand who to contact if I have questions about the project.",
@@ -50,6 +57,7 @@ export const CONSENT_QUESTIONS = [
   "I understand that anonymised research data will be archived and may be used by third parties.",
   "I assign the copyright I hold to the content generated in this activity to the University of Primorska."
 ];
+*/
 
 // Consent form buttons
 export const CONSENT_AGREE = "Yes, I agree to participate";
@@ -69,15 +77,9 @@ export const CONSENT_COMPLAINTS = "If you have any complaints about the study or
 export const ONETIME_INTRO = "First, we'd like to collect some basic information about you.";
 
 // Q1: Demographic questions
-export const DEMO_AGE_QUESTION = "What is your age?";
-export const DEMO_AGE_OPTIONS = [
-  "18–24",
-  "25–34", 
-  "35–44",
-  "45–54",
-  "55–64",
-  "65+"
-];
+export const DEMO_AGE_QUESTION = "What is your year of birth?";
+// Generate years from 2006 (18 years old in 2024) to 1924 (100 years old)
+export const DEMO_AGE_OPTIONS = Array.from({ length: 83 }, (_, i) => String(2006 - i));
 
 export const DEMO_GENDER_QUESTION = "What is your gender?";
 export const DEMO_GENDER_OPTIONS = [

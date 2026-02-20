@@ -45,6 +45,8 @@ const [progress, setProgress] = useState(0);
 const [preProfile, setPreProfile] = useState(" ");
 const [viewedPosts, setViewedPosts] = useState([]);
 const [shownPostIds, setShownPostIds] = useState([]); // Track shown post IDs for "View More Articles"
+const shownPostIdsRef = useRef([]); // Ref for synchronous tracking of shown post IDs
+const shownArticleIdsRef = useRef([]); // Track shown ARTICLE IDs to prevent duplicate articles
 const { user: currentUser, dispatch } = useContext(AuthContext);
 const isMobileDevice = useMediaQuery({ query: "(min-device-width: 480px)", });
 const isTabletDevice = useMediaQuery({ query: "(min-device-width: 768px)", });
@@ -146,19 +148,25 @@ const handleFeedAction = async (e) => {
   };
 
     const handleOpenNextDialog = () => {
+        // PILOT STUDY: Topic selection is locked after first selection
+        // MAIN STUDY: Uncomment below to allow topic changes
         // Map current topic back to option value to show correct selection in dialog
+        /*
         const topicToOptionMapping = {
-            'assisted death': 'option1',
-            'abortion': 'option2', 
-            'gun control': 'option3',
-            'nuclear power': 'option4',
-            'social media regulation': 'option5',
-            'military armament': 'option6',
-            'climate action': 'option7'
+            'abortion': 'option1',
+            'assisted death': 'option2',
+            'climate action': 'option3',
+            'gun control': 'option4',
+            'military armament': 'option5',
+            'nuclear power': 'option6',
+            'social media regulation': 'option7'
         };
         const currentOption = topicToOptionMapping[currentTopic] || 'option1';
         setNextSelectedOption(currentOption);
         setNextDialogOpen(true);
+        */
+        // For pilot study, topic changing is disabled
+        console.log('Topic changing is disabled for pilot study');
     }
 
     const handleNextDialogClose = () => {
@@ -170,15 +178,16 @@ const handleFeedAction = async (e) => {
     }
 
     const handleNextConfirm = async () => {
-            // Map options to topics for initial-data creation - All 7 topics from articles.csv
+            // PILOT STUDY: Only 3 topics available
+            // MAIN STUDY: Uncomment all 7 topics below
             const topicMapping = {
-                option1: 'assisted death',           // Assisted Death
-                option2: 'abortion',                 // Abortion  
-                option3: 'gun control',              // Gun Control
-                option4: 'nuclear power',            // Nuclear Power
-                option5: 'social media regulation',  // Social Media Regulation
-                option6: 'military armament',        // Military Armament
-                option7: 'climate action'            // Climate Action
+                option1: 'abortion',                 // Abortion
+                // option2: 'assisted death',        // Assisted Death (MAIN STUDY ONLY)
+                // option3: 'climate action',        // Climate Action (MAIN STUDY ONLY)
+                // option4: 'gun control',           // Gun Control (MAIN STUDY ONLY)
+                option5: 'military armament',        // Military Armament
+                // option6: 'nuclear power',         // Nuclear Power (MAIN STUDY ONLY)
+                option7: 'social media regulation'   // Social Media Regulation
             };
             const topic = topicMapping[nextSelectedOption] || 'abortion';
             console.log('handleNextConfirm - Selected option:', nextSelectedOption, 'Mapped topic:', topic);
@@ -190,7 +199,9 @@ const handleFeedAction = async (e) => {
             setCurrentTopic(topic); // Store the selected topic for filtering
             setNextDialogOpen(false);
             
-            // Clear shown post IDs when topic changes
+            // Clear shown post IDs and article IDs when topic changes
+            shownArticleIdsRef.current = [];
+            shownPostIdsRef.current = [];
             setShownPostIds([]);
             
             // Scroll to top of page when changing topic
@@ -241,6 +252,22 @@ const handleFeedAction = async (e) => {
                         topic: topic
                     }, { headers: { 'auth-token': token } });
                     
+                    // Fetch updated user data to get the stance score and overton window for THIS topic
+                    const userResponse = await axios.get(`/users?userId=${user._id}`, { 
+                        headers: { 'auth-token': token } 
+                    });
+                    
+                    // Update the user in context with topic-specific data
+                    if (userResponse.data) {
+                        dispatch(UpdateUser(userResponse.data));
+                        console.log('User updated with topic-specific survey data:', {
+                            stanceScore: userResponse.data.stanceScore,
+                            overtonWindow: userResponse.data.overtonWindow,
+                            currentTopic: userResponse.data.currentTopic,
+                            controlGroup: userResponse.data.controlGroup
+                        });
+                    }
+                    
                     await axios.post(`/posts/${user._id}/createInitialData`, { topic, pool: user.pool, userId: user._id }, { headers: { 'auth-token': token } });
                     setIndex(0);
                     await fetchPostsWithTopic(selectedValue, 0, topic);
@@ -281,6 +308,22 @@ const handleFeedAction = async (e) => {
                     await axios.put(`/users/${user._id}/updateTopic`, {
                         topic: topic
                     }, { headers: { 'auth-token': token } });
+                    
+                    // Fetch updated user data to get the stance score and overton window for THIS topic
+                    const userResponse = await axios.get(`/users?userId=${user._id}`, { 
+                        headers: { 'auth-token': token } 
+                    });
+                    
+                    // Update the user in context with topic-specific data
+                    if (userResponse.data) {
+                        dispatch(UpdateUser(userResponse.data));
+                        console.log('User updated with topic-specific survey data:', {
+                            stanceScore: userResponse.data.stanceScore,
+                            overtonWindow: userResponse.data.overtonWindow,
+                            currentTopic: userResponse.data.currentTopic,
+                            controlGroup: userResponse.data.controlGroup
+                        });
+                    }
                     
                     await axios.post(`/posts/${user._id}/createInitialData`, { topic, pool: user.pool, userId: user._id }, { headers: { 'auth-token': token } });
                     setIndex(0);
@@ -356,12 +399,70 @@ const handleFeedAction = async (e) => {
             const now = new Date();
             const weekNumber = Math.floor((now.getTime() - new Date('2024-01-01').getTime()) / (7 * 24 * 60 * 60 * 1000));
 
-            // Submit weekly survey with topic
+            // Calculate Overton window based on the 13 survey questions with proper weighting
+            // Weight: 33.33% for Q1, 33.33% for Q2-Q7, 33.33% for Q8-Q13
+            // Q8-Q13 have NEGATIVE weight (they represent the opposite side)
+            
+            // Q1: Normalize from [1-100] to [-1, +1] scale
+            // Value 1 → -1, Value 50.5 → 0, Value 100 → +1
+            const q1_normalized = (weeklyData.topicAttitude - 50.5) / 49.5;
+            const weight_q1 = q1_normalized * 0.3333;
+            
+            // Q2-Q7: Average and normalize from [1-10] to [-1, +1] scale
+            // These measure alignment WITH your side (higher = more aligned)
+            const q2_7_values = [
+                weeklyData.oneSide_openminded,
+                weeklyData.oneSide_moderate,
+                weeklyData.oneSide_moral,
+                weeklyData.oneSide_family,
+                weeklyData.oneSide_friend,
+                weeklyData.oneSide_coworker
+            ];
+            const q2_7_avg = q2_7_values.reduce((a, b) => a + b, 0) / q2_7_values.length;
+            const q2_7_normalized = (q2_7_avg - 5.5) / 4.5;  // Value 1→-1, 5.5→0, 10→+1
+            const weight_q2_7 = q2_7_normalized * 0.3333;
+            
+            // Q8-Q13: Average and normalize from [1-10] to [-1, +1] scale
+            // These measure alignment with OTHER side (higher = more they're aligned with other side)
+            // NEGATIVE weight: if other side rates high, your stance moves NEGATIVE direction
+            const q8_13_values = [
+                weeklyData.otherSide_openminded,
+                weeklyData.otherSide_moderate,
+                weeklyData.otherSide_moral,
+                weeklyData.otherSide_family,
+                weeklyData.otherSide_friend,
+                weeklyData.otherSide_coworker
+            ];
+            const q8_13_avg = q8_13_values.reduce((a, b) => a + b, 0) / q8_13_values.length;
+            const q8_13_normalized = (q8_13_avg - 5.5) / 4.5;  // Value 1→-1, 5.5→0, 10→+1
+            const weight_q8_13 = -q8_13_normalized * 0.3333;  // NEGATIVE: high otherSide values reduce stance
+            
+            // Calculate final stance score: now directly in [-1, +1] range
+            // Convert to [0-100] scale for backend compatibility
+            const stanceScore_normalized = weight_q1 + weight_q2_7 + weight_q8_13;  // [-1, +1]
+            const stanceScore = (stanceScore_normalized + 1) * 50;  // Convert to [0, 100]
+            
+            console.log('Overton Window Calculation:', {
+                topicAttitude: weeklyData.topicAttitude,
+                q1_normalized,
+                weight_q1,
+                q2_7_avg,
+                q2_7_normalized,
+                weight_q2_7,
+                q8_13_avg,
+                q8_13_normalized,
+                weight_q8_13_negative: weight_q8_13,
+                stanceScore_normalized,
+                finalStanceScore: stanceScore
+            });
+
+            // Submit weekly survey with topic and calculated stance score
             const response = await axios.post('/users/weeklyResponse', {
                 ...weeklyData,
                 userId: user._id,
                 topic: pendingTopic,
-                weekNumber: weekNumber
+                weekNumber: weekNumber,
+                calculatedStanceScore: stanceScore  // Send calculated score to backend
             }, { headers: { 'auth-token': token } });
 
             if (response.status === 200) {
@@ -383,7 +484,8 @@ const handleFeedAction = async (e) => {
                     console.log('User updated with new survey data:', {
                         stanceScore: userResponse.data.stanceScore,
                         overtonWindow: userResponse.data.overtonWindow,
-                        currentTopic: userResponse.data.currentTopic
+                        currentTopic: userResponse.data.currentTopic,
+                        controlGroup: userResponse.data.controlGroup
                     });
                 }
                 
@@ -441,12 +543,38 @@ useEffect(() => {
     }
 }, [currentUser]);
 
+// Check for recurring session on mount (after auto-login)
+useEffect(() => {
+    console.log('🔄 Feed component mounted');
+    
+    if (currentUser?._id) {
+        const recurringSessionKey = `isRecurringSession_${currentUser._id}`;
+        const isRecurringSession = localStorage.getItem(recurringSessionKey);
+        const sessionCountKey = `sessionCount_${currentUser._id}`;
+        const storedSessionCount = parseInt(localStorage.getItem(sessionCountKey) || '1');
+        
+        console.log(`Session info - isRecurring: ${isRecurringSession}, count: ${storedSessionCount}`);
+        
+        if (isRecurringSession === 'true') {
+            console.log(`🔄 Returning user detected - Welcome to Session ${storedSessionCount}!`);
+            setSessionCount(storedSessionCount);
+            setWelcomeDialogOpen(true);
+            
+            // Clear the flag after showing
+            localStorage.removeItem(recurringSessionKey);
+        }
+    }
+}, [currentUser]); // Run when currentUser changes (after login)
+
 // Check if user needs to select a topic (first time) or show welcome message for recurring session
 useEffect(() => {
     const showWeeklySurvey = localStorage.getItem('showWeeklySurvey');
     const weeklySurveyReason = localStorage.getItem('weeklySurveyReason');
-    const isRecurringSession = localStorage.getItem('isRecurringSession');
-    const storedSessionCount = localStorage.getItem('sessionCount');
+    // Use user-specific keys
+    const recurringSessionKey = currentUser?._id ? `isRecurringSession_${currentUser._id}` : 'isRecurringSession';
+    const isRecurringSession = localStorage.getItem(recurringSessionKey);
+    const sessionCountKey = currentUser?._id ? `sessionCount_${currentUser._id}` : 'sessionCount';
+    const storedSessionCount = localStorage.getItem(sessionCountKey);
     
     console.log('Feed useEffect - checking flags:', {
         showWeeklySurvey,
@@ -462,25 +590,18 @@ useEffect(() => {
         return;
     }
     
-    // Priority 1: Show welcome message for recurring sessions
-    if (isRecurringSession === 'true' && storedSessionCount) {
-        console.log('Recurring session detected - showing welcome message for session', storedSessionCount);
-        setSessionCount(parseInt(storedSessionCount));
-        setWelcomeDialogOpen(true);
-        // Clear the flags after showing
-        localStorage.removeItem('isRecurringSession');
-        localStorage.removeItem('sessionCount');
-        return; // Don't proceed to other checks
-    }
-    
-    // Priority 2: If user doesn't have a current topic, show topic selection dialog FIRST
+    // Priority 1: If user doesn't have a current topic, show topic selection dialog FIRST
+    // Only show if both currentUser and local state don't have a topic
     if (user && !currentUser.currentTopic && !currentTopic) {
         console.log('User has no currentTopic set - showing topic selection dialog');
+        console.log('currentUser.currentTopic:', currentUser.currentTopic, 'currentTopic state:', currentTopic);
         setTimeout(() => {
             setNextDialogOpen(true);
         }, 500);
+    } else if (currentUser.currentTopic || currentTopic) {
+        console.log('✅ User has topic:', currentUser.currentTopic || currentTopic);
     }
-    // Priority 3: If user has a topic AND flag is set, show weekly survey
+    // Priority 2: If user has a topic AND flag is set, show weekly survey
     else if (showWeeklySurvey === 'true' && (currentUser.currentTopic || currentTopic)) {
         console.log('Weekly survey should be shown. Reason:', weeklySurveyReason);
         // Show weekly survey modal after a brief delay
@@ -607,7 +728,10 @@ const filterLoadedPosts = async () => {
 
 const fetchPostsWithTopic = async (selectedValue, pageArg, topicParam) => {
     setProgress(30);
-    console.log("fetchPostsWithTopic with topic:", topicParam)
+    // Use user-specific session count key
+    const sessionCountKey = currentUser?._id ? `sessionCount_${currentUser._id}` : 'sessionCount';
+    const currentSessionNum = localStorage.getItem(sessionCountKey) || '1';
+    console.log(`📊 [Session ${currentSessionNum}] fetchPostsWithTopic with topic:`, topicParam);
     const chek = username ?  true : false;
 if(chek == true) {
     console.log(preProfile);
@@ -670,6 +794,13 @@ if (preProfile === " ") {
         setPosts([])
         if (Array.isArray(res.data)) {
             setPosts(res.data)
+            
+            // IMPORTANT: Track these initial ARTICLES (not just posts) so they don't reappear later
+            // Convert to strings for consistent comparison
+            const articleIds = res.data.filter(p => p.articleId).map(p => String(p.articleId));
+            shownArticleIdsRef.current = [...new Set([...shownArticleIdsRef.current, ...articleIds])];
+            console.log('Initial posts loaded and tracked:', articleIds.length, 'unique articles. Total tracked:', shownArticleIdsRef.current.length);
+            console.log('Tracked article IDs:', shownArticleIdsRef.current);
         }
         
         // If currentTopic is not set and we got posts, infer the topic from the first post
@@ -896,22 +1027,33 @@ if (preProfile === " ") {
             // Scroll to top of page
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            // Collect current post IDs to exclude
-            const currentPostIds = posts.map(p => p._id);
-            const allExcludedIds = [...new Set([...shownPostIds, ...currentPostIds])];
+            // Collect ALL article IDs we've shown so far (this prevents duplicate articles)
+            // IMPORTANT: Track by articleId, not postId, since multiple posts can have same article
+            const currentArticleIds = posts
+                .filter(p => p.articleId) // Only posts with articles
+                .map(p => String(p.articleId));
+            const allExcludedArticleIds = [...new Set([...shownArticleIdsRef.current, ...currentArticleIds])];
             
-            // Update shown post IDs with current posts before fetching new ones
-            setShownPostIds(allExcludedIds);
+            // Update ref synchronously
+            shownArticleIdsRef.current = allExcludedArticleIds;
             
-            // Fetch new posts excluding already shown ones
-            await fetchNewPostsExcluding(selectedValue, currentTopic, allExcludedIds);
+            console.log('View More clicked - Excluding:', allExcludedArticleIds.length, 'article IDs');
+            console.log('Current articles on screen:', currentArticleIds);
+            console.log('All excluded article IDs:', allExcludedArticleIds);
+            console.log('User control group:', currentUser.controlGroup);
+            console.log('User Overton window:', currentUser.overtonWindow);
+            
+            // Fetch new posts excluding already shown articles
+            // IMPORTANT: Pass control group info to ensure edge/center filtering
+            await fetchNewPostsExcluding(selectedValue, currentTopic, allExcludedArticleIds);
         }
     };
     
     // Fetch new posts excluding already shown ones
-    const fetchNewPostsExcluding = async (selectedValue, topicParam, excludeIds) => {
+    const fetchNewPostsExcluding = async (selectedValue, topicParam, excludeArticleIds) => {
         setProgress(30);
-        console.log("fetchNewPostsExcluding - excluding IDs:", excludeIds);
+        console.log("fetchNewPostsExcluding - topic:", topicParam, "excluding article count:", excludeArticleIds.length);
+        console.log("Control group:", currentUser.controlGroup, "Overton window:", currentUser.overtonWindow);
         
         var whPosts = "/posts/timelinePag/";
         if(selectedValue == 0){
@@ -924,30 +1066,90 @@ if (preProfile === " ") {
         
         const token = localStorage.getItem('token');
         
-        // Build URL with topic and exclude parameters
+        // Build URL with topic, excludeArticles, and control group parameters
         let url = `${whPosts}${user._id}?page=0`; // Always page 0, but with exclusions
         if (topicParam) {
             url += `&topic=${encodeURIComponent(topicParam)}`;
         }
-        if (excludeIds && excludeIds.length > 0) {
-            url += `&exclude=${excludeIds.join(',')}`;
+        if (excludeArticleIds && excludeArticleIds.length > 0) {
+            // Send exclude ARTICLE IDs as comma-separated string
+            url += `&excludeArticles=${excludeArticleIds.join(',')}`;
+        }
+        // IMPORTANT: Add control group info to ensure backend applies edge/center filtering
+        if (currentUser.controlGroup) {
+            url += `&controlGroup=${encodeURIComponent(currentUser.controlGroup)}`;
+        }
+        if (currentUser.overtonWindow) {
+            url += `&overtonMin=${currentUser.overtonWindow.min}&overtonMax=${currentUser.overtonWindow.max}`;
         }
         
-        console.log('fetchNewPostsExcluding - URL:', url);
+        console.log('fetchNewPostsExcluding - Fetching with URL:', url);
         
-        const res = await axios.get(url, {headers: { 'auth-token': token, 'userId': user._id }});
-        console.log('fetchNewPostsExcluding - Got posts:', res.data.length);
-        
-        if(res.data.length > 0){
-            setPosts(res.data);
-            setProgress(100);
-        } else {
-            // No more new posts available - reset shown posts and start fresh
-            console.log('No more new posts - resetting to start');
-            setShownPostIds([]);
-            // Fetch fresh posts without exclusions
-            await fetchPostsWithTopic(selectedValue, 0, topicParam);
+        try {
+            const res = await axios.get(url, {headers: { 'auth-token': token, 'userId': user._id }});
+            console.log('fetchNewPostsExcluding - Received posts:', res.data.length);
+            
+            // Log received article IDs for debugging
+            const receivedArticleIds = res.data.filter(p => p.articleId).map(p => String(p.articleId));
+            console.log('Received article IDs:', receivedArticleIds);
+            console.log('Excluding these article IDs:', excludeArticleIds);
+            
+            if(res.data.length > 0){
+                // Filter out any ARTICLES we've already seen AND deduplicate within this batch
+                // CRITICAL: Filter by articleId, not post._id, to prevent duplicate articles
+                const seenInBatch = new Set(excludeArticleIds); // Start with excluded IDs
+                const newPosts = res.data.filter(post => {
+                    if (!post.articleId) return true; // Keep posts without articles
+                    const articleIdStr = String(post.articleId);
+                    
+                    // Check if already seen (in previous batches OR earlier in this batch)
+                    if (seenInBatch.has(articleIdStr)) {
+                        console.log('⚠️ Filtering out duplicate article:', articleIdStr, '(post ID:', post._id, ')');
+                        return false;
+                    }
+                    
+                    // Mark this article as seen for this batch
+                    seenInBatch.add(articleIdStr);
+                    return true;
+                });
+                console.log('fetchNewPostsExcluding - After client-side filtering:', newPosts.length, 'unique posts');
+                
+                if (newPosts.length > 0) {
+                    // Log the new article IDs we're about to show (convert to strings)
+                    const newArticleIds = newPosts.filter(p => p.articleId).map(p => String(p.articleId));
+                    console.log('Displaying new articles:', newArticleIds);
+                    
+                    // Add these new article IDs to the ref immediately (synchronous)
+                    const updatedExcluded = [...new Set([...shownArticleIdsRef.current, ...newArticleIds])];
+                    shownArticleIdsRef.current = updatedExcluded;
+                    
+                    console.log('Total excluded articles after update:', shownArticleIdsRef.current.length);
+                    
+                    setPosts(newPosts);
+                } else {
+                    // All returned posts were duplicates
+                    console.warn('⚠️ All returned posts were duplicate articles.');
+                    alert('No more new articles available for this topic. Showing the first articles again.');
+                    // Reset and start over
+                    shownArticleIdsRef.current = [];
+                    shownPostIdsRef.current = [];
+                    setShownPostIds([]);
+                    await fetchPostsWithTopic(selectedValue, 0, topicParam);
+                }
+            } else {
+                // No posts returned at all
+                console.warn('⚠️ No posts returned from server. Cycling back to start.');
+                alert('You\'ve seen all articles on this topic! Showing them again from the start.');
+                shownArticleIdsRef.current = [];
+                shownPostIdsRef.current = [];
+                setShownPostIds([]);
+                await fetchPostsWithTopic(selectedValue, 0, topicParam);
+            }
+        } catch (error) {
+            console.error('❌ Error fetching new posts:', error);
+            alert('Error loading more articles. Please try again.');
         }
+        
         setProgress(100);
     };
 
@@ -962,7 +1164,7 @@ return (
                 top: 70,
                 right: 10,
                 padding: '12px',
-                backgroundColor: 'rgba(0,0,0,0.85)',
+                backgroundColor: 'rgba(0, 0, 0, 0.85)',
                 color: 'white',
                 borderRadius: '8px',
                 zIndex: 9999,
@@ -991,19 +1193,103 @@ return (
             >
                 View More Articles
             </Button>
-            <Button 
+            {/* PILOT STUDY: Topic changing disabled - button hidden */}
+            {/* MAIN STUDY: Uncomment below to allow topic changes */}
+            {/* <Button 
                 variant="contained" 
                 color="secondary" 
                 onClick={handleOpenNextDialog}
             >
                 Change Topic
-            </Button>
+            </Button> */}
         </div>
         
         <InfiniteScroll dataLength={posts.length} next={fetchMoreData} hasMore={hasMore} loader={<Loader />}>
         <div className={classes.feedWrapper} style={{"width": (!isMobileDevice && !isTabletDevice) && (windowSize.innerWidth-10)+"px"}}>
             {( !username || username === user.username) }
-            {Array.isArray(posts) && posts.map((p) => (
+            {(() => {
+                // Sort posts on the current page based on control group algorithm
+                if (!Array.isArray(posts) || posts.length === 0) return null;
+                
+                // Helper function to check if user is centrist
+                const isCentrist = (stance) => Math.abs(stance) < 0.2;
+                
+                // Create a sorted copy of posts
+                let sortedPosts = [...posts];
+                
+                // Only sort if user has control group assigned and perspective scores exist
+                if (currentUser?.controlGroup && currentUser?.overtonWindow) {
+                    const windowMin = currentUser.overtonWindow.min;
+                    const windowMax = currentUser.overtonWindow.max;
+                    const windowCenter = (windowMin + windowMax) / 2;
+                    const userStance = currentUser.stanceScore || 0;
+                    
+                    if (currentUser.controlGroup === 'control') {
+                        // Control group: Sort by closeness to user's stance
+                        sortedPosts.sort((a, b) => {
+                            if (!a.perspectiveScore || !b.perspectiveScore) return 0;
+                            // Convert perspective scores from [-1, 1] to [0, 100]
+                            const scoreA = (a.perspectiveScore + 1) * 50;
+                            const scoreB = (b.perspectiveScore + 1) * 50;
+                            const userStance_0_100 = (userStance + 1) * 50;
+                            
+                            const distanceA = Math.abs(scoreA - userStance_0_100);
+                            const distanceB = Math.abs(scoreB - userStance_0_100);
+                            return distanceA - distanceB;
+                        });
+                    } else if (currentUser.controlGroup === 'edge') {
+                        // Edge group: Sort by edge proximity (outside window first, then by distance from edges)
+                        const userIsCentrist = isCentrist(userStance);
+                        
+                        sortedPosts.sort((a, b) => {
+                            if (!a.perspectiveScore || !b.perspectiveScore) return 0;
+                            const scoreA = (a.perspectiveScore + 1) * 50;
+                            const scoreB = (b.perspectiveScore + 1) * 50;
+                            
+                            if (userIsCentrist) {
+                                // Centrists: prefer articles outside window, closest to edges
+                                const isAInWindow = scoreA >= windowMin && scoreA <= windowMax;
+                                const isBInWindow = scoreB >= windowMin && scoreB <= windowMax;
+                                
+                                const distToEdgeA = Math.min(
+                                    Math.abs(scoreA - windowMin),
+                                    Math.abs(scoreA - windowMax)
+                                );
+                                const distToEdgeB = Math.min(
+                                    Math.abs(scoreB - windowMin),
+                                    Math.abs(scoreB - windowMax)
+                                );
+                                
+                                if (!isAInWindow && !isBInWindow) {
+                                    return distToEdgeA - distToEdgeB;
+                                }
+                                if (isAInWindow && isBInWindow) {
+                                    return 0; // Both inside, keep original order
+                                }
+                                return isAInWindow ? 1 : -1; // Outside first
+                            } else {
+                                // Extremists: prefer opposite edge
+                                const oppositeEdge = userStance > 0 ? windowMin : windowMax;
+                                const distA = Math.abs(scoreA - oppositeEdge);
+                                const distB = Math.abs(scoreB - oppositeEdge);
+                                return distA - distB;
+                            }
+                        });
+                    } else if (currentUser.controlGroup === 'center') {
+                        // Center group: Sort by distance from window center
+                        sortedPosts.sort((a, b) => {
+                            if (!a.perspectiveScore || !b.perspectiveScore) return 0;
+                            const scoreA = (a.perspectiveScore + 1) * 50;
+                            const scoreB = (b.perspectiveScore + 1) * 50;
+                            
+                            const distanceA = Math.abs(scoreA - windowCenter);
+                            const distanceB = Math.abs(scoreB - windowCenter);
+                            return distanceA - distanceB;
+                        });
+                    }
+                }
+                
+                return sortedPosts.map((p) => (
   <Post
     onScrolling={updateViewdPosts}
     key={p._id}
@@ -1012,7 +1298,8 @@ return (
     setHasReadArticle={setHasReadArticle}
     currentRound={currentRound}
   />
-))}
+));
+            })()}
 
         </div>
         </InfiniteScroll>
@@ -1027,30 +1314,35 @@ return (
             >
                 View More Articles
             </Button>
-            <Button 
+{/* PILOT STUDY: Topic changing disabled - button hidden */}
+                {/* MAIN STUDY: Uncomment below to allow topic changes */}
+                {/* <Button 
                 variant="contained" 
                 color="secondary" 
                 onClick={handleOpenNextDialog}
             >
                 Change Topic
-            </Button>
+            </Button> */}
         </div>
+                {/* PILOT STUDY: Only 3 topics available, dialog shown only on first login */}
                 <Dialog open={nextDialogOpen} onClose={handleNextDialogClose} aria-labelledby="next-dialog-title">
-                    <DialogTitle id="next-dialog-title">Change Topic</DialogTitle>
+                    <DialogTitle id="next-dialog-title">Select Topic</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            Choose a topic to see posts about that subject.
+                            Choose a topic to see posts about that subject. You will continue with this topic for all sessions.
                         </DialogContentText>
                         <FormControl component="fieldset" style={{marginTop: 8}}>
                             <FormLabel component="legend">Topics</FormLabel>
                             <RadioGroup value={nextSelectedOption} onChange={handleNextOptionChange}>
-                                <FormControlLabel value="option1" control={<Radio />} label="Assisted Death" />
-                                <FormControlLabel value="option2" control={<Radio />} label="Abortion" />
-                                <FormControlLabel value="option3" control={<Radio />} label="Gun Control" />
-                                <FormControlLabel value="option4" control={<Radio />} label="Nuclear Power" />
-                                <FormControlLabel value="option5" control={<Radio />} label="Social Media Regulation" />
-                                <FormControlLabel value="option6" control={<Radio />} label="Military Armament" />
-                                <FormControlLabel value="option7" control={<Radio />} label="Climate Action" />
+                                {/* PILOT STUDY: Only 3 topics */}
+                                <FormControlLabel value="option1" control={<Radio />} label="Abortion" />
+                                <FormControlLabel value="option5" control={<Radio />} label="Military Armament" />
+                                <FormControlLabel value="option7" control={<Radio />} label="Social Media Regulation" />
+                                {/* MAIN STUDY: Uncomment all topics below */}
+                                {/* <FormControlLabel value="option2" control={<Radio />} label="Assisted Death" />
+                                <FormControlLabel value="option3" control={<Radio />} label="Climate Action" />
+                                <FormControlLabel value="option4" control={<Radio />} label="Gun Control" />
+                                <FormControlLabel value="option6" control={<Radio />} label="Nuclear Power" /> */}
                             </RadioGroup>
                         </FormControl>
                     </DialogContent>
@@ -1095,16 +1387,19 @@ return (
         >
             <DialogTitle id="weekly-survey-title">Topic Survey - {currentTopic || 'Loading...'}</DialogTitle>
             <DialogContent>
-                <Typography variant="body1" style={{marginBottom: 24}}>
-                    Please answer these questions about your attitudes toward <strong>{currentTopic || 'this topic'}</strong>.
+                 <Typography variant="h6" style={{marginTop: 32, marginBottom: 16, fontWeight: 600}}>
+                    Please answer these questions about your attitudes toward  {" "}
+                    <span style={{ color: "#3213e2" }}>
+                        {<strong>{currentTopic || 'this topic'}</strong>}.
+                    </span>{" "}  
                 </Typography>
 
                 {/* Question 1: Overall attitude (1-100 scale) */}
                 <Typography variant="body1" style={{marginBottom: 8, fontWeight: 500}}>
-                    1. On a scale from 1 to 100, how warm or favorable do you feel toward {currentTopic || 'this topic'}?
+                    1. Where would you place your own view on a scale from 1 to 100?
                 </Typography>
                 <Typography variant="caption" style={{fontStyle: 'italic', color: '#666', marginBottom: 16, display: 'block'}}>
-                    1 = Very unfavorable, 50 = Neutral, 100 = Very favorable
+                    1 = Strongly oppose {currentTopic || 'this topic'}, 50 = Neutral or unsure, 100 = Strongly support {currentTopic || 'this topic'}
                 </Typography>
                 <Box style={{margin: '16px 0 32px 0'}}>
                     <Slider
@@ -1123,7 +1418,10 @@ return (
 
                 {/* ONE SIDE Section */}
                 <Typography variant="h6" style={{marginTop: 32, marginBottom: 16, fontWeight: 600}}>
-                    Please rate {getTopicSides(currentTopic).oneSide} on the following traits:
+                    Please rate {" "}
+                    <span style={{ color: "#3213e2" }}>
+                        {getTopicSides(currentTopic).oneSide}
+                    </span>{" "} on the following traits:
                 </Typography>
 
                 {/* Q2: One Side - Openminded */}
@@ -1181,8 +1479,11 @@ return (
                 </Box>
 
                 {/* One Side - Social Distance */}
-                <Typography variant="body2" style={{marginTop: 24, marginBottom: 16, fontWeight: 500}}>
-                    How happy would you feel if {getTopicSides(currentTopic).oneSide.replace('advocates', 'an advocate')} was your:
+                 <Typography variant="h6" style={{marginTop: 32, marginBottom: 16, fontWeight: 600}}>
+                    How happy would you feel if  {" "}
+                    <span style={{ color: "#3213e2" }}>
+                        {<strong>{getTopicSides(currentTopic).oneSide.replace('advocates', 'advocate')}</strong>}
+                    </span>{" "} was your:
                 </Typography>
 
                 {/* Q5: One Side - Family */}
@@ -1241,7 +1542,11 @@ return (
 
                 {/* OTHER SIDE Section */}
                 <Typography variant="h6" style={{marginTop: 32, marginBottom: 16, fontWeight: 600}}>
-                    Please rate {getTopicSides(currentTopic).otherSide} on the following traits:
+                    Please rate {" "}
+                    <span style={{ color: "#3213e2" }}>
+                        {<strong>{getTopicSides(currentTopic).otherSide}</strong>}
+                    </span>{" "}  
+                    on the following traits:
                 </Typography>
 
                 {/* Q8: Other Side - Openminded */}
@@ -1299,8 +1604,11 @@ return (
                 </Box>
 
                 {/* Other Side - Social Distance */}
-                <Typography variant="body2" style={{marginTop: 24, marginBottom: 16, fontWeight: 500}}>
-                    How happy would you feel if {getTopicSides(currentTopic).otherSide.replace('advocates', 'an advocate')} was your:
+                 <Typography variant="h6" style={{marginTop: 32, marginBottom: 16, fontWeight: 600}}>
+                    How happy would you feel if {" "}
+                    <span style={{ color: "#3213e2" }}>
+                        {<strong>{getTopicSides(currentTopic).otherSide.replace('advocates', 'advocate')}</strong>}
+                    </span>{" "} was your:
                 </Typography>
 
                 {/* Q11: Other Side - Family */}
