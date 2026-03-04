@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 const Post = require('../models/Post');
 const Article = require('../models/Article');
 const User = require('../models/User');
-const { isCentrist } = require('../utils/stanceCalculations');
-const { calculatePerspectiveScore } = require('../utils/stanceCalculations');
+const { isCentrist, calculatePerspectiveScore, calculateOvertonWindow } = require('../utils/stanceCalculations');
 const { articlesData, getArticleById } = require('../utils/articlesData');
 const logger = require('../logs/logger');
 
@@ -30,19 +29,21 @@ class RecommendationService {
             return this.getDefaultRecommendations(userId, topic, page, limit, excludeIds, excludeArticleIds);
         }
         
+        const effectiveOvertonWindow = await this.resolveOvertonWindow(user, topic);
+
         logger.info('Getting recommendations', { 
             userId, 
             controlGroup: user.controlGroup, 
             topic, 
             stanceScore: user.stanceScore,
-            overtonWindow: user.overtonWindow,
+            overtonWindow: effectiveOvertonWindow,
             excludeCount: excludeIds.length,
             excludeArticleCount: excludeArticleIds.length
         });
         
         switch(user.controlGroup) {
             case 'control':
-                return this.controlGroupRecommendation(user, topic, page, limit, excludeIds, excludeArticleIds);
+                return this.controlGroupRecommendation(user, topic, page, limit, excludeIds, excludeArticleIds, effectiveOvertonWindow);
             case 'edge':
                 return this.edgeGroupRecommendation(user, topic, page, limit, excludeIds, excludeArticleIds);
             case 'center':
@@ -57,14 +58,14 @@ class RecommendationService {
      * Filter articles within Overton window
      * Rank by relevance to user's stance (distance)
      */
-    async controlGroupRecommendation(user, topic, page, limit, excludeIds = [], excludeArticleIds = []) {
+    async controlGroupRecommendation(user, topic, page, limit, excludeIds = [], excludeArticleIds = [], overtonWindow = null) {
         logger.info('Control group recommendation', { userId: user._id, topic, excludeCount: excludeIds.length, excludeArticleCount: excludeArticleIds.length });
         
         // Get all posts for topic with articles
         const posts = await this.getPostsWithArticles(topic, excludeIds, excludeArticleIds);
         
         // Filter by Overton window
-        const filtered = this.filterByOvertonWindow(posts, user.overtonWindow);
+        const filtered = this.filterByOvertonWindow(posts, overtonWindow || user.overtonWindow);
         
         // Deduplicate by articleId and randomize order within the window
         const deduplicated = this.deduplicateByArticleId(filtered);
@@ -431,6 +432,47 @@ class RecommendationService {
             .toLowerCase()
             .replace(/[^a-z0-9]+/g, ' ')
             .trim();
+    }
+
+    /**
+     * Helper: Resolve effective Overton window for recommendation.
+     * Handles legacy control users with persisted [0,100] window.
+     */
+    async resolveOvertonWindow(user, topic) {
+        const currentWindow = user?.overtonWindow;
+        const hasValidWindow = currentWindow &&
+            typeof currentWindow.min === 'number' &&
+            typeof currentWindow.max === 'number';
+
+        const isLegacyUnboundedWindow = hasValidWindow &&
+            currentWindow.min <= 0 && currentWindow.max >= 100;
+
+        if (hasValidWindow && !isLegacyUnboundedWindow) {
+            return currentWindow;
+        }
+
+        if (user?.latestSurveyResults) {
+            const recalculatedWindow = calculateOvertonWindow(
+                topic || user.currentTopic,
+                user.latestSurveyResults,
+                user.controlGroup || 'control'
+            );
+
+            await User.findByIdAndUpdate(user._id, {
+                $set: { overtonWindow: recalculatedWindow }
+            });
+
+            return recalculatedWindow;
+        }
+
+        const stanceScore = typeof user?.stanceScore === 'number' ? user.stanceScore : 0;
+        const stanceCenter = (stanceScore + 1) * 50;
+        const fallbackHalfRange = 15;
+
+        return {
+            min: Math.max(0, stanceCenter - fallbackHalfRange),
+            max: Math.min(100, stanceCenter + fallbackHalfRange)
+        };
     }
     
     /**

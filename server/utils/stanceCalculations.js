@@ -97,12 +97,7 @@ function calculateOvertonWindow(topic, surveyResults, controlGroup = 'control') 
         userStance_final: userStance
     });
     
-    // CONTROL GROUP: Show all articles (0-100 window = no filtering)
-    if (controlGroup === 'control') {
-        return { min: 0, max: 100 };
-    }
-    
-    // EDGE & CENTER GROUPS: Calculate window based on openness/tolerance
+    // ALL GROUPS: Calculate personalized window based on openness/tolerance
     // Base windows per topic (in [-1, 1] scale for perspective scores)
     const baseWindows = {
         'abortion': { min: -0.3, max: 0.3 },              // Narrow - highly polarized topic
