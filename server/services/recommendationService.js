@@ -17,7 +17,7 @@ class RecommendationService {
      * Main entry point for getting recommended posts
      * Routes to appropriate algorithm based on user's control group
      */
-    async getRecommendedPosts(userId, topic, page = 0, limit = 5, excludeIds = [], excludeArticleIds = []) {
+    async getRecommendedPosts(userId, topic, page = 0, limit = 8, excludeIds = [], excludeArticleIds = []) {
         const user = await User.findById(userId);
         
         if (!user) {
@@ -66,18 +66,12 @@ class RecommendationService {
         // Filter by Overton window
         const filtered = this.filterByOvertonWindow(posts, user.overtonWindow);
         
-        // Sort by closeness to user's stance (most relevant first)
-        const ranked = filtered.sort((a, b) => {
-            const distanceA = Math.abs(a.article.perspectiveScore - user.stanceScore);
-            const distanceB = Math.abs(b.article.perspectiveScore - user.stanceScore);
-            return distanceA - distanceB;
-        });
-        
-        // Deduplicate by articleId (keep first/best occurrence)
-        const deduplicated = this.deduplicateByArticleId(ranked);
+        // Deduplicate by articleId and randomize order within the window
+        const deduplicated = this.deduplicateByArticleId(filtered);
+        const randomized = this.shufflePostsWithArticles(deduplicated);
         
         // Get only the first `limit` posts (no pagination offset needed since we exclude already shown)
-        const paginated = deduplicated.slice(0, limit);
+        const paginated = randomized.slice(0, limit);
         
         // Log recommendation
         this.logRecommendation(user._id, 'control', topic, paginated);
@@ -334,6 +328,8 @@ class RecommendationService {
         }
         
         // Combine posts with articles
+        const requestedTopic = this.normalizeTopic(topic);
+
         const postsWithArticles = posts
             .map(post => ({
                 post,
@@ -343,6 +339,7 @@ class RecommendationService {
                 const hasArticle = item.article !== undefined;
                 // Allow perspectiveScore of 0 (neutral) - only filter out undefined/null
                 const hasPerspective = item.article && (item.article.perspectiveScore !== undefined && item.article.perspectiveScore !== null);
+                const articleTopicMatches = !requestedTopic || this.normalizeTopic(item.article?.topic) === requestedTopic;
                 if (!hasArticle) {
                     logger.warn('Post has no matching article', { postId: item.post._id, articleId: item.post.articleId });
                 }
@@ -352,7 +349,15 @@ class RecommendationService {
                         perspectiveScore: item.article.perspectiveScore
                     });
                 }
-                return hasArticle && hasPerspective;
+                if (hasArticle && hasPerspective && !articleTopicMatches) {
+                    logger.warn('Filtering post due to topic mismatch', {
+                        postId: item.post._id,
+                        requestedTopic: topic,
+                        articleTopic: item.article.topic,
+                        postContentTopic: item.post.content
+                    });
+                }
+                return hasArticle && hasPerspective && articleTopicMatches;
             });
         
         logger.info('Posts with valid articles and perspective scores', { count: postsWithArticles.length });
@@ -403,6 +408,29 @@ class RecommendationService {
             seenArticleIds.add(articleId);
             return true;
         });
+    }
+
+    /**
+     * Helper: Shuffle array using Fisher-Yates algorithm
+     */
+    shufflePostsWithArticles(postsWithArticles) {
+        const shuffled = [...postsWithArticles];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    }
+
+    /**
+     * Helper: Normalize topic names for robust comparison
+     */
+    normalizeTopic(topic) {
+        return String(topic || '')
+            .trim()
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, ' ')
+            .trim();
     }
     
     /**

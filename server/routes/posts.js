@@ -1157,7 +1157,7 @@
 
     console.log('Timeline endpoint - userId:', userId, 'page:', page, 'topic:', topic, 'excludeIds:', excludeIds.length, 'excludeArticleIds:', excludeArticleIds.length);
 
-    // ✅ only first page should show the last 5 created, filtered by topic if provided
+    // ✅ first page should show the latest batch, filtered by topic if provided
     const posts = await getLatestFivePosts(userId, page, topic, excludeIds, excludeArticleIds);
 
     res.status(200).json(posts);
@@ -1217,7 +1217,7 @@
     // Parse exclude IDs
     const excludeIds = exclude ? exclude.split(',').filter(id => id.trim()) : [];
 
-    // ✅ only first page should show the last 5 created, filtered by topic if provided
+    // ✅ first page should show the latest batch, filtered by topic if provided
     const posts = await getLatestFivePosts(userId, page, topic, excludeIds);
 
     res.status(200).json(posts);
@@ -1233,6 +1233,7 @@ const recommendationService = require('../services/recommendationService');
 const getLatestFivePosts = async (userId, page = 0, topic = null, excludeIds = [], excludeArticleIds = []) => {
   const currentUser = await User.findById(userId);
   if (!currentUser) return [];
+    const limit = 8;
 
   // ✅ If user has control group and stance score, use recommendation service
   if (currentUser.controlGroup && currentUser.stanceScore !== undefined && currentUser.stanceScore !== null) {
@@ -1244,7 +1245,6 @@ const getLatestFivePosts = async (userId, page = 0, topic = null, excludeIds = [
       excludeArticleCount: excludeArticleIds.length
     });
     
-    const limit = 5; // Always fetch 5 posts
     return await recommendationService.getRecommendedPosts(
       userId,
       topic || currentUser.currentTopic,
@@ -1294,10 +1294,10 @@ const getLatestFivePosts = async (userId, page = 0, topic = null, excludeIds = [
 
   console.log('Searching for posts with filter:', queryFilter);
 
-  // ✅ Fetch more posts than needed to account for potential duplicates (fetch 15 to get 5 unique articles)
+    // ✅ Fetch more posts than needed to account for potential duplicates
   const posts = await Post.find(queryFilter)
     .sort({ createdAt: -1 })
-    .limit(15)
+        .limit(limit * 3)
     .populate('userId', 'username profilePicture') // populate user info for display
     .populate({
       path: 'comments',
@@ -1312,7 +1312,7 @@ const getLatestFivePosts = async (userId, page = 0, topic = null, excludeIds = [
 
   // Deduplicate by articleId (keep first occurrence, which is newest due to sort)
   const seenArticleIds = new Set();
-  const latestFive = posts.filter(post => {
+    const latestPosts = posts.filter(post => {
     const articleIdStr = post.articleId?.toString();
     if (!articleIdStr) return true; // Keep posts without articles
     if (seenArticleIds.has(articleIdStr)) {
@@ -1321,13 +1321,13 @@ const getLatestFivePosts = async (userId, page = 0, topic = null, excludeIds = [
     }
     seenArticleIds.add(articleIdStr);
     return true;
-  }).slice(0, 5); // Return only 5 unique articles
+    }).slice(0, limit); // Return only requested unique articles
 
-  console.log('getLatestFivePosts - Found posts:', latestFive.length);
-  latestFive.forEach((post, i) => {
+    console.log('getLatestFivePosts - Found posts:', latestPosts.length);
+    latestPosts.forEach((post, i) => {
     console.log(`  Found ${i+1}. Content: "${post.content}" | ArticleId: "${post.articleId}" | Title: "${post.title?.substring(0, 50)}..." | Desc: "${post.desc?.substring(0, 50)}..."`);
   });
-  return latestFive;
+    return latestPosts;
 };
 
 

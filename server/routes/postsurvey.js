@@ -187,4 +187,22 @@ router.post('/simplified/:userId', verifyToken, async (req, res) => {
     }
 });
 
+// PILOT STUDY: Get participant prolific code for thank-you page by unique link ID
+router.get('/pilot-code/:uniqueId', async (req, res) => {
+    try {
+        const idstor = await IDStorage.findOne({ yourID: req.params.uniqueId });
+        if (!idstor) {
+            return res.status(404).json({ message: 'Participant not found' });
+        }
+
+        const preSurvey = await PreSurvey.findOne({ uniqueId: idstor._id });
+        const prolificCode = preSurvey?.prolific_Code || 'PILOT_TEST_CODE';
+
+        return res.status(200).json({ prolificCode });
+    } catch (err) {
+        logger.error('Error fetching pilot prolific code', { error: err.message, uniqueId: req.params.uniqueId });
+        return res.status(500).json({ message: 'Failed to fetch prolific code' });
+    }
+});
+
 module.exports = router;

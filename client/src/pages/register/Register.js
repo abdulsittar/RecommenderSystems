@@ -590,7 +590,7 @@ function Register({classes}) {
                 </Typography>
                 
                 {/* Lead Researcher Info */}
-                <Paper elevation={1} style={{ padding: '16px', marginBottom: '24px', backgroundColor: '#f5f5f5' }}>
+                <Paper elevation={1} style={{ padding: '16px', marginBottom: '24px', backgroundColor: '#f5f5f5', textAlign: 'left' }}>
                   <Typography variant="body2" style={{ marginBottom: '4px' }}>
                     <strong>Lead researcher:</strong> Uroš Sergaš
                   </Typography>
@@ -631,13 +631,13 @@ function Register({classes}) {
                     textAlign: 'justify'
                   }}>
                     <Typography variant="body1" paragraph style={{ fontSize: '15px', lineHeight: '1.7', marginBottom: '24px', marginTop: '0px', textAlign: 'justify' }}>
-                      This form has two sections. The first provides information about the study, explains how your data will be processed and used, and what are your rights. Please read it carefully and if there is anything that might not be clear to you, feel free to contact us. The second section consists of a certificate of consent where you are asked to verify your agreement to participate by confirming 8 (eight) statements and signing the form.
+                      This form has two sections. The first provides information about the study, explains how your data will be processed and used, and what are your rights. Please read it carefully and if there is anything that might not be clear to you, feel free to contact us. The second section consists of a certificate of consent where you are asked to verify your agreement to participate by confirming the consent form.
                     </Typography>
 
                     <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
                       About the organisation
                     </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', textAlign: 'justify' }}>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
                       The study is organised by the HICUP Laboratory (https://hicup.famnit.upr.si/), a unit under the Department of Information Sciences and Technology of the Faculty of Mathematics, Natural Sciences and Information Technologies of the University of Primorska.
                     </Typography>
 
@@ -652,173 +652,58 @@ function Register({classes}) {
                       Type of research intervention and participant selection
                     </Typography>
                     <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
-                      You are invited to participate in this longitudinal study if you satisfy the given criteria:
-                    </Typography>
-                    <ul style={{ marginLeft: '20px', marginBottom: '16px' }}>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '8px' }}>
-                        <strong>Age:</strong> You must be at least 18 years old
-                      </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '8px' }}>
-                        <strong>Consent:</strong> You must agree to and confirm the consent form
-                      </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '8px' }}>
-                        <strong>Language proficiency:</strong> You must comprehend English
-                      </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '8px' }}>
-                        <strong>Technological access:</strong> You own and are willing to use a smartphone or a computer with access to the internet to participate in the study
-                      </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '8px' }}>
-                        <strong>Willingness for longer participation:</strong> You are willing to participate in a longitudinal study, that will span for multiple weeks and will require regular interactions with the study tool
-                      </li>
-                    </ul>
-
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginTop: '16px' }}>
-                      You can <strong>NOT</strong> participate in the study if any of the following holds for you:
-                    </Typography>
-                    <ul style={{ marginLeft: '20px', marginBottom: '16px' }}>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '8px' }}>
-                        <strong>Age:</strong> You are under 18 years old
-                      </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '8px' }}>
-                        <strong>Legal restrictions:</strong> You live in a country where discussing or consuming certain political content might lead to legal consequences, compromising your safety
-                      </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '8px' }}>
-                        <strong>Persons with cognitive or emotional support needs:</strong> This study involves exposure to news media items covering a range of topics, some of which may present viewpoints that differ from your own. You believe that engaging with such content could cause you psychological distress or discomfort
-                      </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '8px' }}>
-                        <strong>Persons with insight information:</strong> You are working or studying in the news media sector or are conducting research on news media
-                      </li>
-                    </ul>
-
-                    <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
-                      Voluntary participation
+                      Participation in this study is voluntary. You may participate if you are at least 18 years old, have sufficient knowledge of English, have access to a computer or smartphone with internet connection, and are willing to take part in a longitudinal study involving regular interactions over multiple weeks.
                     </Typography>
                     <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
-                      Your participation in this research is entirely voluntary. You can withdraw from the study at any point without providing any reasons for doing so.
-                    </Typography>
-
-                    <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
-                      Reward
+                      You should not participate if you live in a country where engaging with political news content could pose legal risks, if engaging with potentially divisive news content may cause you psychological distress, or if you are professionally involved in news media or research on news media.
                     </Typography>
                     <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
-                      By participating in this research you can be selected for a 50€ reward. To qualify for the reward, participants must fully read and interact with at least five news articles per session within our system. At the end of the study, 10 participants will be randomly chosen, from those who satisfied the condition for the reward.
+                      You may withdraw from the study at any time without providing a reason and without any negative consequences.
                     </Typography>
 
                     <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
                       Procedure
                     </Typography>
-                    {/* PILOT STUDY - 2 sessions version */}
                     <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
-                      You will participate in this pilot study that consists of two weekly sessions spanning across two weeks.
+                      The study is conducted over a period of four weeks and consists of weekly sessions. Participation includes an initial onboarding phase with consent and a short questionnaire, followed by recurring sessions in which you read and evaluate recommended news articles using a web or mobile platform. At the end of the study, you will receive a debriefing message with additional information about the study and the reward process.
                     </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
-                      The study itself will consist of multiple steps. Steps 1, 2 and 3 will be conducted only once, at the start of the individuals' participation in the study. Steps 4 and 5 will be conducted at each occurrence of the study during the two week period. The last step - debriefing will occur once, after all the repeats of steps 4 and 5 are done, thus concluding your participation. The details of each step are following:
-                    </Typography>
-                    {/* MAIN STUDY - 3 sessions version (uncomment for main study)
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
-                      You will participate in this study that consists of weekly sessions spanning across four weeks.
-                    </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
-                      The study itself will consist of multiple steps. Steps 1, 2 and 3 will be conducted only once, at the start of the individuals' participation in the study. Steps 4 and 5 will be conducted at each occurrence of the study during the four week period. The last step - debriefing will occur once, after all the repeats of steps 4 and 5 are done, thus concluding your participation. The details of each step are following:
-                    </Typography>
-                    */}
-                    <ol style={{ marginLeft: '20px', marginBottom: '16px' }}>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
-                        <strong>Informed Consent (approx. 5 minutes):</strong> Before your first session you will be provided with the Informed Consent Form (ICF) which you can sign and consent to if you wish to proceed further with the study. You will be provided with a method of contacting us in case you would seek clarifications on specific matters that may not be clear to you.
-                      </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
-                        <strong>Preparation (approx. 5 minutes):</strong> At the beginning of the first session, upon consenting, you will be given the instruction to download the Informfully application for your mobile device or a link to the web application of the same platform. Additionally, you will be given the username and a passcode that you will use to login to the Informfully platform. Once that is done you may require some additional time to orient yourself on the application.
-                      </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
-                        <strong>Initial questionnaire (approx. 5 minutes):</strong> During your first session you will also be presented with a set of demographic questions as well as questions that will assess your political activity and news consumption habits.
-                      </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
-                        <strong>Pre-interaction assessment (approx. 2 minutes):</strong> At the start of each session, you will be asked to fill a short questionnaire, with questions on your opinions and preferences towards social topics, groups of people whose political stance is similar to yours and groups of people with a differing political stance to yours.
-                      </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
-                        <strong>Interaction with news articles (approx. 10 minutes):</strong> At each occurrence of the weekly participation of the study, you will be asked to spend at least 10 minutes reading and rating news articles that will be recommended to you. You will be asked to first read multiple news articles and then rate the article using different measurements, which will be provided to you.
-                      </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
-                        <strong>Debriefing (approx. 1 minute):</strong> After the participation, you will receive a debriefing e-mail, where a relief talk will be offered as well as the notification whether you were selected for the monetary reward or not and the step-by-step instructions on how to claim it.
-                      </li>
-                    </ol>
 
                     <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
                       Risks and benefits
                     </Typography>
                     <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
-                      There are some of the risks one should be aware of before participating in the study:
-                    </Typography>
-                    <ul style={{ marginLeft: '20px', marginBottom: '16px' }}>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
-                        <strong>Cognitive overload:</strong> While the reoccurring sessions will be kept short, a small percentage of individuals may experience cognitive overload from receiving a larger amount of information in a shorter period of time. If, anytime during your participation in the study, you experience desensitization or information fatigue, please refrain from continuing your participation and take a break. If the sensation of cognitive overload persists, or if the experienced overload was too impactful, please refrain from further participation in the study and contact us immediately, so that our psychological support expert may assist you.
-                      </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
-                        <strong>Impact on well-being:</strong> Reading news articles on social topics that deal with topics that are divisive for the society, may cause stress or anxiety in some readers. Distressing or alarming news can heighten feelings of fear and worry. News stories that one may consider to be negative may also contribute to feelings of hopelessness or sadness, particularly for those who are already vulnerable to depression. Moreover, reading emotionally charged news repeatedly can mimic trauma exposure, leading to symptoms like nightmares or intrusive thoughts. If you experience any of the aforementioned symptoms or if you know that you are prone to anxiety, depression or post-traumatic stress, you are advised NOT to participate in the study. If you choose to participate regardless, remember that at any point you may contact us or the psychological support expert for any assistance.
-                      </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
-                        <strong>Social and emotional impact:</strong> If you start to feel like you have developed a new found discomfort, distrust or hate towards a specific social topic or group, please contact us. Promoting distrust and/or hate between political groups or between differing minded individuals is not what the study is aimed to achieve and moreover, it goes against our moral code as researchers.
-                      </li>
-                    </ul>
-
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
-                      There are some potential benefits:
-                    </Typography>
-                    <ul style={{ marginLeft: '20px', marginBottom: '16px' }}>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
-                        <strong>Broadening your perspective and political knowledge:</strong> Since participating in the study will have you reading and interacting with diverse perspectives over multiple social topics, you might experience a better understanding for one or multiple social topics. Moreover, you might find it more reasonable why someone would choose to hold a differing opinion to yours, having read and interacted with diverse perspectives on said topics. Over time, this might result in you perceiving the people with differing opinions to yours in a new light, possibly even providing for a more civilized (political) discussion with them.
-                      </li>
-                      <li style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '12px' }}>
-                        <strong>Social benefit:</strong> Your participation in this study is crucial for us to understand how to detect political stances in news articles and obtain insights how differing stances might have an effect on an individual. These insights might benefit the society as a whole, since researchers, developers of news sites and journalists may learn from this and take precautions so that the process of news media consumption is not as polarizing as it can be.
-                      </li>
-                    </ul>
-
-                    <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
-                      Confidentiality
+                      Participation may involve exposure to news content on socially or politically sensitive topics. Some participants may experience discomfort, stress, or information fatigue. If you experience distress at any point, you are encouraged to pause or discontinue participation and contact the research team or the designated psychological support expert.
                     </Typography>
                     <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
-                      We will not share your personal information to anyone outside of the research team. Your real name and email will not be stored by us. All the communication will be done either through the participant recruitment platform (Prolific) or the news aggregator (Informfully) platform. Any other types of personally identifiable information will not appear in future publications and outputs. Any information about you will be marked by a participant ID instead of your name. Only members of the research group will have access to personally identifiable data and the consent forms. All the personal and contact information will be securely stored and destroyed when it is no longer needed.
+                      Potential benefits include increased awareness of diverse perspectives and contribution to research that may help improve the design of news platforms and reduce harmful polarization in news consumption.
                     </Typography>
 
                     <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
-                      Processing and storing your data
+                      Data Protection and Confidentiality
                     </Typography>
                     <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
-                      Your responses will be collected through a set of questionnaires and from the interaction with the news article aggregation platform. The data will be stored in a safe place at the investigators' facility and only authorised personnel will have access to it. The response data will be kept in the anonymized form.
+                      Your participation will involve the collection of questionnaire responses and interaction data from the news aggregation platform. Personal identifiers such as your real name and email address will not be stored by the research team. All data will be anonymized, labeled using participant IDs, and securely stored. Only authorized members of the research team will have access to identifiable data and consent forms.
+                    </Typography>
+                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
+                      In the event of a data breach, appropriate measures will be taken to minimize potential harm, and you will be informed as soon as possible.
                     </Typography>
 
                     <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
-                      Data Breach
+                      Usage of Data and Your Rights
                     </Typography>
                     <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
-                      In case of a data breach, the person responsible for data protection will be informed by the responsible researcher. Together they will undertake all steps necessary to minimise any negative consequences. You will receive a notification about the nature of the data breach, the information lost and the actions taken as soon as possible.
-                    </Typography>
-
-                    <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
-                      Your rights
+                      Anonymized research data may be used for scientific publications, educational purposes, and future research, and may be shared with third parties through open research data repositories such as Zenodo. You may request a summary of the study results.
                     </Typography>
                     <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
-                      You have the right to access your personal data, to correct it, to erase it, to restrict its processing, the right to data portability, and the right to object to in accordance with Articles 15-22 of the General Data Protection Regulation (GDPR). However, the right of erasure does not apply when the processing is necessary for the purposes of archiving that is in public interest, as well as the purposes of statistical analysis and scientific or historical research.
-                    </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
-                      You can also withdraw your consent to process your personal data at any time according to GDPR Article 6(1) and Article 9(2) without any consequences. Upon request your local supervisory authority will provide you information on exercising your rights according to Article 57(e) GDPR.
-                    </Typography>
-
-                    <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
-                      Usage of your data
-                    </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
-                      Processed data will be used in research publications, for education purposes and for future research. The use will not be limited to the research group. Third parties will be able to access and process the anonymized data deposited on, for example, the Zenodo open research data platform.
-                    </Typography>
-                    <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify' }}>
-                      As a participant you can receive a summary of the results upon request.
+                      You have the right to access, correct, restrict, or object to the processing of your personal data in accordance with Articles 15–22 of the General Data Protection Regulation (GDPR). You may withdraw consent for data processing at any time without consequences. Certain rights, such as erasure, may be limited where data processing is necessary for scientific research purposes.
                     </Typography>
 
                     <Typography variant="h6" gutterBottom style={{ marginTop: '24px', marginBottom: '12px', fontWeight: 'bold' }}>
                       Contact information
                     </Typography>
                     <Typography variant="body1" paragraph style={{ fontSize: '14px', lineHeight: '1.6', textAlign: 'justify', marginBottom: '0px' }}>
-                      If you require any form of emotional support during or at the end of the study, please contact our psychological support expert (email: hicup.care@famnit.upr.si) and briefly describe your issue. Please provide your contact information (e.g. email, phone number) so we can reach out to you. If necessary, we may schedule a relief talk. If you have any questions about the content, process or the goals of the study, you can contact the head researcher, Uroš Sergaš, (email: uros.sergas@upr.si).
+                      If you require emotional support during or after participation, you may contact the psychological support expert at hicup.care@famnit.upr.si<br />
+                      For questions regarding the study, its procedures, or objectives, you may contact the lead researcher, Uroš Sergaš, at uros.sergas@upr.si
                     </Typography>
                   </div>
                 </Paper>
@@ -890,7 +775,7 @@ function Register({classes}) {
                 </Paper>
 
                 {/* Participation Tasks Box */}
-                <Paper elevation={2} style={{ padding: '24px', marginBottom: '32px', backgroundColor: '#f0f7ff' }}>
+                <Paper elevation={2} style={{ padding: '24px', marginBottom: '32px', backgroundColor: '#f0f7ff', textAlign: 'left' }}>
                   <Typography variant="h6" gutterBottom style={{ marginBottom: '16px', fontWeight: 'bold', color: '#1976d2' }}>
                     Participation Tasks
                   </Typography>
