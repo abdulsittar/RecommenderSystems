@@ -159,6 +159,7 @@ function Register({classes}) {
   const cancelRef = React.useRef();
   
   const [checkingStatus, setCheckingStatus] = useState(true);
+  const [secondSessionBlockedInfo, setSecondSessionBlockedInfo] = useState(null);
 
   // User account state (keep these for account creation flow)
   const [username, setUsername] = useState("");
@@ -229,6 +230,19 @@ function Register({classes}) {
           history.push("/");
         } catch (loginError) {
           console.error('Auto-login failed:', loginError);
+          const gateData = loginError?.response?.data;
+
+          if (gateData?.tooEarlySecondSession) {
+            setSecondSessionBlockedInfo({
+              hoursRemaining: gateData.hoursRemaining,
+              minutesRemaining: gateData.minutesRemaining,
+              canLoginAt: gateData.canLoginAt,
+              firstSessionAt: gateData.firstSessionAt
+            });
+            toast.info('Your second session will be available after 48 hours from your first session.');
+            return;
+          }
+
           toast.error('Login failed. Please try again.');
           // If auto-login fails, fall back to manual login page
           history.push(`/login/${uniqId}`);
@@ -575,6 +589,31 @@ function Register({classes}) {
         </div>
       ) : (
       <div className={classes.register}>
+        {secondSessionBlockedInfo ? (
+          <div style={{ maxWidth: '760px', margin: '40px auto', width: '100%' }}>
+            <Paper elevation={2} style={{ padding: '28px' }}>
+              <Typography variant="h5" style={{ marginBottom: '14px', fontWeight: 'bold' }}>
+                Your 2nd session is not available yet
+              </Typography>
+              <Typography variant="body1" style={{ marginBottom: '10px', lineHeight: '1.7' }}>
+                There must be at least 48 hours between your 1st and 2nd sessions.
+              </Typography>
+              <Typography variant="body1" style={{ marginBottom: '10px', lineHeight: '1.7' }}>
+                Please come back later via your Prolific invitation link.
+              </Typography>
+              {secondSessionBlockedInfo?.hoursRemaining !== undefined && (
+                <Typography variant="body1" style={{ marginBottom: '8px', fontWeight: '600' }}>
+                  Time remaining: {secondSessionBlockedInfo.hoursRemaining} hour(s)
+                </Typography>
+              )}
+              {secondSessionBlockedInfo?.canLoginAt && (
+                <Typography variant="body2" color="textSecondary">
+                  Earliest available time: {new Date(secondSessionBlockedInfo.canLoginAt).toLocaleString()}
+                </Typography>
+              )}
+            </Paper>
+          </div>
+        ) : (
         <form className={classes.form} noValidate autoComplete="off">
           
           {/* TODO: Replace with new three-stage survey JSX */}
@@ -1137,6 +1176,7 @@ function Register({classes}) {
           </div>
           
         </form>
+        )}
       </div>
       )}
       

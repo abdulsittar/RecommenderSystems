@@ -353,6 +353,35 @@ try {
         if (user.loginCount) {
             sessionCount = user.loginCount + 1;
         }
+
+        // PILOT STUDY: Enforce minimum 48h between session 1 and session 2
+        // Session 2 attempt means user currently has exactly 1 completed login/session.
+        if (user.loginCount === 1) {
+            const hoursSinceFirstSession = (now - new Date(lastLogin)) / (1000 * 60 * 60);
+            if (hoursSinceFirstSession < 48) {
+                const hoursRemaining = Math.ceil(48 - hoursSinceFirstSession);
+                const minutesRemaining = Math.max(0, Math.ceil((48 - hoursSinceFirstSession) * 60));
+                const canLoginAt = new Date(new Date(lastLogin).getTime() + (48 * 60 * 60 * 1000));
+
+                logger.info('Second session blocked: 48h rule not met', {
+                    userId: user._id,
+                    username: user.username,
+                    hoursSinceFirstSession,
+                    hoursRemaining,
+                    firstSessionAt: new Date(lastLogin),
+                    canLoginAt
+                });
+
+                return res.status(403).json({
+                    tooEarlySecondSession: true,
+                    message: 'Your second session is not available yet. Please return after 48 hours from your first session.',
+                    firstSessionAt: new Date(lastLogin),
+                    canLoginAt,
+                    hoursRemaining,
+                    minutesRemaining
+                });
+            }
+        }
         
         console.log('='.repeat(60));
         console.log('SESSION CHECK - User Login');

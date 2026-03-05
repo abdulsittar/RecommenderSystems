@@ -38,6 +38,7 @@ function App() {
     <Route path="/landingPage"><LandingPage/></Route>
 		<Route exact path="/">{user ? <Home /> : <LandingPage />}</Route>
 		<Route path="/login/:userId"><Login /></Route>
+    <Route path="/study/:userId"><Register /></Route>
 		<Route path="/register/:userId"><Register /></Route> 
 		<Route path="/weekly-survey">{user ? <WeeklySurvey /> : <Redirect to="/landingPage" />}</Route>
 		<Route path="/profile/:username"><Profile /></Route>
