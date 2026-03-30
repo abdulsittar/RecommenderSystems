@@ -82,7 +82,9 @@ function Post({onScrolling,  post, classes, isDetail, setHasReadArticle, current
   const [webViewVisible, setWebViewVisible] = useState(false);
 const [webViewUrl, setWebViewUrl] = useState('');
 
-  
+  const viewIdRef = useRef(null);
+  const lastAgreementRef = useRef(null);
+
   const [isNew, setIsNew] = useState(false);
 
   const [user, setUser] = useState({});
@@ -235,10 +237,98 @@ const [webViewUrl, setWebViewUrl] = useState('');
   }, []);
 
   useEffect(() => {
-    const handleMessage = (event) => {
+    const handleMessage = async (event) => {
+      if (event.data && event.data.type === 'articleAgreement') {
+        try {
+          const messageArticleId = event.data.articleId;
+          const thisPostArticleId = post?.articleId;
+
+          // Each post component listens globally; only save for the matching article.
+          if (String(messageArticleId) !== String(thisPostArticleId)) {
+            return;
+          }
+
+          const parsedAgreementValue = Number(event.data.value);
+          if (!Number.isFinite(parsedAgreementValue)) {
+            return;
+          }
+
+          lastAgreementRef.current = parsedAgreementValue;
+
+          const token = localStorage.getItem('token');
+          const saveRes = await axios.post(
+            `/posts/${post._id}/agreement`,
+            {
+              userId: currentUser._id,
+              postId: post._id,
+              articleId: messageArticleId,
+              agreementValue: parsedAgreementValue
+            },
+            { headers: { 'auth-token': token } }
+          );
+          console.log('[Agreement] Saved on slider change', {
+            postId: post._id,
+            articleId: messageArticleId,
+            agreementValue: parsedAgreementValue,
+            status: saveRes.status
+          });
+        } catch (err) {
+          // Never block reading flow if agreement save fails.
+          console.warn('Failed to save article agreement value', err);
+        }
+      }
+
       if (event.data && event.data.type === 'articleBackButtonClicked') {
         console.log(`Back button clicked for article ${event.data.articleId} (time spent: ${event.data.timeSpent}ms) - dismissing toast`);
         // Simply dismiss the toast when back button is clicked
+        console.log("Dismissing toast...");
+         try {
+
+        const messageArticleId = event.data.articleId;
+        const thisPostArticleId = post?.articleId;
+        if (
+          String(messageArticleId) === String(thisPostArticleId) &&
+          Number.isFinite(lastAgreementRef.current)
+        ) {
+          const token = localStorage.getItem('token');
+          const closeSaveRes = await axios.post(
+            `/posts/${post._id}/agreement`,
+            {
+              userId: currentUser._id,
+              postId: post._id,
+              articleId: messageArticleId,
+              agreementValue: lastAgreementRef.current
+            },
+            { headers: { 'auth-token': token } }
+          );
+          console.log('[Agreement] Saved on article close', {
+            postId: post._id,
+            articleId: messageArticleId,
+            agreementValue: lastAgreementRef.current,
+            status: closeSaveRes.status
+          });
+        } else {
+          console.log('[Agreement] No close-save attempted', {
+            postId: post._id,
+            articleId: messageArticleId,
+            reason: 'No matching article or no captured slider value'
+          });
+        }
+
+        const token = localStorage.getItem('token');
+
+        await axios.post(
+          `/posts/end-view/${viewIdRef.current}`,
+          {},
+          { headers: { 'auth-token': token } }
+        );
+
+        console.log("View session ended");
+
+      } catch (err) {
+        console.error(err);
+      }
+
         toast.dismiss();
       }
     };
@@ -680,10 +770,12 @@ const submitHandler2 = async (e) => {
     
     try {
         const token = localStorage.getItem('token');
-        const lc = await axios.post("/posts/" + currentUser._id + "/track-view", 
+        const res = await axios.post("/posts/" + currentUser._id + "/track-view", 
             {postId: post._id, userId: currentUser._id}, 
             {headers: { 'auth-token': token }}
         );
+        console.log("track-view response:", res.data);
+        viewIdRef.current = res.data.viewId; // store session id
         console.log("Viewpost updated successfully.");
         
         // Fetch updated user data to see current readPosts count
@@ -711,8 +803,25 @@ const submitHandler2 = async (e) => {
               maxWidth: '95vw',
               padding: '0px',
               margin: '0px'
-          }
+          },
+      onClose: async () => {
+      try {
+
+        const token = localStorage.getItem('token');
+
+        await axios.post(
+          `/posts/end-view/${viewIdRef.current}`,
+          {},
+          { headers: { 'auth-token': token } }
+        );
+
+        console.log("View session ended");
+
+      } catch (err) {
+        console.error(err);
       }
+    }
+  }
   );
   
   toastIdRef.current = id;
@@ -1108,27 +1217,6 @@ const triangleOverlayStyle = {
         </Linkify>
           
           
-        </div>
-        
-        {/* Debug Post Metadata Overlay */}
-        {/* Post metadata debug info - always visible during testing */}
-        <div style={{
-            padding: '10px',
-            backgroundColor: 'rgba(255, 255, 0, 0.15)',
-            border: '1px solid #ffcc00',
-            borderRadius: '4px',
-            fontSize: '11px',
-            marginTop: '10px',
-            fontFamily: 'monospace'
-        }}>
-            <div><strong>Article ID:</strong> {post.articleId || 'N/A'}</div>
-            <div><strong>Perspective Score:</strong> {post.perspectiveScore?.toFixed(2) || 'N/A'} <span style={{color: '#666'}}>({post.perspectiveScore != null ? ((post.perspectiveScore + 1) * 50).toFixed(1) : 'N/A'} on 0-100 scale)</span></div>
-            <div><strong>Stance:</strong> {post.stance || 'N/A'}</div>
-            <div><strong>Strength:</strong> {post.strength || 'N/A'}</div>
-            <div><strong>Topic:</strong> {post.content || 'N/A'}</div>
-            <div style={{ fontSize: '10px', marginTop: '4px', fontStyle: 'italic', color: '#666' }}>
-                📊 Post metadata (always visible for testing)
-            </div>
         </div>
         
       </div>

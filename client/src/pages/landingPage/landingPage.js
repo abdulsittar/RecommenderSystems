@@ -28,7 +28,14 @@ const LandingPage = () => {
     const handleStartStudy = () => {
       if (randomID) {
         //history.push(`/study/${randomID}`); // Using the randomID in the URL
-        window.open(`https://socialapp2.ijs.si/study/${randomID}`, '_blank');
+        const prolificPID = randomID;
+        const studyID = 1;
+        const sessionID = 1;
+
+        //window.open(`https://socialapp2.ijs.si/study/${randomID}`, '_blank');
+
+        window.open(`https://socialapp2.ijs.si/study/?PROLIFIC_PID=${prolificPID}&STUDY_ID=${studyID}&SESSION_ID=${sessionID}`,"_blank");
+
       } else {
         console.error("No random ID found");
       }

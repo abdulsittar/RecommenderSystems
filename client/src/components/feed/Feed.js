@@ -169,9 +169,12 @@ const handleFeedAction = async (e) => {
         console.log('Topic changing is disabled for pilot study');
     }
 
-    const handleNextDialogClose = () => {
-        setNextDialogOpen(false);
+    const handleNextDialogClose = (event, reason) => {
+    if (reason === "backdropClick") {
+        return; // prevent closing when clicking outside
     }
+    setNextDialogOpen(false);
+};
 
     const handleNextOptionChange = (e) => {
         setNextSelectedOption(e.target.value);
@@ -260,12 +263,12 @@ const handleFeedAction = async (e) => {
                     // Update the user in context with topic-specific data
                     if (userResponse.data) {
                         dispatch(UpdateUser(userResponse.data));
-                        console.log('User updated with topic-specific survey data:', {
-                            stanceScore: userResponse.data.stanceScore,
-                            overtonWindow: userResponse.data.overtonWindow,
-                            currentTopic: userResponse.data.currentTopic,
-                            controlGroup: userResponse.data.controlGroup
-                        });
+                        // console.log('User updated with topic-specific survey data:', {
+                        //     stanceScore: userResponse.data.stanceScore,
+                        //     overtonWindow: userResponse.data.overtonWindow,
+                        //     currentTopic: userResponse.data.currentTopic,
+                        //     controlGroup: userResponse.data.controlGroup
+                        // });
                     }
                     
                     await axios.post(`/posts/${user._id}/createInitialData`, { topic, pool: user.pool, userId: user._id }, { headers: { 'auth-token': token } });
@@ -317,12 +320,12 @@ const handleFeedAction = async (e) => {
                     // Update the user in context with topic-specific data
                     if (userResponse.data) {
                         dispatch(UpdateUser(userResponse.data));
-                        console.log('User updated with topic-specific survey data:', {
-                            stanceScore: userResponse.data.stanceScore,
-                            overtonWindow: userResponse.data.overtonWindow,
-                            currentTopic: userResponse.data.currentTopic,
-                            controlGroup: userResponse.data.controlGroup
-                        });
+                        // console.log('User updated with topic-specific survey data:', {
+                        //     stanceScore: userResponse.data.stanceScore,
+                        //     overtonWindow: userResponse.data.overtonWindow,
+                        //     currentTopic: userResponse.data.currentTopic,
+                        //     controlGroup: userResponse.data.controlGroup
+                        // });
                     }
                     
                     await axios.post(`/posts/${user._id}/createInitialData`, { topic, pool: user.pool, userId: user._id }, { headers: { 'auth-token': token } });
@@ -442,19 +445,19 @@ const handleFeedAction = async (e) => {
             const stanceScore_normalized = weight_q1 + weight_q2_7 + weight_q8_13;  // [-1, +1]
             const stanceScore = (stanceScore_normalized + 1) * 50;  // Convert to [0, 100]
             
-            console.log('Overton Window Calculation:', {
-                topicAttitude: weeklyData.topicAttitude,
-                q1_normalized,
-                weight_q1,
-                q2_7_avg,
-                q2_7_normalized,
-                weight_q2_7,
-                q8_13_avg,
-                q8_13_normalized,
-                weight_q8_13_negative: weight_q8_13,
-                stanceScore_normalized,
-                finalStanceScore: stanceScore
-            });
+            // console.log('Overton Window Calculation:', {
+            //     topicAttitude: weeklyData.topicAttitude,
+            //     q1_normalized,
+            //     weight_q1,
+            //     q2_7_avg,
+            //     q2_7_normalized,
+            //     weight_q2_7,
+            //     q8_13_avg,
+            //     q8_13_normalized,
+            //     weight_q8_13_negative: weight_q8_13,
+            //     stanceScore_normalized,
+            //     finalStanceScore: stanceScore
+            // });
 
             // Submit weekly survey with topic and calculated stance score
             const response = await axios.post('/users/weeklyResponse', {
@@ -481,12 +484,12 @@ const handleFeedAction = async (e) => {
                 // Update the user in context with new control group data
                 if (userResponse.data) {
                     dispatch(UpdateUser(userResponse.data));
-                    console.log('User updated with new survey data:', {
-                        stanceScore: userResponse.data.stanceScore,
-                        overtonWindow: userResponse.data.overtonWindow,
-                        currentTopic: userResponse.data.currentTopic,
-                        controlGroup: userResponse.data.controlGroup
-                    });
+                    // console.log('User updated with new survey data:', {
+                    //     stanceScore: userResponse.data.stanceScore,
+                    //     overtonWindow: userResponse.data.overtonWindow,
+                    //     currentTopic: userResponse.data.currentTopic,
+                    //     controlGroup: userResponse.data.controlGroup
+                    // });
                 }
                 
                 setWeeklySurveyOpen(false);
@@ -1040,8 +1043,8 @@ if (preProfile === " ") {
             console.log('View More clicked - Excluding:', allExcludedArticleIds.length, 'article IDs');
             console.log('Current articles on screen:', currentArticleIds);
             console.log('All excluded article IDs:', allExcludedArticleIds);
-            console.log('User control group:', currentUser.controlGroup);
-            console.log('User Overton window:', currentUser.overtonWindow);
+            // console.log('User control group:', currentUser.controlGroup);
+            // console.log('User Overton window:', currentUser.overtonWindow);
             
             // Fetch new posts excluding already shown articles
             // IMPORTANT: Pass control group info to ensure edge/center filtering
@@ -1053,7 +1056,7 @@ if (preProfile === " ") {
     const fetchNewPostsExcluding = async (selectedValue, topicParam, excludeArticleIds) => {
         setProgress(30);
         console.log("fetchNewPostsExcluding - topic:", topicParam, "excluding article count:", excludeArticleIds.length);
-        console.log("Control group:", currentUser.controlGroup, "Overton window:", currentUser.overtonWindow);
+        // console.log("Control group:", currentUser.controlGroup, "Overton window:", currentUser.overtonWindow);
         
         var whPosts = "/posts/timelinePag/";
         if(selectedValue == 0){
@@ -1156,32 +1159,6 @@ if (preProfile === " ") {
 return (
     <div className={classes.feed}>
     <LoadingBar   color="#f11946"   progress={progress}   onLoaderFinished={() => setProgress(0)} />
-        
-        {/* Debug Control Group Display - Always visible during testing */}
-        {currentUser && (
-            <div style={{
-                position: 'fixed',
-                top: 70,
-                right: 10,
-                padding: '12px',
-                backgroundColor: 'rgba(0, 0, 0, 0.85)',
-                color: 'white',
-                borderRadius: '8px',
-                zIndex: 9999,
-                fontSize: '12px',
-                fontFamily: 'monospace',
-                boxShadow: '0 4px 6px rgba(0,0,0,0.3)',
-                minWidth: '200px'
-            }}>
-                <div style={{fontWeight: 'bold', marginBottom: '8px', fontSize: '14px', borderBottom: '1px solid #666', paddingBottom: '6px'}}>
-                    🔬 Debug Info
-                </div>
-                <div><strong>Control Group:</strong> {currentUser.controlGroup || 'None'}</div>
-                <div><strong>Stance:</strong> {currentUser.stanceScore?.toFixed(2) || 'N/A'}</div>
-                <div><strong>Window:</strong> [{currentUser.overtonWindow?.min?.toFixed(1)}, {currentUser.overtonWindow?.max?.toFixed(1)}]</div>
-                <div><strong>Topic:</strong> {currentUser.currentTopic || 'None'}</div>
-            </div>
-        )}
         
         {/* Top Navigation Buttons */}
         <div style={{display: 'flex', justifyContent: 'center', gap: '16px', marginBottom: 20, marginTop: 10}}>
@@ -1325,7 +1302,7 @@ return (
             </Button> */}
         </div>
                 {/* PILOT STUDY: Only 3 topics available, dialog shown only on first login */}
-                <Dialog open={nextDialogOpen} onClose={handleNextDialogClose} aria-labelledby="next-dialog-title">
+                <Dialog open={nextDialogOpen} onClose={handleNextDialogClose} aria-labelledby="next-dialog-title" disableEscapeKeyDown>
                     <DialogTitle id="next-dialog-title">Select Topic</DialogTitle>
                     <DialogContent>
                         <DialogContentText>

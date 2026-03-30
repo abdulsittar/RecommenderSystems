@@ -263,15 +263,34 @@ router.post('/isSubmitted/:val', async (req, res) => {
         console.log("Checking survey status for:", req.params.val);
 
         // Find the ID in IDStorage
-        const idstor = await IDStorage.find({ "yourID": req.params.val });
+        /*const idstor = await IDStorage.find({ "yourID": req.params.val });
         if (!idstor || idstor.length === 0) {
             console.log("ID not found in IDStorage");
             res.status(404).json({ error: "ID not found" });
             return;
         }
 
-        const fid = idstor[0];
+        const fid = idstor[0];*/
+        let fid = await IDStorage.findOne({ yourID: req.params.val });
+
+        if (!fid) {
+            console.log("ID not found. Creating new record...");
+
+            const defaultPassword = req.params.val.substring(0, 10);
+
+            fid = await IDStorage.create({
+                yourID: req.params.val,
+                defaultPassword: defaultPassword,
+                available: false,
+                version: 1
+            });
+
+            console.log("New ID stored:", fid);
+        }
         console.log("FID object:", fid);
+
+
+
 
         // Check for new three-stage survey completion
         const consentResponse = await ConsentResponse.findOne({ "uniqueId": fid["_id"] });

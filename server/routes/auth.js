@@ -354,20 +354,21 @@ try {
             sessionCount = user.loginCount + 1;
         }
 
-        // PILOT STUDY: Enforce minimum 48h between session 1 and session 2
+        // Enforce minimum 48h between session 1 and session 2
         // Session 2 attempt means user currently has exactly 1 completed login/session.
         if (user.loginCount === 1) {
-            const hoursSinceFirstSession = (now - new Date(lastLogin)) / (1000 * 60 * 60);
-            if (hoursSinceFirstSession < 48) {
-                const hoursRemaining = Math.ceil(48 - hoursSinceFirstSession);
-                const minutesRemaining = Math.max(0, Math.ceil((48 - hoursSinceFirstSession) * 60));
-                const canLoginAt = new Date(new Date(lastLogin).getTime() + (48 * 60 * 60 * 1000));
+            const minWaitMinutes = 48*60; // Change back to 48*60 for production (48 hours)
+            const minutesSinceFirstSession = (now - new Date(lastLogin)) / (1000 * 60);
+            if (minutesSinceFirstSession < minWaitMinutes) {
+                const minutesRemaining = Math.ceil(minWaitMinutes - minutesSinceFirstSession);
+                const hoursRemaining = Math.ceil(minutesRemaining / 60);
+                const canLoginAt = new Date(new Date(lastLogin).getTime() + (minWaitMinutes * 60 * 1000));
 
-                logger.info('Second session blocked: 48h rule not met', {
+                logger.info('Second session blocked: min wait not met', {
                     userId: user._id,
                     username: user.username,
-                    hoursSinceFirstSession,
-                    hoursRemaining,
+                    minutesSinceFirstSession,
+                    minutesRemaining,
                     firstSessionAt: new Date(lastLogin),
                     canLoginAt
                 });

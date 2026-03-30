@@ -11,6 +11,7 @@
     const PostSurvey = require('../models/PostSurvey');
     const Repost = require('../models/Repost');
     const Viewpost = require('../models/Viewpost');
+    const ArticleAgreement = require('../models/ArticleAgreement');
     const IDStorage = require('../models/IDStorage');
     const { getInitialPostsByTopic, getPostsByTopicAndPage, getWebLinksByTopic } = require('../utils/posts');
     const { sampleArticles } = require('../utils/sampleArticles');
@@ -700,7 +701,7 @@
         }
     });
 
-    router.post("/:id/track-view", verifyToken, async (req, res) => {
+    router.post("/:id/track-view23", verifyToken, async (req, res) => {
         console.log("track-view");
 
         try {
@@ -747,6 +748,142 @@
             res.status(500).json({ error: "Internal Server Error", details: error.message });
         }
     });
+
+    router.post("/:id/track-view", verifyToken, async (req, res) => {
+
+  try {
+    const { userId, postId } = req.body;
+
+    if (!userId || !postId) {
+      return res.status(400).json({ message: "User ID and Post ID are required" });
+    }
+
+    const newView = new Viewpost({
+      userId,
+      postId,
+      startTime: new Date()
+    });
+
+    await newView.save();
+
+    // Update user's readPosts and sessionReadPosts arrays (same as old track-view23)
+    const user = await User.findById(userId);
+    if (user) {
+      // Add to lifetime readPosts if not already there
+      if (!user.readPosts.includes(postId)) {
+        await user.updateOne({ $push: { readPosts: postId } });
+        console.log("Added post to user's readPosts array:", postId);
+      }
+      
+      // Add to sessionReadPosts if not already there (for current session tracking)
+      if (!user.sessionReadPosts.includes(postId)) {
+        await user.updateOne({ $push: { sessionReadPosts: postId } });
+        console.log("Added post to user's sessionReadPosts array:", postId);
+      }
+    }
+
+    res.status(200).json({
+      message: "View session started",
+      viewId: newView._id
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+
+});
+
+
+router.post("/end-view/:viewId", verifyToken, async (req, res) => {
+  try {
+
+    const { viewId } = req.params;
+
+    if (!viewId || viewId === "null" || !mongoose.Types.ObjectId.isValid(viewId)) {
+        console.log("Invalid viewId:", viewId);
+        view = new Viewpost({
+        endTime: new Date(),
+        // You can set other fields here as needed
+      });
+      await view.save();
+      return res.status(400).json({ message: "Invalid viewId" });
+    }
+
+    const view = await Viewpost.findById(viewId);
+
+    if (!view) {
+        view = new Viewpost({
+        endTime: new Date(),
+        // You can set other fields here as needed
+      });
+      await view.save();
+        console.log("View not found for viewId:", viewId);
+      return res.status(404).json({ message: "View not found" });
+    }
+
+    view.endTime = new Date();
+    await view.save();
+    console.log("View session ended for viewId:", viewId);
+    res.status(200).json({ message: "View session ended" });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.post('/:id/agreement', verifyToken, async (req, res) => {
+    try {
+        const { userId, agreementValue, articleId } = req.body;
+        const postId = req.params.id;
+
+        logger.info('Agreement save requested', {
+            userId,
+            postId,
+            articleId,
+            agreementValue
+        });
+
+        if (!userId || !postId) {
+            return res.status(400).json({ message: 'userId and postId are required' });
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(userId) || !mongoose.Types.ObjectId.isValid(postId)) {
+            return res.status(400).json({ message: 'Invalid userId or postId' });
+        }
+
+        const parsedAgreement = Number(agreementValue);
+        if (!Number.isFinite(parsedAgreement) || parsedAgreement < 0 || parsedAgreement > 10) {
+            return res.status(400).json({ message: 'agreementValue must be a number between 0 and 10' });
+        }
+
+        const savedAgreement = await ArticleAgreement.findOneAndUpdate(
+            { userId, postId },
+            {
+                $set: {
+                    agreementValue: parsedAgreement,
+                    articleId: articleId ?? null,
+                    lastInteractedAt: new Date()
+                }
+            },
+            {
+                upsert: true,
+                new: true,
+                setDefaultsOnInsert: true,
+                runValidators: true
+            }
+        );
+
+        return res.status(200).json({
+            message: 'Agreement saved successfully',
+            agreementId: savedAgreement._id
+        });
+    } catch (err) {
+        logger.error('Error saving article agreement', { error: err.message });
+        return res.status(500).json({ message: 'Failed to save agreement' });
+    }
+});
 
     // delete a post
     router.delete('/:id', verifyToken, async (req, res) => {
@@ -1124,11 +1261,17 @@
     router.get('/timeline2/:userId', verifyToken, async (req, res) => {
         try {
             const currentUser = await User.findById(req.params.userId).populate('Comment').exec();
-            const userPosts = await Post.find({ userId: currentUser._id });
+            const userPosts = await Post.find({ userId: currentUser._id })
+                .populate({ path: 'likes', model: 'PostLike', match: { userId: currentUser._id } })
+                .populate({ path: 'dislikes', model: 'PostDislike', match: { userId: currentUser._id } });
 
             const friendPosts = await Promise.all(
                 currentUser.followings.map((friendId) => {
-                    return Post.find({ userId: friendId }).populate('Comment').exec();
+                    return Post.find({ userId: friendId })
+                        .populate('Comment')
+                        .populate({ path: 'likes', model: 'PostLike', match: { userId: currentUser._id } })
+                        .populate({ path: 'dislikes', model: 'PostDislike', match: { userId: currentUser._id } })
+                        .exec();
                 })
             );
 
@@ -1299,6 +1442,8 @@ const getLatestFivePosts = async (userId, page = 0, topic = null, excludeIds = [
     .sort({ createdAt: -1 })
         .limit(limit * 3)
     .populate('userId', 'username profilePicture') // populate user info for display
+    .populate({ path: 'likes', model: 'PostLike', match: { userId: userId } })
+    .populate({ path: 'dislikes', model: 'PostDislike', match: { userId: userId } })
     .populate({
       path: 'comments',
       model: 'Comment',
@@ -1369,11 +1514,17 @@ const getLatestFivePosts = async (userId, page = 0, topic = null, excludeIds = [
         logger.info('Data received', { data: req.body });
         try {
             const currentUser = await User.findById(req.params.userId);
-            const userPosts = await Post.find({ userId: currentUser._id }).populate('Comment').exec();
+            const userPosts = await Post.find({ userId: currentUser._id })
+                .populate('Comment')
+                .populate({ path: 'likes', model: 'PostLike', match: { userId: currentUser._id } })
+                .populate({ path: 'dislikes', model: 'PostDislike', match: { userId: currentUser._id } })
+                .exec();
 
             const friendPosts = await Promise.all(
                 currentUser.followers.map((friendId) => {
-                    return Post.find({ userId: friendId });
+                    return Post.find({ userId: friendId })
+                        .populate({ path: 'likes', model: 'PostLike', match: { userId: currentUser._id } })
+                        .populate({ path: 'dislikes', model: 'PostDislike', match: { userId: currentUser._id } });
                 })
             );
             //console.log(friendPosts.length)
@@ -1395,6 +1546,8 @@ const getLatestFivePosts = async (userId, page = 0, topic = null, excludeIds = [
             currentUser.followers.map((friendId) => {
                 return Post.find({ userId: friendId })
                     .populate({ path: 'comments', populate: { path: "userId", model: "User" } })
+                    .populate({ path: 'likes', model: 'PostLike', match: { userId: currentUser._id } })
+                    .populate({ path: 'dislikes', model: 'PostDislike', match: { userId: currentUser._id } })
                     .sort({ createdAt: 'descending' })
                     //.lean()
                     .skip(page * resultsPerPage)

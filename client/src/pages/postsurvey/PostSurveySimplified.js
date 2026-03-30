@@ -99,8 +99,11 @@ function PostSurveySimplified({ classes }) {
   const { user } = useContext(AuthContext);
   const history = useHistory();
   const [submitted, setSubmitted] = useState(false);
-  const [prolificCode, setProlificCode] = useState('');
   const [thankYouDialogOpen, setThankYouDialogOpen] = useState(false);
+  
+  // Session 2 completion code
+  const prolificCode = 'C13KYEZD';
+  const prolificLink = 'https://app.prolific.com/submissions/complete?cc=C13KYEZD';
   
   const [surveyData, setSurveyData] = useState({
     // Q1: Overall attitude
@@ -180,7 +183,6 @@ function PostSurveySimplified({ classes }) {
 
       if (response.status === 200) {
         console.log('Post-survey submitted successfully:', response.data);
-        setProlificCode(response.data.prolificCode || 'PILOT_TEST_CODE');
         setSubmitted(true);
         setThankYouDialogOpen(true);
       }
@@ -188,12 +190,8 @@ function PostSurveySimplified({ classes }) {
       console.error('Error submitting post-survey:', error);
       if (error.response && error.response.status === 400) {
         alert('You have already submitted the post-survey.');
-        // Show their existing code
-        if (error.response.data.prolificCode) {
-          setProlificCode(error.response.data.prolificCode);
-          setSubmitted(true);
-          setThankYouDialogOpen(true);
-        }
+        setSubmitted(true);
+        setThankYouDialogOpen(true);
       } else {
         alert('There was an error submitting your survey. Please try again.');
       }
@@ -202,10 +200,10 @@ function PostSurveySimplified({ classes }) {
 
   const handleCloseThankYouDialog = () => {
     setThankYouDialogOpen(false);
-    // Log out and redirect to Google
+    // Log out and redirect to Prolific completion page
     localStorage.removeItem('user');
     localStorage.removeItem('token');
-    window.location.href = 'https://www.google.com';
+    window.location.href = prolificLink;
   };
 
   // Helper function to get side labels based on topic
@@ -596,6 +594,11 @@ function PostSurveySimplified({ classes }) {
             </Typography>
             <Typography variant="body2" color="textSecondary">
               Please copy this code and paste it into Prolific to receive your payment.
+            </Typography>
+            <Typography variant="body2" style={{ marginTop: 16, textAlign: 'center' }}>
+              <a href={prolificLink} target="_blank" rel="noopener noreferrer" style={{ color: '#1976d2', textDecoration: 'underline', fontSize: '16px' }}>
+                Click here to complete your submission on Prolific
+              </a>
             </Typography>
           </DialogContentText>
         </DialogContent>

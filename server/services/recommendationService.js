@@ -77,7 +77,7 @@ class RecommendationService {
         // Log recommendation
         this.logRecommendation(user._id, 'control', topic, paginated);
         
-        return this.populateAndFormat(paginated);
+        return this.populateAndFormat(paginated, user._id);
     }
     
     /**
@@ -89,7 +89,19 @@ class RecommendationService {
     async edgeGroupRecommendation(user, topic, page, limit, excludeIds = [], excludeArticleIds = []) {
         logger.info('Edge group recommendation', { userId: user._id, topic, stanceScore: user.stanceScore, excludeCount: excludeIds.length, excludeArticleCount: excludeArticleIds.length });
         
-        const posts = await this.getPostsWithArticles(topic, excludeIds, excludeArticleIds);
+        let posts = await this.getPostsWithArticles(topic, excludeIds, excludeArticleIds);
+        
+        // Filter out articles more extreme than user's stance if user is already extreme
+        const extremeThreshold = 0.8;
+        if (user.stanceScore >= extremeThreshold) {
+            // User is very pro - don't show articles more pro than their stance
+            posts = posts.filter(post => post.article.perspectiveScore <= user.stanceScore);
+            logger.info('Filtering extreme pro articles', { userStance: user.stanceScore, postsAfterFilter: posts.length });
+        } else if (user.stanceScore <= -extremeThreshold) {
+            // User is very con - don't show articles more con than their stance
+            posts = posts.filter(post => post.article.perspectiveScore >= user.stanceScore);
+            logger.info('Filtering extreme con articles', { userStance: user.stanceScore, postsAfterFilter: posts.length });
+        }
         
         const userIsCentrist = isCentrist(user.stanceScore);
         const windowCenter = (user.overtonWindow.min + user.overtonWindow.max) / 2;
@@ -156,7 +168,7 @@ class RecommendationService {
         
         this.logRecommendation(user._id, 'edge', topic, paginated);
         
-        return this.populateAndFormat(paginated);
+        return this.populateAndFormat(paginated, user._id);
     }
     
     /**
@@ -168,7 +180,19 @@ class RecommendationService {
     async centerGroupRecommendation(user, topic, page, limit, excludeIds = [], excludeArticleIds = []) {
         logger.info('Center group recommendation', { userId: user._id, topic, stanceScore: user.stanceScore, excludeCount: excludeIds.length, excludeArticleCount: excludeArticleIds.length });
         
-        const posts = await this.getPostsWithArticles(topic, excludeIds, excludeArticleIds);
+        let posts = await this.getPostsWithArticles(topic, excludeIds, excludeArticleIds);
+        
+        // Filter out articles more extreme than user's stance if user is already extreme
+        const extremeThreshold = 0.8;
+        if (user.stanceScore >= extremeThreshold) {
+            // User is very pro - don't show articles more pro than their stance
+            posts = posts.filter(post => post.article.perspectiveScore <= user.stanceScore);
+            logger.info('Filtering extreme pro articles', { userStance: user.stanceScore, postsAfterFilter: posts.length });
+        } else if (user.stanceScore <= -extremeThreshold) {
+            // User is very con - don't show articles more con than their stance
+            posts = posts.filter(post => post.article.perspectiveScore >= user.stanceScore);
+            logger.info('Filtering extreme con articles', { userStance: user.stanceScore, postsAfterFilter: posts.length });
+        }
         
         const windowCenter = (user.overtonWindow.min + user.overtonWindow.max) / 2;
         
@@ -192,7 +216,7 @@ class RecommendationService {
         
         this.logRecommendation(user._id, 'center', topic, paginated);
         
-        return this.populateAndFormat(paginated);
+        return this.populateAndFormat(paginated, user._id);
     }
     
     /**
@@ -221,10 +245,15 @@ class RecommendationService {
         
         // Fetch more posts than needed to account for potential duplicates
         // We'll deduplicate and then slice to the limit
+        const PostLike = require('../models/PostLike');
+        const PostDislike = require('../models/PostDislike');
+        
         const posts = await Post.find(queryFilter)
             .sort({ createdAt: -1 })
             .limit(limit * 3) // Fetch 3x to ensure we have enough after deduplication
             .populate('userId', 'username profilePicture')
+            .populate({ path: 'likes', model: 'PostLike', match: { userId: userId } })
+            .populate({ path: 'dislikes', model: 'PostDislike', match: { userId: userId } })
             .populate({
                 path: 'comments',
                 model: 'Comment',
@@ -478,7 +507,7 @@ class RecommendationService {
     /**
      * Helper: Populate and format posts for response
      */
-    async populateAndFormat(postsWithArticles) {
+    async populateAndFormat(postsWithArticles, userId) {
         const postIds = postsWithArticles.map(item => item.post._id);
         
         // Create a map of article data by post ID for quick lookup
@@ -487,8 +516,13 @@ class RecommendationService {
             articleDataMap[item.post._id.toString()] = item.article;
         });
         
+        const PostLike = require('../models/PostLike');
+        const PostDislike = require('../models/PostDislike');
+        
         const populatedPosts = await Post.find({ _id: { $in: postIds } })
             .populate('userId', 'username profilePicture')
+            .populate({ path: 'likes', model: 'PostLike', match: { userId: userId } })
+            .populate({ path: 'dislikes', model: 'PostDislike', match: { userId: userId } })
             .populate({
                 path: 'comments',
                 model: 'Comment',

@@ -1,16 +1,24 @@
 const mongoose = require('mongoose');
 
 const ViewpostSchema = new mongoose.Schema({
-userId: {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User'
-    },
-postId: {
-        type:mongoose.Schema.Types.ObjectId,
-        ref: 'Post'
-    }
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  postId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Post'
+  },
+  startTime: {
+    type: Date,
+    default: Date.now
+  },
+  endTime: {
+    type: Date,
+    default: null
+  }
 },
-{timestamps: true}
+{ timestamps: true }
 );
 
 module.exports = mongoose.model('Viewpost', ViewpostSchema);

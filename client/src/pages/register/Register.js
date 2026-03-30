@@ -38,6 +38,7 @@ import axios from "axios";
 import TimeMe from "timeme.js";
 import { useParams } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
+import { useLocation } from "react-router-dom";
 import styled, { keyframes } from 'styled-components';
 import LoadingBar from "react-top-loading-bar";
 
@@ -134,6 +135,7 @@ import {
 import { Unstable_Grid2 } from '@mui/material';
 
 function Register({classes}) {
+  const location = useLocation();
   const history = useHistory();
   const scrollBy = useScrollBy();
   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -160,6 +162,7 @@ function Register({classes}) {
   
   const [checkingStatus, setCheckingStatus] = useState(true);
   const [secondSessionBlockedInfo, setSecondSessionBlockedInfo] = useState(null);
+  const [liveMinutesRemaining, setLiveMinutesRemaining] = useState(null);
 
   // User account state (keep these for account creation flow)
   const [username, setUsername] = useState("");
@@ -171,16 +174,58 @@ function Register({classes}) {
   const initialized = useRef(false);
 
   useEffect(() => {
+    if (!secondSessionBlockedInfo) {
+      setLiveMinutesRemaining(null);
+      return;
+    }
+
+    const computeMinutesRemaining = () => {
+      if (secondSessionBlockedInfo?.canLoginAt) {
+        const canLoginAtMs = new Date(secondSessionBlockedInfo.canLoginAt).getTime();
+        if (!Number.isNaN(canLoginAtMs)) {
+          const diffMs = canLoginAtMs - Date.now();
+          return Math.max(0, Math.ceil(diffMs / (1000 * 60)));
+        }
+      }
+
+      if (secondSessionBlockedInfo?.minutesRemaining !== undefined) {
+        return Math.max(0, Number(secondSessionBlockedInfo.minutesRemaining) || 0);
+      }
+
+      return null;
+    };
+
+    setLiveMinutesRemaining(computeMinutesRemaining());
+    const timer = setInterval(() => {
+      setLiveMinutesRemaining(computeMinutesRemaining());
+    }, 30000);
+
+    return () => clearInterval(timer);
+  }, [secondSessionBlockedInfo]);
+
+  useEffect(() => {
       // Extract unique ID from URL
-    const urlParts = window.location.pathname.split('/');
-    const uniqueId = urlParts[urlParts.length-1];
-    setUniqId(uniqueId);
+    //const urlParts = window.location.pathname.split('/');
+    //const uniqueId = urlParts[urlParts.length-1];
+    //setUniqId(uniqueId);
+      const params = new URLSearchParams(location.search);
+
+  const uniqueId = params.get("PROLIFIC_PID");
+  const studyID = params.get("STUDY_ID");
+  const sessionID = params.get("SESSION_ID");
+
+  if (!uniqueId) {
+    console.error("No PROLIFIC_PID found in URL");
+    return;
+  }
+
+  setUniqId(uniqueId);
   
 
   
   const checkUserSurveyStatus = async () => {
     try {
-      const res = await axios.post(`/presurvey/isSubmitted/${uniqId}`);
+      const res = await axios.post(`/presurvey/isSubmitted/${uniqueId}`);
       const data = res.data;
 
       // If user already exists (has completed registration before), auto-login instead of redirecting to login page
@@ -189,14 +234,14 @@ function Register({classes}) {
         console.log('User already exists, auto-logging in...');
         
         // Auto-login using the unique ID and password (first 10 characters of unique ID)
-        const password = uniqId.substring(0, 10);
+        const password = uniqueId.substring(0, 10);
         const username = data.user.username;
         
         try {
           const loginResponse = await loginCall({ 
             username: username, 
             password: password,
-            uniqueId: uniqId
+            uniqueId: uniqueId
           }, dispatch);
           
           console.log('Login response received:', loginResponse);
@@ -245,7 +290,7 @@ function Register({classes}) {
 
           toast.error('Login failed. Please try again.');
           // If auto-login fails, fall back to manual login page
-          history.push(`/login/${uniqId}`);
+          history.push(`/login/${uniqueId}`);
         }
         return;
       }
@@ -259,8 +304,8 @@ function Register({classes}) {
     }
   };
 
-  checkUserSurveyStatus(uniqueId);
-}, [uniqId, history]);
+  checkUserSurveyStatus();
+}, [location.search, history]);
 
   // Helper functions
   const getRandomNumber = () => Math.floor(Math.random() * 4) + 1;
@@ -599,11 +644,11 @@ function Register({classes}) {
                 There must be at least 48 hours between your 1st and 2nd sessions.
               </Typography>
               <Typography variant="body1" style={{ marginBottom: '10px', lineHeight: '1.7' }}>
-                Please come back later via your Prolific invitation link.
+                Please wait to be invited to the next session via Prolific.
               </Typography>
-              {secondSessionBlockedInfo?.hoursRemaining !== undefined && (
+              {liveMinutesRemaining !== null && (
                 <Typography variant="body1" style={{ marginBottom: '8px', fontWeight: '600' }}>
-                  Time remaining: {secondSessionBlockedInfo.hoursRemaining} hour(s)
+                  Time remaining: {Math.floor(liveMinutesRemaining / 60)} hour(s) {liveMinutesRemaining % 60} minute(s)
                 </Typography>
               )}
               {secondSessionBlockedInfo?.canLoginAt && (

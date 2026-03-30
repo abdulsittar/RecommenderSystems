@@ -1,40 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import './thankYou.css';
 
 export default function ThankYou() {
     const { userId } = useParams(); // Get userId from route parameters
-    const [prolificCode, setProlificCode] = useState('');
-    const [isLoadingCode, setIsLoadingCode] = useState(true);
+    // Session 1 completion code
+    const prolificCode = 'C1QMV1VB';
+    const prolificLink = 'https://app.prolific.com/submissions/complete?cc=C1QMV1VB';
 
     useEffect(() => {
         console.log('🎉 ThankYou component mounted');
         console.log('Current URL:', window.location.pathname);
         console.log('Extracted userId from params:', userId);
 
-        const fetchPilotCode = async () => {
-            try {
-                const response = await axios.get(`/postsurvey/pilot-code/${userId}`);
-                if (response.data?.prolificCode) {
-                    setProlificCode(response.data.prolificCode);
-                }
-            } catch (error) {
-                console.error('Could not fetch pilot prolific code:', error?.response?.data || error.message);
-            } finally {
-                setIsLoadingCode(false);
-            }
+        // Prevent page scrolling on thank-you screen.
+        const previousBodyOverflow = document.body.style.overflow;
+        const previousHtmlOverflow = document.documentElement.style.overflow;
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+
+        return () => {
+            document.body.style.overflow = previousBodyOverflow;
+            document.documentElement.style.overflow = previousHtmlOverflow;
         };
-
-        fetchPilotCode();
     }, [userId]);
-
-    const handleBackToBrowser = () => {
-        console.log('🌐 Back to Browser clicked');
-        console.log('Redirecting to: https://www.google.com');
-        // Redirect to Google
-        window.location.href = 'https://www.google.com';
-    };
 
     console.log('🎨 ThankYou component rendering');
 
@@ -61,17 +50,13 @@ export default function ThankYou() {
                         letterSpacing: '0.5px',
                         minWidth: '180px'
                     }}>
-                        {isLoadingCode ? 'Loading...' : (prolificCode || 'PILOT_TEST_CODE')}
+                        {prolificCode}
                     </div>
-                </div>
-                <div className="thankYouButtons" style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                    <button 
-                        className="thankYouButton secondaryButton" 
-                        onClick={handleBackToBrowser}
-                        style={{ padding: '16px 32px', fontSize: '16px', fontWeight: '600', borderRadius: '10px', cursor: 'pointer', background: 'white', color: '#667eea', border: '2px solid #667eea' }}
-                    >
-                        Back to Browser
-                    </button>
+                    <p style={{ margin: '12px 0 0 0', color: '#555', fontSize: '14px' }}>
+                        <a href={prolificLink} target="_blank" rel="noopener noreferrer" style={{ color: '#667eea', textDecoration: 'underline' }}>
+                            Click here to complete your submission on Prolific
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>
